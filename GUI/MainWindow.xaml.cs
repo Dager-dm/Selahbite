@@ -73,6 +73,7 @@ namespace GUI
             this.MaxWidth = SystemParameters.WorkArea.Width;
             this.MaxHeight = SystemParameters.WorkArea.Height;
             this.WindowState = WindowState.Maximized;
+            bordeInferior.CornerRadius = new CornerRadius(10, 10, 0, 0);
         }
 
         private void RestoreWindow()
@@ -81,6 +82,7 @@ namespace GUI
             this.MaxWidth = double.PositiveInfinity;
             this.MaxHeight = double.PositiveInfinity;
             this.WindowState = WindowState.Normal;
+            bordeInferior.CornerRadius = new CornerRadius(10);
         }
 
 
@@ -100,7 +102,7 @@ namespace GUI
             WindowState = WindowState.Minimized;
         }
 
-        private void rdPedidos_Click(object sender, RoutedEventArgs e)
+        private void rdFacturar_Click(object sender, RoutedEventArgs e)
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);

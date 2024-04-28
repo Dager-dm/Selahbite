@@ -18,7 +18,8 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <Border  CornerRadius="10" 
+            <Border  x:Name="bordeSuperior"
+                     CornerRadius="10" 
                      Padding="10"
                      MouseLeftButtonDown="Border_MouseLeftButtonDown"
                      Background="{DynamicResource SecundaryBackgroundColor}">
@@ -59,7 +60,8 @@
             </Border>
 
             <!-- Start: GridRow buttons -->
-            <Border CornerRadius="10"
+            <Border x:Name="bordeInferior"
+                    CornerRadius="10"
                     Padding="10"
                     Grid.Row="2"
                     Background="{DynamicResource SecundaryBackgroundColor}">
@@ -77,7 +79,7 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <RadioButton x:Name="rdPedidos" Content="Pedidos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource pedidos2}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdPedidos_Click"/>
+                    <RadioButton x:Name="rdFacturar" Content="Facturar" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource pedidos2}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdFacturar_Click"/>
                     <RadioButton x:Name="rdEgresos" Content="Egresos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource cli}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEgresos_Click"/>
                     <RadioButton x:Name="rdDeudas" Content="Deudas" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Deudas2}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdDeudas_Click"/>
                     <RadioButton x:Name="rdEmpleadoss" Content="Empleados" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource users}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEmpleados_Click"/>
