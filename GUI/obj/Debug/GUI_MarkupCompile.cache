@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Proyecto\Selahbite\GUI\App.xaml
-7-369404611
+14862257422
 
-7-1546415053
+142017117582
 13-946294123
-Assets\Icons\Icons.xaml;MainWindow.xaml;Pages\Facturar.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
+Assets\Icons\Icons.xaml;MainWindow.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
 
 False
 

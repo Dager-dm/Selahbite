@@ -69,7 +69,7 @@ namespace GUI
 
         private void MaximizeWindow()
         {
-            // Maximizar la ventana respetando el área de trabajo
+            // Maximizar la ventana 
             this.MaxWidth = SystemParameters.WorkArea.Width;
             this.MaxHeight = SystemParameters.WorkArea.Height;
             this.WindowState = WindowState.Maximized;

@@ -42,3 +42,17 @@ D:\Proyecto\Selahbite\GUI\obj\Debug\GUI.exe
 D:\Proyecto\Selahbite\GUI\obj\Debug\GUI.pdb
 D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Facturar.g.cs
 D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Facturar.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Carta.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Clientes.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Deudas.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Egresos.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Empleados.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Reporte.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Turno.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Carta.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Clientes.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Deudas.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Egresos.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Empleados.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Reporte.baml
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\Turno.baml

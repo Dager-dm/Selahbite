@@ -23,11 +23,29 @@
             <Border x:Name="Separator" Grid.Column="1" Background="{DynamicResource PrimaryBackgroundColor}"></Border>
 
             <Border x:Name="Sale" Grid.Column="2" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
-               
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="Pedido" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="1" Background="Transparent" BorderBrush="{x:Null}" Foreground="{x:Null}"/>
+
+
+                </Grid>
             </Border>
 
 
-            <Label Content="Analytics" FontSize="50" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+           
         </Grid>
     </Border>
 </Page>
