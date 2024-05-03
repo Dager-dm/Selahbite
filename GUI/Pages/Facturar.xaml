@@ -18,7 +18,10 @@
 
             </Grid.ColumnDefinitions>
             <Border x:Name="List" Grid.Column="0" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+                <Grid>
 
+                    <Button Grid.Row="1" Height="30" Width="50" Click="Button_Click"/>
+                </Grid>
             </Border>
             
             <Border x:Name="Separator" Grid.Column="1" Background="{DynamicResource PrimaryBackgroundColor}"></Border>
@@ -45,8 +48,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Row="0" Name="txtbox" Width="200" Height="30" MouseLeftButtonDown="TextBoxclick" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
+                        <TextBox Grid.Row="0" Text="Cliente" Name="txtbox" Width="200" Height="30" MouseLeftButtonDown="TextBoxclick" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
                             <TextBox.Template>
                                 <ControlTemplate TargetType="{x:Type TextBox}">
                                     <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
@@ -83,9 +88,81 @@
                             </ListBox.ItemContainerStyle>
                             
                         </ListBox>
+                       
+                        <TextBox Grid.Row="2" Text="Mesero" Name="txtboxMeseros" Width="200" Height="30" MouseLeftButtonDown="txtboxMeserosclick" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                                      BorderBrush="{TemplateBinding BorderBrush}" 
+                                      BorderThickness="1" 
+                                      CornerRadius="5">
+                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                        <ListBox Grid.Row="3" Name="lstboxMeseros" Width="200" Height="30" Visibility="Hidden" SelectionChanged="lstboxMeseros_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="{DynamicResource PrimaryBackgroundColor}">
+                            <ListBox.Template>
+                                <ControlTemplate TargetType="{x:Type ListBox}">
+                                    <Border Background="Transparent" 
+                                      BorderBrush="{DynamicResource PrimaryBackgroundColor}" 
+                                      BorderThickness="1" 
+                                       CornerRadius="0,0,5,5">
+                                        <ScrollViewer>
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+                                    <!--<Setter Property="FontFamily" Value="Segoe Ui"/>-->
+                                    <!-- Cambia la fuente a Arial -->
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <!-- Cambia el tamaño de la fuente a 16 -->
+                                </Style>
 
+                            </ListBox.ItemContainerStyle>
+
+                        </ListBox>
                     </Grid>
 
+                    <ListView Grid.Row="5" Name="lstProductos" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Background="{DynamicResource Boxbackground}">
+                        <ListView.View>
+                            <GridView>
+                                <!-- Estilo personalizado para ocultar los encabezados de las columnas -->
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="GridViewColumnHeader">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+
+                                <GridViewColumn Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI"/>
+                                                <TextBlock Text="{Binding Precio, StringFormat='Precio: {0:C}'}" FontSize="12" Foreground="{DynamicResource SecundaryTextColor}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Content="-" Width="20" Click="RestarCantidad_Click" Background="Transparent" Foreground="{DynamicResource SecundaryTextColor}"/>
+                                                <TextBox Text="{Binding Cantidad}" Width="30" TextAlignment="Center" Background="Transparent" Foreground="{DynamicResource SecundaryTextColor}"/>
+                                                <Button Content="+" Width="20" Click="SumarCantidad_Click" Background="Transparent"  Foreground="{DynamicResource SecundaryTextColor}"/>
+                                                <!--<Button Content="x" HorizontalAlignment="Right" Width="20" Click="DeleteProduct" Background="Transparent"  Foreground="{DynamicResource SecundaryTextColor}"/>-->
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
 
 
