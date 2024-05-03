@@ -40,8 +40,54 @@
 
                     <Label Grid.Row="0" Content="Pedido" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <ComboBox Grid.Row="1" Name="cb" IsEditable="True" Width="200" Height="30" GotFocus="cb_GotFocus"
-                     />
+                    <!--<ComboBox Grid.Row="1" Name="cb" IsEditable="True" Width="200" Height="30" GotFocus="cb_GotFocus"/>-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Row="0" Name="txtbox" Width="200" Height="30" MouseLeftButtonDown="TextBoxclick" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                                     BorderBrush="{TemplateBinding BorderBrush}" 
+                                     BorderThickness="1" 
+                                     CornerRadius="5">
+                                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                        <ListBox Grid.Row="1" Name="lstbox" Width="200" Height="30" Visibility="Hidden" SelectionChanged="lb_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="{DynamicResource PrimaryBackgroundColor}">
+                            <ListBox.Template>
+                                <ControlTemplate TargetType="{x:Type ListBox}">
+                                    <Border Background="Transparent" 
+                                      BorderBrush="{DynamicResource PrimaryBackgroundColor}" 
+                                      BorderThickness="1" 
+                                      CornerRadius="0,0,5,5">
+                                        <ScrollViewer>
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+                                    <!--<Setter Property="FontFamily" Value="Segoe Ui"/>-->
+                                    <!-- Cambia la fuente a Arial -->
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <!-- Cambia el tamaño de la fuente a 16 -->
+                                </Style>
+
+                            </ListBox.ItemContainerStyle>
+                            
+                        </ListBox>
+
+                    </Grid>
+
+
+
 
 
                 </Grid>

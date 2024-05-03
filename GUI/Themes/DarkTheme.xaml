@@ -5,8 +5,9 @@
     <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#222222"/>
     <SolidColorBrush x:Key="SecundaryBackgroundColor" Color="#171717"/>
     <SolidColorBrush x:Key="TertiaryBackgroundColor" Color="Black"/>
-
+    <SolidColorBrush x:Key="Boxborder" Color="#C0C9EA"/>
     <SolidColorBrush x:Key="BColor" Color="Black"/>
+    <SolidColorBrush x:Key="Boxbackground" Color="#222222"/>
 
     <!-- System Colors -->
     <!-- Typograhy Colors -->
