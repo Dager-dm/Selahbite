@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\USUARIO\Source\Repos\Selahbite\GUI\obj\Debug\
+C:\Users\Work\source\repos\Selahbite\GUI\obj\Debug\
 GUI
 none
 false
 DEBUG;TRACE
-C:\Users\USUARIO\Source\Repos\Selahbite\GUI\App.xaml
+C:\Users\Work\source\repos\Selahbite\GUI\App.xaml
 14862257422
 
 15-13962744
 13-946294123
 Assets\Icons\Icons.xaml;MainWindow.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
 
-True
+False
 
