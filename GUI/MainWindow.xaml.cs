@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GUI.Themes;
-//using GUI.Pages;
+using GUI.Pages;
 using System.Windows.Media.Animation;
 
 
@@ -69,7 +69,7 @@ namespace GUI
 
         private void MaximizeWindow()
         {
-            // Maximizar la ventana respetando el área de trabajo
+            // Maximizar la ventana 
             this.MaxWidth = SystemParameters.WorkArea.Width;
             this.MaxHeight = SystemParameters.WorkArea.Height;
             this.WindowState = WindowState.Maximized;
@@ -106,7 +106,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Home());
+            frameContent.Navigate(new Facturar());
         }
 
         private void rdEgresos_Click(object sender, RoutedEventArgs e)

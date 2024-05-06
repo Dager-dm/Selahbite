@@ -1,0 +1,6 @@
+D:\Proyecto\Selahbite\ENTITY\bin\Debug\ENTITY.dll
+D:\Proyecto\Selahbite\ENTITY\bin\Debug\ENTITY.pdb
+D:\Proyecto\Selahbite\ENTITY\obj\Debug\ENTITY.csproj.AssemblyReference.cache
+D:\Proyecto\Selahbite\ENTITY\obj\Debug\ENTITY.csproj.CoreCompileInputs.cache
+D:\Proyecto\Selahbite\ENTITY\obj\Debug\ENTITY.dll
+D:\Proyecto\Selahbite\ENTITY\obj\Debug\ENTITY.pdb
