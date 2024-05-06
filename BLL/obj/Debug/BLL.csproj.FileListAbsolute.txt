@@ -1,0 +1,11 @@
+D:\Proyecto\Selahbite\BLL\bin\Debug\BLL.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\BLL.pdb
+D:\Proyecto\Selahbite\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+D:\Proyecto\Selahbite\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\Proyecto\Selahbite\BLL\obj\Debug\BLL.dll
+D:\Proyecto\Selahbite\BLL\obj\Debug\BLL.pdb
+D:\Proyecto\Selahbite\BLL\bin\Debug\DAL.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\ENTITY.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\DAL.pdb
+D:\Proyecto\Selahbite\BLL\bin\Debug\ENTITY.pdb
+D:\Proyecto\Selahbite\BLL\obj\Debug\BLL.csproj.Up2Date
