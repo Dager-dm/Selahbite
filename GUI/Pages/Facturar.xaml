@@ -128,7 +128,7 @@
                         </ListBox>
                     </Grid>
 
-                    <ListView Grid.Row="5" Name="lstProductos" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Background="{DynamicResource Boxbackground}">
+                    <ListView Grid.Row="2" Name="lstProductos" HorizontalAlignment="Center" Height="250" VerticalAlignment="Top" Background="{DynamicResource Boxbackground}">
                         <ListView.View>
                             <GridView>
                                 <!-- Estilo personalizado para ocultar los encabezados de las columnas -->
@@ -163,9 +163,9 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
-
-
+                    <!--<StackPanel Orientation="Horizontal" Grid.Row="3">-->
+                        <Button Content="Pagar" Grid.Row="3" VerticalAlignment="Center" Height="30" Width="50" Margin="0 0 0 9" />
+                    <!--</StackPanel>-->
 
                 </Grid>
             </Border>

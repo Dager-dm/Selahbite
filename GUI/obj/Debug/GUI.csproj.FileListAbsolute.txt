@@ -77,3 +77,7 @@ D:\Proyecto\Selahbite\GUI\obj\Debug\GUI.csproj.Up2Date
 D:\Proyecto\Selahbite\GUI\obj\Debug\GUI.exe
 D:\Proyecto\Selahbite\GUI\obj\Debug\GUI.pdb
 D:\Proyecto\Selahbite\GUI\obj\Debug\Styles\ListviewStyle.baml
+D:\Proyecto\Selahbite\GUI\bin\Debug\BLL.dll
+D:\Proyecto\Selahbite\GUI\bin\Debug\ENTITY.dll
+D:\Proyecto\Selahbite\GUI\bin\Debug\BLL.pdb
+D:\Proyecto\Selahbite\GUI\bin\Debug\ENTITY.pdb
