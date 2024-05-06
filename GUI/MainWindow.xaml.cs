@@ -142,7 +142,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Clientes());
+            frameContent.Navigate(new Clientes());
 
         }
 

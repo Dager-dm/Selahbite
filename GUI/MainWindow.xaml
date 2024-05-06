@@ -113,7 +113,7 @@
             <Grid Grid.Row="0">
                 <!-- Start: Frame Container -->
                 <Border CornerRadius="0 0 5 0" Background="Transparent" Height="572" Margin="10,68,10,-600" >
-                    <Frame x:Name="frameContent" NavigationUIVisibility="Hidden" Height="572" />
+                    <Frame x:Name="frameContent" NavigationUIVisibility="Hidden"  Height="572" />
                 </Border>
                 <!-- End: Frame Container -->
             </Grid>

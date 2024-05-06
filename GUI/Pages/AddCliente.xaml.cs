@@ -10,27 +10,34 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GUI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para Clientes.xaml
+    /// Lógica de interacción para AddCliente.xaml
     /// </summary>
-    public partial class Clientes : Page
+    public partial class AddCliente : Window
     {
-        public Clientes()
+        public AddCliente()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            Close();
+        }
 
-            var newWindow = new AddCliente();
-            newWindow.Show();
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
 
+        private void AddButton(object sender, RoutedEventArgs e)
+        {
 
         }
     }

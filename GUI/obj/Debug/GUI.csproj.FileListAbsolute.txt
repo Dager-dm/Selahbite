@@ -81,3 +81,5 @@ D:\Proyecto\Selahbite\GUI\bin\Debug\BLL.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\ENTITY.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\BLL.pdb
 D:\Proyecto\Selahbite\GUI\bin\Debug\ENTITY.pdb
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\AddCliente.g.cs
+D:\Proyecto\Selahbite\GUI\obj\Debug\Pages\AddCliente.baml
