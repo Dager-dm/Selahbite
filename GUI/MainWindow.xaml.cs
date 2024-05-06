@@ -127,7 +127,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Collections());
+            frameContent.Navigate(new Carta());
         }
 
         private void rdEmpleados_Click(object sender, RoutedEventArgs e)
