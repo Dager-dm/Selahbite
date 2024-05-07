@@ -11,27 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BLL;
-using ENTITY;
 
 namespace GUI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para AddCliente.xaml
+    /// Lógica de interacción para AddEmpleado.xaml
     /// </summary>
-    public partial class AddCliente : Window
+    public partial class AddEmpleado : Window
     {
-        ServicioCliente serviciocliente = new ServicioCliente();
-        public AddCliente()
+        public AddEmpleado()
         {
             InitializeComponent();
-        }
-
-
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -39,10 +29,14 @@ namespace GUI.Pages
             this.DragMove();
         }
 
-        private void AddButton(object sender, RoutedEventArgs e)
+      
+
+        private void AddEmpleadoButton_Click_1(object sender, RoutedEventArgs e)
         {
-            Cliente cliente = new Cliente(txtboxNombre.Text, txtboxId.Text, txtboxTelefono.Text, 0);
-            serviciocliente.AddClientes(cliente);
+
+        }
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
             Close();
         }
     }

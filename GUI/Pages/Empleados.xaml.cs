@@ -24,5 +24,16 @@ namespace GUI.Pages
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            var newWindow = new AddEmpleado();
+            newWindow.Show();
+
+
+        }
+
+        
     }
 }

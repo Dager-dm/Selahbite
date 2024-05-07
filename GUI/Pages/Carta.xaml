@@ -105,15 +105,7 @@
             <!--ENGREGION-->
 
             <!--REGION BOTONES-->
-            <Button Style="{DynamicResource BtnStyle}"
-                    x:Name="BtnRegrerar"
-                    Content="Regresar"
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    Width="100"
-                    Cursor="Hand"
-                    Background="#E63535" />
-            <!--ENGREGION-->
+            
             
             <!--REGION COMANDO-->
             <TextBlock Grid.Row="4"

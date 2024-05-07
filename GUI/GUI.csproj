@@ -73,6 +73,9 @@
     <Compile Include="Pages\AddCliente.xaml.cs">
       <DependentUpon>AddCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddEmpleado.xaml.cs">
+      <DependentUpon>AddEmpleado.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Carta.xaml.cs">
       <DependentUpon>Carta.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AddCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AddEmpleado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
