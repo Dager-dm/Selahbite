@@ -27,18 +27,20 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Height="30" Grid.Row="1" Width="50" Click="Button_Click" HorizontalAlignment="Left" Margin="23,10,0,10"/>
+            
+            <RadioButton x:Name="NeewClient" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Clientes}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewClient" Margin="5"/>
+            <Label Grid.Row="0" Content="Clientes" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
-            <Label Grid.Row="0" Content="Clientes" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-
-            <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="10,0,10,10">
-                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstClientes}">
+            <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="10,0,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstClientes}" Foreground="{DynamicResource PrimaryTextColor}">
+                    
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}">
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
-                            <GridViewColumn Header="Saldo">
+                            <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="Auto"/>
+                            <GridViewColumn Width="10"> 
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

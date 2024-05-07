@@ -150,8 +150,7 @@
                    Grid.Column="4"
                    Grid.RowSpan="7"
                    Grid.ColumnSpan="2"
-                   x:Name="imagen"
-                   Source="/Pages/Images/logo.png"/>
+                   x:Name="imagen" Source="/Pages/logo.png"/>
             <Button Grid.Column="4"
                     Grid.Row="11"
                     Width="150"

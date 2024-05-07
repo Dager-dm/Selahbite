@@ -23,36 +23,26 @@ namespace GUI.Pages
     /// </summary>
     public partial class Clientes : Page
     {
-        /*ServicioCliente serviciocliente = new ServicioCliente()*/
-        //ObservableCollection<Cliente> clientes = new ObservableCollection<Cliente>();
+        
         private ServicioCliente serviciocliente;
 
         public Clientes()
         {
             InitializeComponent();
             serviciocliente = new ServicioCliente();
-            this.DataContext = serviciocliente;
-            miListView.ItemsSource=serviciocliente.lstClientes;
+            miListView.ItemsSource=serviciocliente.GetAllClientes();
+            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void NewClient(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente();
-            addClienteWindow.Owner = mainWindow; 
-            addClienteWindow.Closed += AddClienteWindow_Closed; 
+            addClienteWindow.Owner = mainWindow;
+            addClienteWindow.ClienteGuardado += Refreshlistview;
             addClienteWindow.ShowDialog();
 
-        }
-
-        private void AddClienteWindow_Closed(object sender, EventArgs e)
-        {
-            MessageBox.Show("efectivamente se cerro la ventana");
-            foreach (var item in serviciocliente.lstClientes)
-            {
-                MessageBox.Show(item.Nombre);
-            }
-            miListView.ItemsSource = serviciocliente.lstClientes;
         }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -66,6 +56,8 @@ namespace GUI.Pages
             }
         }
 
+
+
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             // Acción para el Botón 1
@@ -74,6 +66,15 @@ namespace GUI.Pages
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             // Acción para el Botón 2
+        }
+
+
+
+        public void Refreshlistview()
+        {
+          miListView.ItemsSource=serviciocliente.GetAllClientes();
+
+
         }
     }
 }

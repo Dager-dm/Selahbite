@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BLL;
 using ENTITY;
+using GUI;
 
 namespace GUI.Pages
 {
@@ -22,9 +23,11 @@ namespace GUI.Pages
     public partial class AddCliente : Window
     {
         ServicioCliente serviciocliente = new ServicioCliente();
+        public event Action ClienteGuardado;
         public AddCliente()
         {
             InitializeComponent();
+            
         }
 
 
@@ -41,9 +44,11 @@ namespace GUI.Pages
 
         private void AddButton(object sender, RoutedEventArgs e)
         {
-            Cliente cliente = new Cliente(txtboxNombre.Text, txtboxId.Text, txtboxTelefono.Text, 0);
+            Cliente cliente = new Cliente(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(), 0);
             serviciocliente.AddClientes(cliente);
+            ClienteGuardado?.Invoke();
             Close();
+            
         }
     }
 }

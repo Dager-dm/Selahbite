@@ -10,7 +10,7 @@ namespace BLL
 {
     public class ServicioCliente
     {
-        public  List<Cliente> lstClientes = new List<Cliente>();
+        private static List<Cliente> lstClientes;
 
         public ServicioCliente()
         {
@@ -20,13 +20,13 @@ namespace BLL
         }
 
         
-        public void AddClientes(Cliente cliente) {
+        public void AddClientes(Cliente newcliente) {
 
-         lstClientes.Add(cliente);
-        
+         lstClientes.Add(newcliente);
+          
         }
 
-        public List<Cliente> GetAll() {
+        public List<Cliente> GetAllClientes() {
         
         return lstClientes;
         
@@ -38,5 +38,7 @@ namespace BLL
             lstClientes.Add(cliente);
 
         }
+
+        
     }
 }
