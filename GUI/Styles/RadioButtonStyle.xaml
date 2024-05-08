@@ -189,8 +189,109 @@
 
 
 
+    <Style x:Key="DeleteButtonStyle" TargetType="Button">
+        <Setter Property="Visibility" Value="Hidden" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="menuButton" CornerRadius="8" Width="60" Height="35"
+                 Background="Transparent"
+                 BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >-->
+                                <!-- Icono -->
+                                <Path x:Name="Icon"
+                                 Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                 Height="20" Width="20"
+                                 Stretch="Uniform"
+                                 Margin="4 0 0 0"
+                                 Fill="{DynamicResource PrimaryTextColor}"
+                                 VerticalAlignment="Center"/>
 
+                                <!-- Texto -->
+                                <!--<TextBlock x:Name="txtName"    
+                                  Text="{TemplateBinding Content}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   VerticalAlignment="Center" Margin="10 0 0 0"/>
+                            </StackPanel>-->
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryRedColor}"/>
+                            <Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource TertiaryRedColor}"/>
+                        </Trigger>-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource SecundaryTextColor}"/>-->
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryRedColor}"/>
+                            <!--<Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
+    <Style x:Key="EditButtonStyle" TargetType="Button">
+        <Setter Property="Visibility" Value="Hidden" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="menuButton" CornerRadius="8" Width="60" Height="35"
+             Background="Transparent"
+             BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >-->
+                            <!-- Icono -->
+                            <Path x:Name="Icon"
+                             Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                             Height="20" Width="20"
+                             Stretch="Uniform"
+                             Margin="4 0 0 0"
+                             Fill="{DynamicResource PrimaryTextColor}"
+                             VerticalAlignment="Center"/>
+
+                            <!-- Texto -->
+                            <!--<TextBlock x:Name="txtName"    
+                              Text="{TemplateBinding Content}"
+                               Foreground="{TemplateBinding Foreground}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               FontSize="{TemplateBinding FontSize}"
+                               VerticalAlignment="Center" Margin="10 0 0 0"/>
+                        </StackPanel>-->
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsChecked" Value="True">
+                        <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryRedColor}"/>
+                        <Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                        <Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource TertiaryRedColor}"/>
+                    </Trigger>-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource SecundaryTextColor}"/>-->
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryYellowColor}"/>
+                            <!--<Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
 
 

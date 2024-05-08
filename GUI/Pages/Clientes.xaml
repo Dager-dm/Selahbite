@@ -10,6 +10,10 @@
 
     <Page.Resources>
         <Style x:Key="GridHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
@@ -19,13 +23,17 @@
             </Setter>
         </Style>
 
-        <Style x:Key="HoverButtonStyle" TargetType="Button">
+        <Style x:Key="H" TargetType="Button">
             <Setter Property="Visibility" Value="Hidden" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
                     <Setter Property="Visibility" Value="Visible" />
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="IsEnabled" Value="False" />
         </Style>
     </Page.Resources>
 
@@ -44,16 +52,21 @@
                 <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstClientes}" Foreground="{DynamicResource PrimaryTextColor}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="FontFamily" Value="Segoe UI"/>
+                            <Setter Property="FontWeight" Value="DemiBold"/>
+                            <Setter Property="FontSize" Value="15"/>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource Boxborder}"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Focusable" Value="False"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}">
+                        <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
@@ -62,9 +75,9 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            
-                                            <Button Content="Editar" Click="Button1_Click" Style="{StaticResource HoverButtonStyle}"/>
-                                            <Button Content="Borrar" Click="Button2_Click" Style="{StaticResource HoverButtonStyle}"/>
+
+                                            <Button Content="Editar" Click="Button1_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
+                                            <Button Content="Borrar" Click="Button2_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
