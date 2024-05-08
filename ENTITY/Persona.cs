@@ -8,6 +8,7 @@ namespace ENTITY
 {
     public class Persona
     {
+        public Persona() { }
         public Persona(string nombre, string id, string telefono, float saldo) 
         {
             Nombre = nombre;

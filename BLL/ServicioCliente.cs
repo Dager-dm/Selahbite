@@ -20,10 +20,13 @@ namespace BLL
         }
 
         
-        public void AddClientes(Cliente newcliente) {
+        public int AddClientes(Cliente newcliente) {
 
-         lstClientes.Add(newcliente);
-          
+         Cliente testclient = new Cliente();
+         testclient = newcliente;
+         lstClientes.Add(testclient);
+         return lstClientes.Count;
+
         }
 
         public List<Cliente> GetAllClientes() {

@@ -33,19 +33,30 @@
 
             <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="10,0,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstClientes}" Foreground="{DynamicResource PrimaryTextColor}">
-                    
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <!--<Setter Property=""-->
+                                </Trigger>
+                            </Style.Triggers>
+                            <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter"/>
+                            <EventSetter Event="MouseLeave" Handler="ListViewItem_MouseLeave"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}">
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
                             <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="Auto"/>
-                            <GridViewColumn Width="10"> 
+                            <GridViewColumn Width="10">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="Botón 1" Click="Button1_Click"/>
-                                            <Button Content="Botón 2" Click="Button2_Click"/>
+                                            <Button x:Name="btnEditar" Content="Botón 1" Click="Button1_Click" Visibility="Hidden"/>
+                                            <Button x:Name="btnBorrar" Content="Botón 2" Click="Button2_Click" Visibility="Hidden"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -53,6 +64,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+
+
             </Border>
         </Grid>
     </Border>

@@ -69,12 +69,11 @@ namespace GUI.Pages
         }
 
 
+      
 
         public void Refreshlistview()
         {
           miListView.ItemsSource=serviciocliente.GetAllClientes();
-
-
         }
     }
 }

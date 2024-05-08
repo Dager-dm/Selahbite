@@ -45,7 +45,8 @@ namespace GUI.Pages
         private void AddButton(object sender, RoutedEventArgs e)
         {
             Cliente cliente = new Cliente(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(), 0);
-            serviciocliente.AddClientes(cliente);
+            var cont = serviciocliente.AddClientes(cliente);
+            MessageBox.Show(cont.ToString());
             ClienteGuardado?.Invoke();
             Close();
             
