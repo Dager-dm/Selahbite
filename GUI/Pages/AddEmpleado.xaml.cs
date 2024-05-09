@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿
 using ENTITY;
 using System;
 using System.Collections.Generic;
@@ -22,14 +22,35 @@ namespace GUI.Pages
     public partial class AddEmpleado : Window
     {
         private List<string> cargos;
+        public Empleado EmpleadoPropiety {  get; set; }
+        public Empleado EmpleadoModified { get; set; }
 
-        ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
-        public event Action EmpleadoGuardado;
+        private int accion = 0;
+
+
+
+        //ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
+        //public event Action EmpleadoGuardado;
         public AddEmpleado()
         {
             InitializeComponent();
             cargos = new List<string> { "Mesero", "Cajero", "Cocinero", "Bodeguero", "Oficios Varios"};
             cboCargo.ItemsSource = cargos;
+        }
+
+        public AddEmpleado(Empleado OldEmpleado)
+        {
+            InitializeComponent();
+            cargos = new List<string> { "Mesero", "Cajero", "Cocinero", "Bodeguero", "Oficios Varios" };
+            cboCargo.ItemsSource= cargos;
+            lblTitulo.Content = "Editar Empleado";
+            txtboxNombre.Text = OldEmpleado.Nombre;
+            txtboxId.Text = OldEmpleado.Id;
+            txtboxTelefono.Text = OldEmpleado.Telefono;
+            cboCargo.SelectedItem = OldEmpleado.Cargo;
+            accion = 1;
+            EmpleadoModified = new Empleado();
+            EmpleadoPropiety = OldEmpleado;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -46,10 +67,28 @@ namespace GUI.Pages
 
         private void AddEmpleadoButton_Click_1(object sender, RoutedEventArgs e)
         {
-            Empleado empleado = new Empleado(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(),cboCargo.SelectedItem.ToString(), 0);
-            var cont = servicioEmpleado.AddClientes(empleado);
-            MessageBox.Show(cont.ToString());
-            EmpleadoGuardado?.Invoke();
+            if (accion == 0)
+            {
+                EmpleadoPropiety=new Empleado();
+                EmpleadoPropiety.Nombre = txtboxNombre.Text.ToString();
+                EmpleadoPropiety.Telefono = txtboxTelefono.Text.ToString();
+                EmpleadoPropiety.Id = txtboxId.Text.ToString();
+                EmpleadoPropiety.Cargo= cboCargo.SelectedItem.ToString();
+                EmpleadoPropiety.Saldo = 0;
+
+
+            }
+            else
+            {
+
+                EmpleadoModified.Nombre= txtboxNombre.Text.ToString();
+                EmpleadoModified.Id= txtboxId.Text.ToString();
+                EmpleadoModified.Telefono= txtboxTelefono.Text.ToString();
+                EmpleadoModified.Cargo= cboCargo.SelectedItem.ToString();
+
+            }
+            
+            //EmpleadoGuardado?.Invoke();
             Close();
         }
     }

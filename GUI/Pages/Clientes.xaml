@@ -71,7 +71,7 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
-                    <TextBox x:Name="txtboxNombre" Width="300" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" HorizontalAlignment="Right"  >
+                    <TextBox x:Name="txbBusqueda" Width="300" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" HorizontalAlignment="Right" TextChanged="TxtBusqueda_TextChanged" >
                         <TextBox.Template>
                             <ControlTemplate TargetType="{x:Type TextBox}">
                                 <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
@@ -117,7 +117,6 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
                                             <Button Name="btnEditar" Click="btnEditar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
                                             <Button Name="btnBorrar" Click="btnBorrar_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>
                                         </StackPanel>

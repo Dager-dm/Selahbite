@@ -111,7 +111,7 @@ namespace GUI.Pages
                     if (item != null)
                     {
                         
-                        MessageBox.Show(item.Nombre);
+                       
                         MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+item.Nombre+"?");
                         bool? resultado = messageBox.ShowDialog();
 
@@ -138,5 +138,19 @@ namespace GUI.Pages
             while (current != null);
             return null;
         }
+
+        private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+            string filtro = txbBusqueda.Text.ToLower();
+            List<Cliente>clientes = serviciocliente.GetAllClientes();
+
+
+            List<Cliente> clientesFiltrados = clientes.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
+
+           
+            miListView.ItemsSource = clientesFiltrados;
+        }
+
     }
 }

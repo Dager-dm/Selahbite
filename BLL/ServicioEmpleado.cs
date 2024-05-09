@@ -15,18 +15,17 @@ namespace BLL
         public ServicioEmpleado()
         {
             lstEmpleados = new List<Empleado>();
-            //empleadopr();
+            empleadopr();
 
         }
 
-        public int AddClientes(Empleado newempleado)
+        public void AddEmpleado(Empleado newempleado)
         {
             lstEmpleados.Add(newempleado);
-            return lstEmpleados.Count;
-
+            
         }
 
-        public List<Empleado> GetAllClientes()
+        public List<Empleado> GetAllEmpleados()
         {
 
             return lstEmpleados;
@@ -40,7 +39,19 @@ namespace BLL
 
         }
 
+        public void EditEmpleado(Empleado empleadoOld, Empleado empleadoModified)
+        {
+            empleadoOld.Nombre = empleadoModified.Nombre;
+            empleadoOld.Telefono = empleadoModified.Telefono;
+            empleadoOld.Id = empleadoModified.Id;
+            empleadoOld.Cargo = empleadoModified.Cargo;
+        }
 
+        public void DeleteEmpleado(Empleado empleadoToDelete)
+        {
+
+            lstEmpleados.Remove(empleadoToDelete);
+        }
 
     }
 }

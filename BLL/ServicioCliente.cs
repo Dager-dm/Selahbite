@@ -26,8 +26,7 @@ namespace BLL
         {
 
             lstClientes.Add(newcliente);
-         
-
+  
         }
 
         public List<Cliente> GetAllClientes() {
@@ -40,7 +39,17 @@ namespace BLL
         {
             Cliente cliente = new Cliente("Juan", "11", "301",0);
             lstClientes.Add(cliente);
-          
+            Cliente cliente1 = new Cliente("Juanito", "11", "301", 0);
+            lstClientes.Add(cliente1);
+            Cliente cliente2 = new Cliente("Mario", "11", "301", 0);
+            lstClientes.Add(cliente2);
+            Cliente cliente3 = new Cliente("Carlos", "11", "301", 0);
+            lstClientes.Add(cliente3);
+            Cliente cliente4 = new Cliente("Mariano", "11", "301", 0);
+            lstClientes.Add(cliente4);
+            Cliente cliente5 = new Cliente("Camilo", "11", "301", 0);
+            lstClientes.Add(cliente5);
+
 
         }
 

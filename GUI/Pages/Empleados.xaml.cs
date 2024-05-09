@@ -27,7 +27,7 @@ namespace GUI.Pages
         {
             InitializeComponent();
             servicioempleado = new ServicioEmpleado();
-            miListView.ItemsSource = servicioempleado.GetAllClientes();
+            miListView.ItemsSource = servicioempleado.GetAllEmpleados();
             miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
         }
 
@@ -36,11 +36,9 @@ namespace GUI.Pages
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddEmpleado addEmpleadoWindow = new AddEmpleado();
             addEmpleadoWindow.Owner = mainWindow;
-            addEmpleadoWindow.EmpleadoGuardado += Refreshlistview;
             addEmpleadoWindow.ShowDialog();
-          
-
-
+            servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
+            Refreshlistview();
         }
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -54,17 +52,87 @@ namespace GUI.Pages
         }
         public void Refreshlistview()
         {
-            miListView.ItemsSource = servicioempleado.GetAllClientes();
+            miListView.ItemsSource = null;
+            miListView.ItemsSource = servicioempleado.GetAllEmpleados();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-            // Acción para el Botón 1
+            Button btnEditar = sender as Button;
+            if (btnEditar != null)
+            {
+                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
+                if (listViewItem != null)
+                {
+
+                    Empleado item = listViewItem.DataContext as Empleado;
+                    if (item != null)
+                    {
+
+                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+                        AddEmpleado addEmpleadoWindow = new AddEmpleado(item);
+                        addEmpleadoWindow.Owner = mainWindow;
+                        addEmpleadoWindow.ShowDialog();
+                        servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
+                        Refreshlistview();
+
+                    }
+                }
+            }
         }
 
-        private void Button2_Click(object sender, RoutedEventArgs e)
+        private void btnBorrar_Click(object sender, RoutedEventArgs e)
         {
-            // Acción para el Botón 2
+            Button btnBorrar = sender as Button;
+            if (btnBorrar != null)
+            {
+                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
+                if (listViewItem != null)
+                {
+
+                    Empleado item = listViewItem.DataContext as Empleado;
+                    if (item != null)
+                    {
+
+                       
+                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + item.Nombre + "?");
+                        bool? resultado = messageBox.ShowDialog();
+
+                        if (resultado == true)
+                        {
+                            servicioempleado.DeleteEmpleado(item);
+                            Refreshlistview();
+                        }
+                    }
+                }
+            }
+        }
+
+        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+            return null;
+        }
+
+        private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            string filtro = txbBusqueda.Text.ToLower();
+            List<Empleado> empleados = servicioempleado.GetAllEmpleados();
+
+
+            List<Empleado> empleadosFiltrados = empleados.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
+
+
+            miListView.ItemsSource = empleadosFiltrados;
         }
     }
 }

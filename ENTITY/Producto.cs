@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ENTITY
 {
-    public class Productos
+    public class Producto
     {
-        public Productos(string id, string nombre, float valor, string categoria) 
+        public Producto() { }
+        public Producto(string id, string nombre, float valor, string categoria) 
         {
             Id = id;
             Nombre = nombre;
