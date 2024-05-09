@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using ENTITY;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,20 +22,49 @@ namespace GUI.Pages
     /// </summary>
     public partial class Empleados : Page
     {
+        private ServicioEmpleado servicioempleado;
         public Empleados()
         {
             InitializeComponent();
+            servicioempleado = new ServicioEmpleado();
+            miListView.ItemsSource = servicioempleado.GetAllClientes();
+            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void NewEmployee(object sender, RoutedEventArgs e)
         {
-
-            var newWindow = new AddEmpleado();
-            newWindow.Show();
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            AddEmpleado addEmpleadoWindow = new AddEmpleado();
+            addEmpleadoWindow.Owner = mainWindow;
+            addEmpleadoWindow.EmpleadoGuardado += Refreshlistview;
+            addEmpleadoWindow.ShowDialog();
+          
 
 
         }
+        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            var gridView = listView.View as GridView;
+            var width = listView.ActualWidth / gridView.Columns.Count;
+            foreach (var column in gridView.Columns)
+            {
+                column.Width = width;
+            }
+        }
+        public void Refreshlistview()
+        {
+            miListView.ItemsSource = servicioempleado.GetAllClientes();
+        }
 
-        
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            // Acción para el Botón 1
+        }
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+            // Acción para el Botón 2
+        }
     }
 }

@@ -22,15 +22,34 @@ namespace GUI.Pages
     /// </summary>
     public partial class AddCliente : Window
     {
-        ServicioCliente serviciocliente = new ServicioCliente();
-        public event Action ClienteGuardado;
+        //ServicioCliente serviciocliente = new ServicioCliente();
+        //public event Action ClienteGuardado;
+        public Cliente clientepr { get; set; }
+        public Cliente clienteModified { get; set; }
+
+        private int accion=0;
+        //private Clientes _page;
+        
         public AddCliente()
         {
             InitializeComponent();
-            
+            //_page = page;
+           
+
         }
 
+        public AddCliente(Cliente oldCliente)
+        {
+            InitializeComponent();
+            lblTitulo.Content = "Editar Cliente";
+            txtboxNombre.Text = oldCliente.Nombre;
+            txtboxId.Text = oldCliente.Id;
+            txtboxTelefono.Text = oldCliente.Telefono;
+            accion = 1;
+            clienteModified = new Cliente();
+            clientepr = oldCliente;
 
+        }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -44,10 +63,25 @@ namespace GUI.Pages
 
         private void AddButton(object sender, RoutedEventArgs e)
         {
-            Cliente cliente = new Cliente(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(), 0);
-            var cont = serviciocliente.AddClientes(cliente);
-            MessageBox.Show(cont.ToString());
-            ClienteGuardado?.Invoke();
+
+           //Cliente cliente = new Cliente(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(), 0);
+            //ClienteGuardado?.Invoke();
+            if (accion==0) {
+                clientepr = new Cliente();
+                clientepr.Nombre = txtboxNombre.Text.ToString();
+                clientepr.Id = txtboxId.Text.ToString();
+                clientepr.Telefono = txtboxTelefono.Text.ToString();
+                clientepr.Saldo = 0;
+
+            }
+            else
+            {
+                clienteModified.Nombre = txtboxNombre.Text.ToString();
+                clienteModified.Id = txtboxId.Text.ToString();
+                clienteModified.Telefono = txtboxTelefono.Text.ToString();
+                
+            }
+
             Close();
             
         }

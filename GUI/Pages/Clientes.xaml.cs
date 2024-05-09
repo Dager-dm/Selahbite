@@ -16,6 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BLL;
 
+
+
 namespace GUI.Pages
 {
     /// <summary>
@@ -23,27 +25,34 @@ namespace GUI.Pages
     /// </summary>
     public partial class Clientes : Page
     {
-        
+
         private ServicioCliente serviciocliente;
+        
 
         public Clientes()
         {
+          
             InitializeComponent();
             serviciocliente = new ServicioCliente();
-            miListView.ItemsSource=serviciocliente.GetAllClientes();
+            miListView.ItemsSource = serviciocliente.GetAllClientes();
             miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
 
         }
 
         private void NewClient(object sender, RoutedEventArgs e)
         {
+            
+            // addClienteWindow.ClienteGuardado += Refreshlistview;
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente();
             addClienteWindow.Owner = mainWindow;
-            addClienteWindow.ClienteGuardado += Refreshlistview;
             addClienteWindow.ShowDialog();
+            serviciocliente.AddClientes(addClienteWindow.clientepr);
+            Refreshlistview();
+
 
         }
+
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -54,26 +63,80 @@ namespace GUI.Pages
             {
                 column.Width = width;
             }
+          
         }
-
-
-
-        private void Button1_Click(object sender, RoutedEventArgs e)
-        {
-            // Acción para el Botón 1
-        }
-
-        private void Button2_Click(object sender, RoutedEventArgs e)
-        {
-            // Acción para el Botón 2
-        }
-
-
-      
 
         public void Refreshlistview()
+        { 
+            miListView.ItemsSource = null;
+            miListView.ItemsSource = serviciocliente.GetAllClientes();
+        }
+
+        private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-          miListView.ItemsSource=serviciocliente.GetAllClientes();
+            
+            Button btnEditar = sender as Button;
+            if (btnEditar != null)
+            {
+                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
+                if (listViewItem != null)
+                {
+                   
+                    Cliente item = listViewItem.DataContext as Cliente;
+                    if (item != null)
+                    {
+                       
+                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+                        AddCliente addClienteWindow = new AddCliente(item);
+                        addClienteWindow.Owner = mainWindow;
+                        addClienteWindow.ShowDialog();
+                        serviciocliente.EditCliente(addClienteWindow.clientepr, addClienteWindow.clienteModified);
+                        Refreshlistview();
+
+                    }
+                }
+            }
+        }
+
+        private void btnBorrar_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnBorrar = sender as Button;
+            if (btnBorrar != null)
+            {
+                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
+                if (listViewItem != null)
+                {
+                    
+                    Cliente item = listViewItem.DataContext as Cliente;
+                    if (item != null)
+                    {
+                        
+                        MessageBox.Show(item.Nombre);
+                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+item.Nombre+"?");
+                        bool? resultado = messageBox.ShowDialog();
+
+                        if (resultado == true)
+                        {
+                            serviciocliente.DeleteCliente(item);
+                            Refreshlistview();
+                        }
+                    }
+                }
+            }
+        }
+
+        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+            return null;
         }
     }
 }

@@ -35,6 +35,19 @@
         <Style TargetType="ListViewItem">
             <Setter Property="IsEnabled" Value="False" />
         </Style>
+
+        <Style x:Key="liststyle" TargetType="{x:Type ListView}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Background" Value="Red"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Page.Resources>
 
     <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
@@ -44,12 +57,41 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <RadioButton x:Name="NeewClient" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Clientes}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewClient" Margin="5"/>
-            <Label Grid.Row="0" Content="Clientes" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
-            <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="10,0,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstClientes}" Foreground="{DynamicResource PrimaryTextColor}">
+            <Grid  Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="37"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="37"/>
+
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="1" x:Name="NeewClient" HorizontalAlignment="Left" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Click="NewClient"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                    <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
+                    <TextBox x:Name="txtboxNombre" Width="300" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" HorizontalAlignment="Right"  >
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                                  BorderBrush="{TemplateBinding BorderBrush}" 
+                                  BorderThickness="1" 
+                                   CornerRadius="3">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                </StackPanel>
+
+
+            </Grid>
+
+            <Label Grid.Row="0" Content="Clientes" FontSize="35" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+            <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="32,0,32,31" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView Name="miListView" Style="{StaticResource liststyle}" SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource PrimaryTextColor}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Height" Value="40"/>
@@ -76,8 +118,8 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                            <Button Content="Editar" Click="Button1_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
-                                            <Button Content="Borrar" Click="Button2_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>
+                                            <Button Name="btnEditar" Click="btnEditar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
+                                            <Button Name="btnBorrar" Click="btnBorrar_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -91,3 +133,5 @@
         </Grid>
     </Border>
 </Page>
+
+<!--arriba, derecha, abajo, izquierda.-->

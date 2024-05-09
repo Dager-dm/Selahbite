@@ -10,22 +10,23 @@ namespace BLL
 {
     public class ServicioCliente
     {
-        private static List<Cliente> lstClientes;
+        public static List<Cliente> lstClientes;
+   
 
         public ServicioCliente()
         {
             lstClientes = new List<Cliente>();
-            clientepr();
+
+            clienteprueba();
 
         }
 
         
-        public int AddClientes(Cliente newcliente) {
+        public void AddClientes(Cliente newcliente) 
+        {
 
-         Cliente testclient = new Cliente();
-         testclient = newcliente;
-         lstClientes.Add(testclient);
-         return lstClientes.Count;
+            lstClientes.Add(newcliente);
+         
 
         }
 
@@ -35,13 +36,26 @@ namespace BLL
         
         }
 
-        private void clientepr()
+        private void clienteprueba()
         {
             Cliente cliente = new Cliente("Juan", "11", "301",0);
             lstClientes.Add(cliente);
+          
 
         }
 
+        public void EditCliente(Cliente clienteOld, Cliente clienteModified)
+        {
+            clienteOld.Nombre = clienteModified.Nombre;
+            clienteOld.Telefono = clienteModified.Telefono;
+            clienteOld.Id = clienteModified.Id;
+        }
+
+        public void DeleteCliente(Cliente clienteToDeelete)
+        {
+
+            lstClientes.Remove(clienteToDeelete);
+        }
         
     }
 }
