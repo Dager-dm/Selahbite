@@ -127,14 +127,14 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Collections());
+            frameContent.Navigate(new Carta());
         }
 
         private void rdEmpleados_Click(object sender, RoutedEventArgs e)
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Users());
+            frameContent.Navigate(new Empleados());
 
         }
 
@@ -142,7 +142,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Clientes());
+            frameContent.Navigate(new Clientes());
 
         }
 

@@ -9,7 +9,8 @@ namespace ENTITY
 {
     public class Cliente : Persona
     {
-        public Cliente(string nombre, string id, string telefono, float sueldo): base (nombre,id,telefono, sueldo)
+        public Cliente() { }
+        public Cliente(string nombre, string id, string telefono, float saldo) : base(nombre, id, telefono, saldo)
         {
         
         }

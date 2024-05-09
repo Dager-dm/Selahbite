@@ -26,6 +26,7 @@ namespace GUI.Pages
     public partial class Facturar : Page
     {
         private List<string> clientes;
+        
         private List<string> meseros;
         public ObservableCollection<Producto> Productos { get; set; }
 

@@ -9,7 +9,8 @@ namespace ENTITY
 {
     public class Empleado : Persona
     {
-        public Empleado(string nombre, string id, string telefono, float sueldo, string cargo) :base(nombre,id,telefono, sueldo)
+        public Empleado() { }
+        public Empleado(string nombre, string id, string telefono, string cargo, float saldo) :base(nombre,id,telefono, saldo)
         {
             Cargo = cargo;
         }

@@ -8,7 +8,129 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Clientes">
 
-    <Grid>
-        
-    </Grid>
+    <Page.Resources>
+        <Style x:Key="GridHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <TextBlock Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="H" TargetType="Button">
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
+
+        <Style x:Key="liststyle" TargetType="{x:Type ListView}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Background" Value="Red"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Page.Resources>
+
+    <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid  Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="37"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="37"/>
+
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="1" x:Name="NeewClient" HorizontalAlignment="Left" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Click="NewClient"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                    <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
+                    <TextBox x:Name="txbBusqueda" Width="300" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" HorizontalAlignment="Right" TextChanged="TxtBusqueda_TextChanged" >
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                                  BorderBrush="{TemplateBinding BorderBrush}" 
+                                  BorderThickness="1" 
+                                   CornerRadius="3">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                </StackPanel>
+
+
+            </Grid>
+
+            <Label Grid.Row="0" Content="Clientes" FontSize="35" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+            <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="32,0,32,31" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView Name="miListView" Style="{StaticResource liststyle}" SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource PrimaryTextColor}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="FontFamily" Value="Segoe UI"/>
+                            <Setter Property="FontWeight" Value="DemiBold"/>
+                            <Setter Property="FontSize" Value="15"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Focusable" Value="False"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
+                            <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="Auto"/>
+                            <GridViewColumn Width="10">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Name="btnEditar" Click="btnEditar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
+                                            <Button Name="btnBorrar" Click="btnBorrar_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+
+            </Border>
+        </Grid>
+    </Border>
 </Page>
+
+<!--arriba, derecha, abajo, izquierda.-->
