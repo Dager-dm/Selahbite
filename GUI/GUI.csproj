@@ -92,6 +92,9 @@
     <Compile Include="Pages\Turno.xaml.cs">
       <DependentUpon>Turno.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Styles\UserPopup.xaml.cs">
+      <DependentUpon>UserPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\ThemesController.cs" />
     <Page Include="Assets\Icons\Icons.xaml">
       <SubType>Designer</SubType>
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\RadioButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\UserPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

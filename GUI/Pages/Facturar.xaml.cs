@@ -1,12 +1,16 @@
-﻿using System;
+﻿using BLL;
+using ENTITY;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,117 +26,38 @@ namespace GUI.Pages
     /// <summary>
     /// Lógica de interacción para Facturar.xaml
     /// </summary>
-    /// ESTE CODIGO NO HUELE BIEN PERO SE LIMPIARÁ EN UN FUTURO
+    
     public partial class Facturar : Page
     {
-        private List<string> clientes;
-        
-        private List<string> meseros;
-        public ObservableCollection<Producto> Productos { get; set; }
+
+
+        private List<String> metodos;
+        ServicioProducto servicioproducto = new ServicioProducto();
+        ServicioCliente servicioCliente = new ServicioCliente();
+        ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
+        private List<Producto> filteredItems;
+        private List<Producto> ProductosDePedido = new List<Producto>();
+
 
         public Facturar()
         {
             InitializeComponent();
-            clientes = new List<string> { "Cliente 1", "Cliente 2", "Cliente 3", "juan0", "julian", "carlos", "camilo" };
-            meseros = new List<string> { "Mesero 1", "Mesero 2", "Mesero 3", "juanda", "juana", "carolina", "carla" };
-            Productos = new ObservableCollection<Producto>();
-            lstbox.ItemsSource = clientes;
-            lstboxMeseros.ItemsSource = meseros;
-            txtbox.TextChanged += Tb_TextChanged;
-            txtboxMeseros.TextChanged += TbMeseros_TextChanged;
-            txtbox.AddHandler(TextBox.MouseLeftButtonDownEvent, new MouseButtonEventHandler(TextBoxclick), true);
-            txtboxMeseros.AddHandler(TextBox.MouseLeftButtonDownEvent, new MouseButtonEventHandler(txtboxMeserosclick), true);
-
-            lstProductos.ItemsSource = Productos;
+            List<string> metodos = new List<string> {"Efectivo","Nequi","Bancolombia","Daviplata", "Credito" };
+           /* List<Producto> ProductosDePedido = new List<Producto>()*/;
+            cboEmpleados.ItemsSource = GetStringliMeserosst();
+            cboClientes.ItemsSource = GetStringlist();
+            cboMetodos.ItemsSource = metodos;
+            items.ItemsSource = servicioproducto.GetAllProducts();
+            
 
         }
 
        
-        //LISTBOX COMO COMBOBOX!!!
-
-
-        //CLIENTE
-        private void Tb_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var filteredList = clientes.Where(item => item.StartsWith(textBox.Text)).ToList();
-                lstbox.ItemsSource = filteredList;
-            }
-        }
-
-        private void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            if (listBox != null)
-            {
-                txtbox.Text = listBox.SelectedItem.ToString();
-            }
-            lstbox.Visibility = Visibility.Hidden;
-            ControlTemplate template = txtbox.Template;
-            Border border = (Border)template.FindName("borderbox", txtbox);
-            border.CornerRadius = new CornerRadius(5);
-        }
-
-
-        private void TextBoxclick(object sender, RoutedEventArgs e)
-        {
-            txtbox.Text = "";
-            lstbox.Visibility = Visibility.Visible;
-            ControlTemplate template = txtbox.Template;
-            Border border = (Border)template.FindName("borderbox", txtbox);
-            border.CornerRadius = new CornerRadius(5,5,0,0);
-        }
-
-
-        //MESEROS
-
-        private void txtboxMeserosclick(object sender, MouseButtonEventArgs e)
-        {
-            txtboxMeseros.Text = "";
-            lstboxMeseros.Visibility = Visibility.Visible;
-            ControlTemplate template = txtboxMeseros.Template;
-            Border border = (Border)template.FindName("borderbox", txtboxMeseros);
-            border.CornerRadius = new CornerRadius(5, 5, 0, 0);
-        }
-
-        private void lstboxMeseros_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            if (listBox != null)
-            {
-                txtboxMeseros.Text = listBox.SelectedItem.ToString();
-            }
-            lstboxMeseros.Visibility = Visibility.Hidden;
-            ControlTemplate template = txtboxMeseros.Template;
-            Border border = (Border)template.FindName("borderbox", txtboxMeseros);
-            border.CornerRadius = new CornerRadius(5);
-
-        }
-
-        private void TbMeseros_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var filteredList = meseros.Where(item => item.StartsWith(textBox.Text)).ToList();
-                lstboxMeseros.ItemsSource = filteredList;
-            }
-        }
 
 
 
 
 
-
-
-
-
-
-
-
-        //EVENTOS DEL LISTVIEW!!!!
 
 
         private void SumarCantidad_Click(object sender, RoutedEventArgs e)
@@ -143,11 +68,10 @@ namespace GUI.Pages
                 Producto producto = btn.DataContext as Producto;
                 if (producto != null)
                 {
-                    producto.Cantidad++;
+                    //producto.Cantidad++;
                 }
             }
         }
-
 
         private void RestarCantidad_Click(object sender, RoutedEventArgs e)
         {
@@ -155,18 +79,11 @@ namespace GUI.Pages
             if (btn != null)
             {
                 Producto producto = btn.DataContext as Producto;
-                if (producto != null && producto.Cantidad > 0)
-                {
-                    producto.Cantidad--;
-                }
+                //if (producto != null && producto.Cantidad > 0)
+                //{
+                //    producto.Cantidad--;
+                //}
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Producto producto = new Producto("Almuerzo", 12000, 3);
-            Productos.Add(producto);
-            lstProductos.ItemsSource = Productos;
         }
 
         private void DeleteProduct(object sender, RoutedEventArgs e)
@@ -175,85 +92,137 @@ namespace GUI.Pages
         }
 
 
+        private List<string> GetStringlist() { 
+           List<string> StringList = new List<string>();
+            foreach (var item in servicioCliente.GetAllClientes())
+            {
+                StringList.Add(item.Nombre);
+            }
+         
+          return StringList;
+        }
+
+        private List<string> GetStringliMeserosst()
+        {
+            List<string> StringList = new List<string>();
+            foreach (var item in servicioEmpleado.GetAllEmpleados())
+            {
+                if (item.Cargo == "Mesero")
+                {
+                    StringList.Add(item.Nombre);
+                }
+                
+            }
+
+            return StringList;
+        }
 
 
 
 
 
+        //Añadir Cliente
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            AddCliente addClienteWindow = new AddCliente();
+            addClienteWindow.Owner = mainWindow;
+            addClienteWindow.ShowDialog();
+            servicioCliente.AddClientes(addClienteWindow.clientepr);
+            cboClientes.ItemsSource = GetStringlist();
+
+        }
+
+        private void MouseEnterbtnAddClient(object sender, MouseEventArgs e)
+        {
+            Popup.PlacementTarget = btnAddClient;
+            Popup.Placement = PlacementMode.Bottom;
+            Popup.IsOpen = true;
+            Header.PopupText.Text = "Agregar Cliente";
+        }
+
+        private void MoueseLeavebtnAddClient(object sender, MouseEventArgs e)
+        {
+            Popup.Visibility = Visibility.Collapsed;
+            Popup.IsOpen = false;
+        }
 
 
 
 
 
+        //Logica de vista de items
+        private void BorderMeal_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Border borderm = sender as Border;
+            SolidColorBrush Color = (SolidColorBrush)Application.Current.Resources["SecundaryBackgroundColor"];
+            SolidColorBrush shadow = (SolidColorBrush)Application.Current.Resources["Shadow"];
+            PathGeometry icono = (PathGeometry)Application.Current.Resources["mas"];
+            SolidColorBrush miColor = new SolidColorBrush(Colors.Gray);
+            var txtNombre = (TextBlock)borderm.FindName("txtNombre");
+            var lblValor = (TextBlock)borderm.FindName("lblValor");
+            var btn = (Button)borderm.FindName("btn");
+            txtNombre.Foreground = miColor;
+            lblValor.Foreground = miColor;
+            borderm.Background= shadow;
+            btn.Tag = icono;
+            
+            
 
+        }
 
+        private void BorderMeal_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Border borderm = sender as Border;
+            SolidColorBrush Color = (SolidColorBrush)Application.Current.Resources["TertiaryBackgroundColor"];
+            PathGeometry icono = (PathGeometry)Application.Current.Resources["meal"];
+            SolidColorBrush color = (SolidColorBrush)Application.Current.Resources["SecundaryTextColor"];
 
+            var txtNombre = (TextBlock)borderm.FindName("txtNombre");
+            var lblValor = (TextBlock)borderm.FindName("lblValor");
+            var btn = (Button)borderm.FindName("btn");
+            txtNombre.Foreground = color;
+            lblValor.Foreground = color;
+            borderm.Background = Color;
+            btn.Tag = icono;
 
+        }
 
-        //private void cb_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    var comboBox = sender as ComboBox;
-        //    if (comboBox != null)
-        //    {
-        //        comboBox.IsDropDownOpen = true;
-        //    }
-        //}
+        private void cb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+        }
 
+        private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+            string searchText = txbBusqueda.Text.ToLower();
+            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
+            items.ItemsSource = filteredItems;
+
+        }
+
+        private void BorderMealClick(object sender, RoutedEventArgs e)
+        {
+
+            var source = sender as FrameworkElement;
+            var producto = source.DataContext as Producto;
+            ProductosDePedido.Add(producto);
+            listviewProductos.ItemsSource = null;
+            listviewProductos.ItemsSource = ProductosDePedido;
+
+        }
+
+      
     }
 
 
-    //ESTO EFECTIVAMENTE NO VA AQUÍ PERO ESTÁ PARA TESTEAR TEMPORALY
-    public class Producto : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string _nombre;
-        private decimal _precio;
-        private int _cantidad;
-
-        public Producto(string nombre, decimal precio, int cantidad)
-        {
-            Nombre = nombre;
-            Precio = precio;
-            Cantidad = cantidad;
-        }
-
-        public string Nombre
-        {
-            get { return _nombre; }
-            set
-            {
-                _nombre = value;
-                OnPropertyChanged("Nombre");
-            }
-        }
-
-        public decimal Precio
-        {
-            get { return _precio; }
-            set
-            {
-                _precio = value;
-                OnPropertyChanged("Precio");
-            }
-        }
-
-        public int Cantidad
-        {
-            get { return _cantidad; }
-            set
-            {
-                _cantidad = value;
-                OnPropertyChanged("Cantidad");
-            }
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+   
+   
 
 }
 

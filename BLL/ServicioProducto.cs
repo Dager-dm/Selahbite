@@ -45,7 +45,17 @@ namespace BLL
         private void productoprueba()
         {
             Producto producto = new Producto("01","Almuerzo",12000, "Corriente");
-            lstproducts.Add(producto);
+            Producto producto1 = new Producto("02", "Sopa", 12000, "Corriente");
+            Producto producto2 = new Producto("03", "Salchipapa", 12000, "Corriente");
+            Producto producto3 = new Producto("04", "Desayuno", 12000, "Corriente");
+            Producto producto4 = new Producto("05", "Pechuga Asada", 12000, "Corriente");
+            Producto producto5 = new Producto("06", "Costilla BBQ", 12000, "Corriente");
+            Producto producto6 = new Producto("07", "Chivo", 12000, "Corriente");
+            Producto producto7 = new Producto("08", "Sierra", 12000, "Corriente");
+            Producto producto8 = new Producto("09", "Hamburguesa", 12000, "Corriente");
+            lstproducts.Add(producto); lstproducts.Add(producto1); lstproducts.Add(producto2); lstproducts.Add(producto3); lstproducts.Add(producto4);
+            lstproducts.Add(producto5); lstproducts.Add(producto6); lstproducts.Add(producto7); lstproducts.Add(producto8); lstproducts.Add(producto); lstproducts.Add(producto1); lstproducts.Add(producto2); lstproducts.Add(producto3); lstproducts.Add(producto4);
+            lstproducts.Add(producto5); lstproducts.Add(producto6); lstproducts.Add(producto7); lstproducts.Add(producto8);
         }
     }
 }

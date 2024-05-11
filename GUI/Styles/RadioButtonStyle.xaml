@@ -296,8 +296,6 @@
                       Background="Transparent"
                        BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >-->
-                            <!-- Icono -->
                             <Path x:Name="Icon"
                              Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
                              Height="20" Width="20"
@@ -305,27 +303,13 @@
                              Margin="4 0 0 0"
                              Fill="{DynamicResource PrimaryTextColor}"
                              VerticalAlignment="Center"/>
-
-                            <!-- Texto -->
-                            <!--<TextBlock x:Name="txtName"    
-                              Text="{TemplateBinding Content}"
-                               Foreground="{TemplateBinding Foreground}"
-                               FontWeight="{TemplateBinding FontWeight}"
-                               FontSize="{TemplateBinding FontSize}"
-                               VerticalAlignment="Center" Margin="10 0 0 0"/>
-                        </StackPanel>-->
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsChecked" Value="True">
-                        <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryRedColor}"/>
-                        <Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
-                        <Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource TertiaryRedColor}"/>
-                    </Trigger>-->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <!--<Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource SecundaryTextColor}"/>-->
+                            
                             <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryYellowColor}"/>
-                            <!--<Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>-->
+                          
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -338,11 +322,130 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="MealButtonStyle" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Visibility" Value="Visible"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Grid>
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >-->
+                        <!-- Icono -->
+                        <Path x:Name="Icon"
+                         Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                         Height="60" Width="60"
+                         Stretch="Uniform"
+                         Margin="4 0 0 0"
+                         Fill="{DynamicResource PrimaryTextColor}"
+                         VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <!--<Setter TargetName="Icon" Property="Tag" Value="{DynamicResource Addany}"/>-->
+                            <!--<Setter TargetName="Icon" Property="Fill" Value="{DynamicResource SecundaryRedColor}"/>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
+    <Style x:Key="AddButtonStyle" TargetType="Button">
+        <Setter Property="Visibility" Value="Visible" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Borderbutton" CornerRadius="8" Width="40" Height="40"
+                          Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+
+                            <Path x:Name="Icon"
+                              Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                              Height="20" Width="20"
+                              Stretch="Uniform"
+                              Fill="{DynamicResource PrimaryTextColor}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryBlueColor}"/>
+                            <Setter TargetName="Borderbutton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
+    <Style x:Key="PedidosButtonStyle" TargetType="Button">
+        <Setter Property="Visibility" Value="Visible" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Borderbutton" CornerRadius="8" Width="40" Height="40"
+                      Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                      BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
 
+                            <Path x:Name="Icon"
+                          Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                          Height="15" Width="15"
+                          Stretch="Uniform"
+                          Fill="{DynamicResource PrimaryTextColor}"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryTealColor}"/>
+                            <Setter TargetName="Borderbutton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PedidosDeleteButtonStyle" TargetType="Button">
+        <Setter Property="Visibility" Value="Visible" />
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Borderbutton" CornerRadius="8" Width="40" Height="40"
+                  Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+
+                            <Path x:Name="Icon"
+                      Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                      Height="15" Width="15"
+                      Stretch="Uniform"
+                      Fill="{DynamicResource PrimaryTextColor}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryRedColor}"/>
+                            <Setter TargetName="Borderbutton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>

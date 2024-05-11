@@ -37,7 +37,7 @@ namespace BLL
 
         private void clienteprueba()
         {
-            Cliente cliente = new Cliente("Juan", "11", "301",0);
+            Cliente cliente = new Cliente("Jose", "11", "301",0);
             lstClientes.Add(cliente);
             Cliente cliente1 = new Cliente("Juanito", "11", "301", 0);
             lstClientes.Add(cliente1);
@@ -47,9 +47,7 @@ namespace BLL
             lstClientes.Add(cliente3);
             Cliente cliente4 = new Cliente("Mariano", "11", "301", 0);
             lstClientes.Add(cliente4);
-            Cliente cliente5 = new Cliente("Camilo", "11", "301", 0);
-            lstClientes.Add(cliente5);
-
+         
 
         }
 
