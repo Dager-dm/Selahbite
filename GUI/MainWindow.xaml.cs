@@ -150,7 +150,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Reporte());
+            frameContent.Navigate(new Reporte());
 
         }
 
@@ -158,7 +158,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Turno());
+            frameContent.Navigate(new Turno());
 
         }
 

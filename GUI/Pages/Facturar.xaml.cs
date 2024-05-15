@@ -44,11 +44,10 @@ namespace GUI.Pages
             InitializeComponent();
             List<string> metodos = new List<string> {"Efectivo","Nequi","Bancolombia","Daviplata", "Credito" };
            /* List<Producto> ProductosDePedido = new List<Producto>()*/;
-            cboEmpleados.ItemsSource = GetStringliMeserosst();
-            cboClientes.ItemsSource = GetStringlist();
+            cboEmpleados.ItemsSource = servicioEmpleado.GetStringMeseros();
+            cboClientes.ItemsSource = servicioCliente.GetStringClientes();
             cboMetodos.ItemsSource = metodos;
             items.ItemsSource = servicioproducto.GetAllProducts();
-            
 
         }
 
@@ -63,14 +62,15 @@ namespace GUI.Pages
         private void SumarCantidad_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (btn != null)
-            {
-                Producto producto = btn.DataContext as Producto;
-                if (producto != null)
-                {
-                    //producto.Cantidad++;
-                }
-            }
+           
+            //if (btn != null)
+            //{
+            //    Producto producto = btn.DataContext as Producto;
+            //    if (producto != null)
+            //    {
+            //        //producto.Cantidad++;
+            //    }
+            //}
         }
 
         private void RestarCantidad_Click(object sender, RoutedEventArgs e)
@@ -86,38 +86,15 @@ namespace GUI.Pages
             }
         }
 
-        private void DeleteProduct(object sender, RoutedEventArgs e)
+        private void QuitProduct(object sender, RoutedEventArgs e)
         {
 
         }
 
 
-        private List<string> GetStringlist() { 
-           List<string> StringList = new List<string>();
-            foreach (var item in servicioCliente.GetAllClientes())
-            {
-                StringList.Add(item.Nombre);
-            }
-         
-          return StringList;
-        }
-
-        private List<string> GetStringliMeserosst()
-        {
-            List<string> StringList = new List<string>();
-            foreach (var item in servicioEmpleado.GetAllEmpleados())
-            {
-                if (item.Cargo == "Mesero")
-                {
-                    StringList.Add(item.Nombre);
-                }
-                
-            }
-
-            return StringList;
-        }
 
 
+  
 
 
 
@@ -129,7 +106,7 @@ namespace GUI.Pages
             addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
             servicioCliente.AddClientes(addClienteWindow.clientepr);
-            cboClientes.ItemsSource = GetStringlist();
+            cboClientes.ItemsSource = servicioCliente.GetStringClientes();
 
         }
 
@@ -151,7 +128,7 @@ namespace GUI.Pages
 
 
 
-        //Logica de vista de items
+        //Logica de vista de Productos
         private void BorderMeal_MouseEnter(object sender, MouseEventArgs e)
         {
             Border borderm = sender as Border;
@@ -166,8 +143,6 @@ namespace GUI.Pages
             lblValor.Foreground = miColor;
             borderm.Background= shadow;
             btn.Tag = icono;
-            
-            
 
         }
 
@@ -214,7 +189,7 @@ namespace GUI.Pages
             ProductosDePedido.Add(producto);
             listviewProductos.ItemsSource = null;
             listviewProductos.ItemsSource = ProductosDePedido;
-
+            
         }
 
       

@@ -39,7 +39,7 @@
     </Page.Resources>
 
 
-    <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+    <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>

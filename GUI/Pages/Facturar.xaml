@@ -115,7 +115,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Cliente  " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboClientes" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" />
+                                <ComboBox HorizontalAlignment="Center" Name="cboClientes"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
                             </Border>
 
                         </StackPanel>
@@ -125,13 +125,13 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Mesero " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboEmpleados" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" />
+                                <ComboBox HorizontalAlignment="Center" Name="cboEmpleados" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" />
                             </Border>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Metodo" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboMetodos" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" />
+                                <ComboBox HorizontalAlignment="Center" Name="cboMetodos" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
                             </Border>
                         </StackPanel>
                         <Popup x:Name="Popup"  AllowsTransparency="True"  HorizontalOffset="-50" VerticalOffset="10">
@@ -181,7 +181,7 @@
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <Button Name="btnRestarCantidad" Click="RestarCantidad_Click" Style="{DynamicResource PedidosButtonStyle}" Tag="{DynamicResource less}"/>
                                                   <Border Width="25" Height="25" Background="Transparent" BorderBrush="{DynamicResource Boxborder}" CornerRadius="5" BorderThickness="1">
-                                                    <TextBox Text="1" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Background="Transparent" Margin="0 5 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent"/>
+                                                    <TextBox Name="txtCantidad" Text="1" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Background="Transparent" Margin="0 5 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent"/>
                                                   </Border>
                                                 <Button Name="btnSumarCantidad" Click="SumarCantidad_Click" Style="{DynamicResource PedidosButtonStyle}" Tag="{DynamicResource plus}"/>
                                                 <Button Name="btnEliminarproducto"  Style="{DynamicResource PedidosDeleteButtonStyle}" Tag="{DynamicResource quit}" Margin="-5 0 0 0"/>

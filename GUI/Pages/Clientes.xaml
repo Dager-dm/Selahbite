@@ -32,9 +32,16 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="ListViewItem">
-            <Setter Property="IsEnabled" Value="False" />
+        <Style x:Key="listtest" TargetType="ListView">
+            <Setter Property="Background" Value="Red"/>
+
         </Style>
+
+        <ControlTemplate x:Key="list" TargetType="ListView">
+            
+            
+        </ControlTemplate>
+        
 
     </Page.Resources>
 

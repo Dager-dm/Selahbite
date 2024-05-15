@@ -8,7 +8,142 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Turno">
 
-    <Grid>
-        
-    </Grid>
+
+
+    <Page.Resources>
+        <!-- Animación para expandir -->
+        <Storyboard x:Key="ExpandAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Height" From="20" To="150" Duration="0:0:0.2"/>
+        </Storyboard>
+        <!-- Animación para contraer -->
+        <Storyboard x:Key="CollapseAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Height" From="150" To="23" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <SolidColorBrush x:Key="PrimaryTextColor" Color="#0E1A32"/>
+    </Page.Resources>
+
+
+
+    <Border CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.6*"/>
+
+            </Grid.ColumnDefinitions>
+            <Border x:Name="List" Grid.Column="0" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+               
+            </Border>
+
+            <Border x:Name="Separator" Grid.Column="1" Background="{DynamicResource PrimaryBackgroundColor}"></Border>
+
+
+            <Border x:Name="Sale" Grid.Column="2" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="Turno" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <!--<ComboBox Grid.Row="1" Name="cb" IsEditable="True" Width="200" Height="30" GotFocus="cb_GotFocus"/>-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+ 
+
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="290"/>
+                            <ColumnDefinition Width="0.5*"/>
+                           
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="  Cajero      " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+                                <ComboBox HorizontalAlignment="Center" Name="cboCajeros"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
+                            </Border>
+
+                        </StackPanel>
+
+                        
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="Saldo Base" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+                                <TextBox BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                       
+                    </Grid>
+
+                    <Border Name="ListviewBorder" Visibility="Hidden" CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Height="370" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" >
+                        <Expander x:Name="Expander" Header="Ingreso Total: 4000" IsExpanded="False" Cursor="Hand" BorderThickness="0" Foreground="{StaticResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI">
+                            <Expander.Style>
+                                <Style TargetType="Expander">
+                                    <Style.Triggers>
+                                        <EventTrigger RoutedEvent="Expander.Expanded">
+                                            <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="Expander.Collapsed">
+                                            <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
+                                        </EventTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Expander.Style>
+
+                            <ListBox x:Name="incomeListBox" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{StaticResource PrimaryTextColor}" FontFamily="Segoe UI" >
+
+                            </ListBox>
+                        </Expander>
+
+
+
+                    </Border>
+                    <!--<StackPanel Orientation="Horizontal" Grid.Row="3">-->
+                    <RadioButton Grid.Row="5" x:Name="TurnoButton" Content="Iniciar Turno" Style="{DynamicResource TurnButtonStyle}" Tag="{DynamicResource start}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" Click="TurnoButton_Click" />
+                    <!--</StackPanel>-->
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
 </Page>
+
+
+
+
+<!--<StackPanel Grid.Row="3" Width="200" Height="150" Background="{DynamicResource Boxbackground}">
+    <Expander x:Name="Expander" Header="Ingreso Total: 4000" IsExpanded="False" Cursor="Hand" BorderThickness="0" Foreground="{StaticResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI">
+        <Expander.Style>
+            <Style TargetType="Expander">
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Expander.Expanded">
+                        <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Expander.Collapsed">
+                        <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+        </Expander.Style>
+
+        <ListBox x:Name="incomeListBox" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{StaticResource PrimaryTextColor}" FontFamily="Segoe UI" >
+
+        </ListBox>
+    </Expander>
+    <Button Height="30" Width="200" Content="GG"/>
+
+</StackPanel>-->

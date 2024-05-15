@@ -86,7 +86,7 @@
                     <RadioButton x:Name="rdClientes" Content="Clientes" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Clientes}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdClientes_Click"/>
                     <RadioButton x:Name="rdCarta" Content="Carta" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Carta}" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdCarta_Click" />
                     <RadioButton x:Name="rdTurno" Content="Turno" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource tunr}" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdTurno_Click" />
-                    <RadioButton x:Name="rdReporte" Content="Reporte" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Reportr}" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdReporte_Click"/>
+                    <RadioButton x:Name="rdReporte" Content="Reporte" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource analytics}" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdReporte_Click"/>
 
                     <Rectangle x:Name="Indicator"
                                    HorizontalAlignment="Center"
