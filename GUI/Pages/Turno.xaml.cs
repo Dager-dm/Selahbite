@@ -27,12 +27,12 @@ namespace GUI.Pages
         public Turno()
         {
             InitializeComponent();
-            List<string> lstegresos = new List<string> { "200.000", "150.000", "80.000", "70.000", "60.000", "500.000" };
-            List<string> lstingresos = new List<string> { "200.000", "150.000"};
+            List<string> lstingresos = new List<string> { "200.000", "150.000", "80.000", "70.000", "60.000", "500.000" };
+            List<string> lstegresos = new List<string> { "200.000", "150.000"};
             cboCajeros.ItemsSource=servicioEmpleado.GetStringCajeros();
-            lstbxegresos.ItemsSource=lstegresos;
-            lsbxingresos.ItemsSource=lstingresos;
-            
+            lsbxegresos.ItemsSource = lstegresos;
+            lsbxIngresos.ItemsSource = lstingresos;
+
         }
 
 
@@ -68,7 +68,8 @@ namespace GUI.Pages
         {
             InfoTurnoBorder.Visibility = Visibility.Visible;
             GridIniciar.Visibility = Visibility.Hidden;
-            GridTerminar.Visibility = Visibility.Visible;
+            terminarBorder.Visibility = Visibility.Visible;
+            terminarBorder2.Visibility = Visibility.Visible;
 
         }
 
@@ -76,8 +77,18 @@ namespace GUI.Pages
         {
             InfoTurnoBorder.Visibility = Visibility.Hidden;
             GridIniciar.Visibility = Visibility.Visible;
-            GridTerminar.Visibility = Visibility.Hidden;
+            terminarBorder.Visibility = Visibility.Hidden;
+            terminarBorder2.Visibility= Visibility.Hidden;
+            Expanderegresos.IsExpanded = false;
+            ExpanderIngresos.IsExpanded = false;
+        
+                
         }
+
+
+       
+        
+
 
     }
 }
