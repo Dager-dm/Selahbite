@@ -21,12 +21,17 @@ namespace GUI.Pages
     /// </summary>
     public partial class Turno : Page
     {
+       
 
         ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
         public Turno()
         {
             InitializeComponent();
+            List<string> lstegresos = new List<string> { "200.000", "150.000", "80.000", "70.000", "60.000", "500.000" };
+            List<string> lstingresos = new List<string> { "200.000", "150.000"};
             cboCajeros.ItemsSource=servicioEmpleado.GetStringCajeros();
+            lstbxegresos.ItemsSource=lstegresos;
+            lsbxingresos.ItemsSource=lstingresos;
             
         }
 
@@ -61,13 +66,17 @@ namespace GUI.Pages
 
         private void inicioTurno()
         {
-            ListviewBorder.Visibility = Visibility.Visible;
+            InfoTurnoBorder.Visibility = Visibility.Visible;
+            GridIniciar.Visibility = Visibility.Hidden;
+            GridTerminar.Visibility = Visibility.Visible;
 
         }
 
         private void terminarTurno()
         {
-
+            InfoTurnoBorder.Visibility = Visibility.Hidden;
+            GridIniciar.Visibility = Visibility.Visible;
+            GridTerminar.Visibility = Visibility.Hidden;
         }
 
     }

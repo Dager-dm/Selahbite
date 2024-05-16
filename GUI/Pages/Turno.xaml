@@ -40,7 +40,7 @@
             <Border x:Name="Separator" Grid.Column="1" Background="{DynamicResource PrimaryBackgroundColor}"></Border>
 
 
-            <Border x:Name="Sale" Grid.Column="2" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+            <Border x:Name="TurnoBorder" Grid.Column="2" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -53,9 +53,10 @@
                     <Label Grid.Row="0" Content="Turno" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     <!--<ComboBox Grid.Row="1" Name="cb" IsEditable="True" Width="200" Height="30" GotFocus="cb_GotFocus"/>-->
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Name="GridIniciar">
                         <Grid.RowDefinitions>
 
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
  
@@ -80,38 +81,158 @@
                         
 
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                            <Label Content="Saldo Base" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <Label Content="Saldo Base " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
                                 <TextBox BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
                             </Border>
                         </StackPanel>
 
-                       
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="Horario         " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <RadioButton  FontSize="15" VerticalAlignment="Center" Cursor="Hand"/>
+                            <Label Content="Dia            " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <RadioButton  FontSize="15" VerticalAlignment="Center" Cursor="Hand"/>
+                            <Label Content="Noche" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                        </StackPanel>
+
+
                     </Grid>
 
-                    <Border Name="ListviewBorder" Visibility="Hidden" CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Height="370" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" >
-                        <Expander x:Name="Expander" Header="Ingreso Total: 4000" IsExpanded="False" Cursor="Hand" BorderThickness="0" Foreground="{StaticResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI">
-                            <Expander.Style>
-                                <Style TargetType="Expander">
-                                    <Style.Triggers>
-                                        <EventTrigger RoutedEvent="Expander.Expanded">
-                                            <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
-                                        </EventTrigger>
-                                        <EventTrigger RoutedEvent="Expander.Collapsed">
-                                            <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Expander.Style>
+                    <Grid Grid.Row="1" Name="GridTerminar" Visibility="Hidden">
+                        <Grid.RowDefinitions>
 
-                            <ListBox x:Name="incomeListBox" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{StaticResource PrimaryTextColor}" FontFamily="Segoe UI" >
-
-                            </ListBox>
-                        </Expander>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
 
 
+                        </Grid.RowDefinitions>
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="290"/>
+                            <ColumnDefinition Width="0.5*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="Cajero      :" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Content="******" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        </StackPanel>
+
+
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="Saldo Base  :" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <Label Content="******" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+                            <Label Content="Horario     :" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                            <Label Content="******" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+
+                    </Grid>
+
+                    
+                    <Border Name="InfoTurnoBorder" Visibility="Hidden" CornerRadius="10" Grid.Row="2" Background="Transparent" Height="370" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" >
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <Grid>
+                               <StackPanel Orientation="Vertical">
+                            
+                                   <Expander x:Name="ExpanderIngresos" Grid.Row="0" Header="Ingreso Total: 4000" IsExpanded="False" Cursor="Hand" BorderThickness="0" Foreground="{StaticResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI">
+                                     <!--<Expander.Style>
+                                       <Style TargetType="Expander">
+                                        <Style.Triggers>
+                                           <EventTrigger RoutedEvent="Expander.Expanded">
+                                             <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                                           </EventTrigger>
+                                           <EventTrigger RoutedEvent="Expander.Collapsed">
+                                             <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
+                                           </EventTrigger>
+                                         </Style.Triggers>
+                                       </Style>
+                                      </Expander.Style>-->
+
+                                      <ListBox x:Name="lsbxingresos" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{StaticResource PrimaryTextColor}" FontFamily="Segoe UI" >
+
+                                     </ListBox>
+                                   </Expander>
+
+                                   <Expander x:Name="ExpanderEgresos" Grid.Row="1" Header="Egreso Total: 4000" IsExpanded="False" Cursor="Hand" BorderThickness="0" Foreground="{StaticResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI">
+                                        <!--<Expander.Style>
+                                       <Style TargetType="Expander">
+                                        <Style.Triggers>
+                                           <EventTrigger RoutedEvent="Expander.Expanded">
+                                             <BeginStoryboard Storyboard="{StaticResource ExpandAnimation}"/>
+                                           </EventTrigger>
+                                           <EventTrigger RoutedEvent="Expander.Collapsed">
+                                             <BeginStoryboard Storyboard="{StaticResource CollapseAnimation}"/>
+                                           </EventTrigger>
+                                         </Style.Triggers>
+                                       </Style>
+                                      </Expander.Style>-->
+
+                                        <ListBox x:Name="lstbxegresos"  BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{StaticResource PrimaryTextColor}" FontFamily="Segoe UI" >
+
+                                        </ListBox>
+                                   </Expander>
+                                   
+                                   <Grid HorizontalAlignment="Left">
+
+                                        <Grid.ColumnDefinitions>
+                                            
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+
+                                            <RowDefinition Height="45"/>
+                                            <RowDefinition Height="45"/>
+                                            <RowDefinition Height="45"/>
+                                            <RowDefinition Height="45"/>
+                                            
+                                        </Grid.RowDefinitions>
+                                       
+                                       
+                                       
+                                      <!--<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="0 10 0 0">-->
+                                        <Label Content="Saldo Previsto" Grid.Row="0" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Content="*********" Width="200" FontSize="15" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                      <!--</StackPanel>-->
+
+
+                                     <!--<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="0 10 0 0">-->
+                                       <Label Content="Saldo Real" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                                        <Border Grid.Row="1" Grid.Column="1"  Width="180" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+                                        <TextBox BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
+                                      </Border>
+                                     <!--</StackPanel>-->
+
+                                     <!--<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="0 10 0 0">-->
+                                        <Label Content="Diferencia" Grid.Row="2" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center"/>
+                                        <Label Content="*********" Width="200" FontSize="15" Grid.Row="2" Grid.Column="1" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                     <!--</StackPanel>-->
+
+
+                                     <!--<StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="0 10 0 0">-->
+                                        <Label Content="Observaciones" Grid.Row="3" Grid.Column="0"  FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                                        <Border  Grid.Row="3" Grid.Column="1"  Width="180" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+                                        <TextBox BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
+                                       </Border>
+                                     <!--</StackPanel>-->
+
+                                   </Grid>
+
+                               </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
                     </Border>
+                    
                     <!--<StackPanel Orientation="Horizontal" Grid.Row="3">-->
                     <RadioButton Grid.Row="5" x:Name="TurnoButton" Content="Iniciar Turno" Style="{DynamicResource TurnButtonStyle}" Tag="{DynamicResource start}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" Click="TurnoButton_Click" />
                     <!--</StackPanel>-->
