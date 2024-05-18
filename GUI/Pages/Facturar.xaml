@@ -39,6 +39,7 @@
                         </TextBox.Template>
                        </TextBox>
                     </StackPanel>
+                    
                     <Border  CornerRadius="8" Background="Transparent" Grid.Row="1" Margin="24,0,24,24">
                       <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="0 15 0 0" Grid.Row="1" HorizontalAlignment="Center">
                         <ItemsControl x:Name="items" ItemsSource="{Binding Prodcutos}">

@@ -58,68 +58,32 @@ namespace GUI.Pages
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-            Button btnEditar = sender as Button;
-            if (btnEditar != null)
-            {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
-                if (listViewItem != null)
-                {
+           Button btnEditar = sender as Button;
+           Empleado empleado = btnEditar.DataContext as Empleado;
+           MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado);
+           addEmpleadoWindow.Owner = mainWindow;
+           addEmpleadoWindow.ShowDialog();
+           servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
+           Refreshlistview();
 
-                    Empleado item = listViewItem.DataContext as Empleado;
-                    if (item != null)
-                    {
-
-                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-                        AddEmpleado addEmpleadoWindow = new AddEmpleado(item);
-                        addEmpleadoWindow.Owner = mainWindow;
-                        addEmpleadoWindow.ShowDialog();
-                        servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
-                        Refreshlistview();
-
-                    }
-                }
-            }
         }
 
         private void btnBorrar_Click(object sender, RoutedEventArgs e)
         {
             Button btnBorrar = sender as Button;
-            if (btnBorrar != null)
+            Empleado empleado = btnBorrar.DataContext as Empleado;
+
+
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + empleado.Nombre + "?");
+            bool? resultado = messageBox.ShowDialog();
+
+            if (resultado == true)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
-                if (listViewItem != null)
-                {
-
-                    Empleado item = listViewItem.DataContext as Empleado;
-                    if (item != null)
-                    {
-
-                       
-                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + item.Nombre + "?");
-                        bool? resultado = messageBox.ShowDialog();
-
-                        if (resultado == true)
-                        {
-                            servicioempleado.DeleteEmpleado(item);
-                            Refreshlistview();
-                        }
-                    }
-                }
+                servicioempleado.DeleteEmpleado(empleado);
+                Refreshlistview();
             }
-        }
 
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
         }
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)

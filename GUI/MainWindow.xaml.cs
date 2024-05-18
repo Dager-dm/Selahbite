@@ -113,7 +113,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Analytics());
+            frameContent.Navigate(new Egresos());
         }
 
         private void rdDeudas_Click(object sender, RoutedEventArgs e)

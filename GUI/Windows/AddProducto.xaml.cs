@@ -22,9 +22,9 @@ namespace GUI.Pages
     {
         private List<string> categories;
 
-        public ENTITY.Producto ProductoPropiety { get; set; }
+        public Producto ProductoPropiety { get; set; }
 
-        public ENTITY.Producto ProductoModified { get; set; }
+        public Producto ProductoModified { get; set; }
 
         private int accion = 0;
         public AddProducto()
@@ -32,9 +32,10 @@ namespace GUI.Pages
             InitializeComponent();
             categories = new List<string> { "Corriente", "Gourmet", "Asado", "Comida Rapida", "Adicionales", "Bebidas", "Adicionales" };
             cboCategoria.ItemsSource = categories;
+            
         }
 
-        public AddProducto(ENTITY.Producto OldProducto)
+        public AddProducto(Producto OldProducto)
         {
             InitializeComponent();
             categories = new List<string> { "Corriente", "Gourmet", "Asado", "Comida Rapida", "Adicionales", "Bebidas", "Adicionales" }; 
@@ -45,7 +46,7 @@ namespace GUI.Pages
             txtboxValor.Text = OldProducto.Valor.ToString();
             cboCategoria.SelectedItem = OldProducto.Categoria;
             accion = 1;
-            ProductoModified = new ENTITY.Producto();
+            ProductoModified = new Producto();
             ProductoPropiety = OldProducto;
         }
 
@@ -63,7 +64,7 @@ namespace GUI.Pages
         {
             if (accion == 0)
             {
-                ProductoPropiety = new ENTITY.Producto();
+                ProductoPropiety = new Producto();
                 ProductoPropiety.Nombre=txtboxNombre.Text.ToString();
                 ProductoPropiety.Id=txtboxId.Text.ToString();
                 ProductoPropiety.Valor = float.Parse(txtboxValor.Text);

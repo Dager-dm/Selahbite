@@ -230,10 +230,6 @@
     </Style>
 
 
-
-
-
-
     <Style x:Key="DeleteButtonStyle" TargetType="Button">
         <Setter Property="Visibility" Value="Hidden" />
         <Setter Property="Cursor" Value="Hand"/>
@@ -250,7 +246,7 @@
                                  Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
                                  Height="20" Width="20"
                                  Stretch="Uniform"
-                                 Margin="4 0 0 0"
+                                 Margin="0 0 0 0"
                                  Fill="{DynamicResource PrimaryTextColor}"
                                  VerticalAlignment="Center"/>
 
@@ -359,7 +355,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="Borderbutton" CornerRadius="8" Width="40" Height="40"
+                    <Border x:Name="Borderbutton" CornerRadius="8" Width="40" Height="30"
                           Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"
                           BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
@@ -488,6 +484,103 @@
                             <Setter TargetName="txtName" Property="Foreground" Value="{DynamicResource TertiaryGreenColor}"/>
                             <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource TertiaryGreenColor}"/>
                             <Setter TargetName="menuButton" Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="DatePicker" TargetType="{x:Type DatePicker}">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style x:Key="DatePickerTextBoxStyle" TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+                                            <Border x:Name="PART_Border"
+                                                   Background="Transparent"
+                                                   BorderBrush="{DynamicResource PrimaryTextColor}"
+                                                   BorderThickness="{TemplateBinding BorderThickness}"
+                                                   SnapsToDevicePixels="True">
+                                                <ScrollViewer x:Name="PART_ContentHost"
+                                                   Focusable="False"
+                                                   HorizontalScrollBarVisibility="Hidden"
+                                                   VerticalScrollBarVisibility="Hidden"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                    <Setter Property="BorderBrush" TargetName="PART_Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.56"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Grid.Resources>
+
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DatePickerTextBox x:Name="PART_TextBox"
+                               Style="{StaticResource DatePickerTextBoxStyle}"
+                               Grid.Column="0"
+                               Margin="0"
+                               VerticalContentAlignment="Center"
+                               HorizontalContentAlignment="Stretch"
+                               Focusable="True"/>
+
+                        <Button x:Name="PART_Button" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource calendaricon}"
+                              Grid.Column="1" Background="Transparent"
+                              Focusable="False" BorderBrush="Transparent"
+                              ClickMode="Press" Cursor="Hand"
+                              Width="30"
+                              Margin="0"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Stretch">
+                            
+                            <!--<Path x:Name="Arrow"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Data="{StaticResource calendaricon}"
+                                  Fill="{DynamicResource PrimaryTextColor}"/>-->
+                        </Button>
+                        <Popup x:Name="PART_Popup"
+                              Placement="Bottom"
+                              IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                              AllowsTransparency="True"
+                              Focusable="False"
+                              PopupAnimation="Slide">
+                            <Border x:Name="PART_PopupBorder" CornerRadius="30"
+                                 MinWidth="{TemplateBinding ActualWidth}"
+                                 MaxHeight="250"
+                                 Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                                 BorderBrush="{DynamicResource PrimaryTextColor}"
+                                 BorderThickness="1">
+                                <Calendar x:Name="PART_Calendar"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       IsTodayHighlighted="True"
+                                       SelectedDate="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="IsDropDownOpen" Value="True"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

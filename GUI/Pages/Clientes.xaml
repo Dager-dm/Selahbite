@@ -32,17 +32,6 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="listtest" TargetType="ListView">
-            <Setter Property="Background" Value="Red"/>
-
-        </Style>
-
-        <ControlTemplate x:Key="list" TargetType="ListView">
-            
-            
-        </ControlTemplate>
-        
-
     </Page.Resources>
 
     <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">

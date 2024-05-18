@@ -10,7 +10,7 @@ namespace BLL
 {
     public class ServicioProducto
     {
-        public static List<Producto> lstproducts;
+       private static List<Producto> lstproducts;
 
         public ServicioProducto() 
         {     

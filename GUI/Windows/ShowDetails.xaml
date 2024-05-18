@@ -1,0 +1,59 @@
+﻿<Window x:Class="GUI.Windows.ShowDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="{DynamicResource Boxborder}"
+        Background="Transparent" AllowsTransparency="True"
+        ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins"
+        Title="AddCliente" Height="700" Width="450">
+
+    <Border CornerRadius="10" Background="{DynamicResource PrimaryBackgroundColor}"  BorderBrush="{DynamicResource Boxborder}" BorderThickness="1">
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <Border CornerRadius="10" Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource SecundaryBackgroundColor}" MouseLeftButtonDown="Border_MouseLeftButtonDown" BorderBrush="{DynamicResource Boxborder}">
+                <Button x:Name="btnClose" Style="{StaticResource IconStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" HorizontalAlignment="Right"/>
+            </Border>
+
+            <Border x:Name="InfoBorder" Grid.Row="1" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}" Margin="0 10 0 0">
+              <Grid>
+                <ScrollViewer x:Name="TurnoDetailsScrollViewer" VerticalScrollBarVisibility="Hidden" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+
+                        </Grid.RowDefinitions>
+
+ 
+                        
+                        
+                    </Grid>
+                </ScrollViewer>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+              </Grid>
+            </Border>
+        </Grid>
+    </Border>
+
+
+</Window>

@@ -8,7 +8,7 @@ namespace ENTITY
 {
     public class Salidas : Movimiento
     {
-        public Salidas(DateTime fecha, string cajero, string horario, float valor, string recibidor, string descripcion) : base (fecha, cajero, horario, valor)
+        public Salidas(DateTime fecha, Empleado cajero, string horario, float valor, string recibidor, string descripcion) : base (fecha, cajero, horario, valor)
         {
             Recibidor = recibidor;
             Descripcion = descripcion;

@@ -8,7 +8,7 @@ namespace ENTITY
 {
      public class Turno
     {
-        public Turno(string horario, DateTime fecha, float saldoInicial, float egresos, float ingresos, float saldoSistema, float saldoUsuario, float diferencia, string observacion ) 
+        public Turno(string horario, DateTime fecha, float saldoInicial, float egresos, float ingresos, float saldoSistema, float saldoUsuario, float diferencia, string observacion, Empleado empleado ) 
         {
             Horario = horario;
             Fecha = fecha;
@@ -19,8 +19,10 @@ namespace ENTITY
             Diferencia = diferencia;
             SaldoUsuario = saldoUsuario;
             Observacion = observacion;
-            Pedidos = new List<string>();
+            this.empleado = empleado;
+          
         }
+
         public string Horario { get; set; }
         public DateTime Fecha { get; set; }
         public float SaldoInicial { get; set; }
@@ -31,5 +33,8 @@ namespace ENTITY
         public float Diferencia { get; set; }
         public string Observacion { get; set; }
         public List<string> Pedidos { get; set; }
+
+        public Empleado empleado { get; set; }
+        
      }
 }

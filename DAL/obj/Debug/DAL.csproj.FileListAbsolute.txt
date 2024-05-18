@@ -1,12 +1,3 @@
-D:\Proyecto\Selahbite\DAL\bin\Debug\DAL.dll
-D:\Proyecto\Selahbite\DAL\bin\Debug\DAL.pdb
-D:\Proyecto\Selahbite\DAL\bin\Debug\ENTITY.dll
-D:\Proyecto\Selahbite\DAL\bin\Debug\ENTITY.pdb
-D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
-D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.Up2Date
-D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.dll
-D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.pdb
 C:\Users\Work\Source\Repos\Selahbite\DAL\bin\Debug\DAL.dll
 C:\Users\Work\Source\Repos\Selahbite\DAL\bin\Debug\DAL.pdb
 C:\Users\Work\Source\Repos\Selahbite\DAL\bin\Debug\ENTITY.dll
@@ -16,3 +7,12 @@ C:\Users\Work\Source\Repos\Selahbite\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.
 C:\Users\Work\Source\Repos\Selahbite\DAL\obj\Debug\DAL.csproj.Up2Date
 C:\Users\Work\Source\Repos\Selahbite\DAL\obj\Debug\DAL.dll
 C:\Users\Work\Source\Repos\Selahbite\DAL\obj\Debug\DAL.pdb
+D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\Proyecto\Selahbite\DAL\bin\Debug\DAL.dll
+D:\Proyecto\Selahbite\DAL\bin\Debug\DAL.pdb
+D:\Proyecto\Selahbite\DAL\bin\Debug\ENTITY.dll
+D:\Proyecto\Selahbite\DAL\bin\Debug\ENTITY.pdb
+D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.csproj.Up2Date
+D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.dll
+D:\Proyecto\Selahbite\DAL\obj\Debug\DAL.pdb

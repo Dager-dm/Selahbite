@@ -8,7 +8,7 @@ namespace ENTITY
 {
     public class Movimiento
     {
-        public Movimiento(DateTime fecha, string cajero, string horario, float valor) 
+        public Movimiento(DateTime fecha, Empleado cajero, string horario, float valor) 
         {
             Fecha = fecha;
             Cajero = cajero;
@@ -16,7 +16,7 @@ namespace ENTITY
             Valor = valor;
         }
         public DateTime Fecha { get; set; }
-        public string Cajero { get; set;}
+        public  Empleado Cajero { get; set;}
         public string Horario { get; set;}  
         public float Valor { get; set;}
 
