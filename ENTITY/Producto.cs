@@ -9,7 +9,7 @@ namespace ENTITY
     public class Producto
     {
         public Producto() { }
-        public Producto(string id, string nombre, float valor, string categoria) 
+        public Producto(string id, string nombre, long valor, string categoria) 
         {
             Id = id;
             Nombre = nombre;

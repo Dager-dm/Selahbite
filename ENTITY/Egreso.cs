@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ENTITY
 {
-    public class Salidas : Movimiento
+    public class Egreso : Movimiento
     {
-        public Salidas(DateTime fecha, string cajero, string horario, float valor, string recibidor, string descripcion) : base (fecha, cajero, horario, valor)
+        public Egreso(DateTime fecha, string horario, long valor, string recibidor, string descripcion) : base (fecha, horario, valor)
         {
             Recibidor = recibidor;
             Descripcion = descripcion;

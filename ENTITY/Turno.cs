@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 namespace ENTITY
 {
      public class Turno
-    {
-        public Turno(string horario, DateTime fecha, float saldoInicial, float egresos, float ingresos, float saldoSistema, float saldoUsuario, float diferencia, string observacion ) 
+     {
+
+        public Turno() { }
+        public Turno(string horario, DateTime fecha, long saldoInicial, long egresos, long ingresos, long saldoSistema, long saldoUsuario, long diferencia, string observacion ) 
         {
             Horario = horario;
             Fecha = fecha;
@@ -19,17 +21,15 @@ namespace ENTITY
             Diferencia = diferencia;
             SaldoUsuario = saldoUsuario;
             Observacion = observacion;
-            Pedidos = new List<string>();
         }
         public string Horario { get; set; }
         public DateTime Fecha { get; set; }
-        public float SaldoInicial { get; set; }
-        public float Egresos { get; set; }
-        public float Ingresos { get; set; }
-        public float SaldoSistema { get; set; }
-        public float SaldoUsuario { get; set; }
+        public long SaldoInicial { get; set; }
+        public long Egresos { get; set; }
+        public long Ingresos { get; set; }
+        public long SaldoSistema { get; set; }
+        public long SaldoUsuario { get; set; }
         public float Diferencia { get; set; }
         public string Observacion { get; set; }
-        public List<string> Pedidos { get; set; }
      }
 }
