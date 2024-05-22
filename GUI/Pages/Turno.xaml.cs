@@ -41,10 +41,18 @@ namespace GUI.Pages
             lsbxIngresos.ItemsSource = lstingresos;
             //lstturnos.ItemsSource = servicioTurno.GetTurnos();
              View = new ListCollectionView(servicioTurno.GetTurnos());
-            lstturnos.ItemsSource = View;
+             lstturnos.ItemsSource = View;
+           
 
         }
 
+
+        private void DatePicker_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Cierra el calendario cuando el DatePicker pierde el foco
+            DatePicker datePicker = (DatePicker)sender;
+            datePicker.IsDropDownOpen = false;
+        }
 
         private void cb_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -73,7 +81,6 @@ namespace GUI.Pages
                 TurnoButton.Tag = iconostart;  
             }
         }
-
 
         private void inicioTurno()
         {
@@ -150,6 +157,9 @@ namespace GUI.Pages
                 case "EgresosButton":
                     Header.PopupText.Text = "Ver Egresos";
                     break;
+                case "PedidoDetailsButton":
+                    Header.PopupText.Text = "Ver Detalles";
+                    break;
             }
             
         }
@@ -211,6 +221,52 @@ namespace GUI.Pages
             btnCloseDetails.Visibility= Visibility.Hidden;
             txtSaldoReal.IsEnabled = true;
             txtObservacion.IsEnabled = true;
+        }
+
+        private void ShowPedidoDetails(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowPedidos(object sender, RoutedEventArgs e) 
+        {
+          BorderPedidos.Visibility = Visibility.Visible;
+          lblPedidos.Visibility = Visibility.Visible;
+          HideTurnos();
+
+
+
+        }
+
+        private void HideTurnos()
+        {
+            BorderTurnos.Visibility = Visibility.Hidden;
+            GoBackButton.Visibility = Visibility.Visible;
+            DataPickerBorder.Visibility = Visibility.Hidden;
+
+
+        }
+
+        private void ShowTurnos()
+        {
+            BorderTurnos.Visibility = Visibility.Visible;
+            GoBackButton.Visibility = Visibility.Hidden;
+            DataPickerBorder.Visibility = Visibility.Visible;
+            lblPedidos.Visibility = Visibility.Hidden;
+            lblEgresos.Visibility = Visibility.Hidden;
+
+        }
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+
+            BorderPedidos.Visibility = Visibility.Hidden;
+            ShowTurnos();
+
+        }
+
+        private void ShowEgresos(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

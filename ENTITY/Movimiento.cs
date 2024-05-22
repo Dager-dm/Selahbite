@@ -15,6 +15,7 @@ namespace ENTITY
             Horario = horario;
             Valor = valor;
         }
+
         public DateTime Fecha { get; set; }
         public  Empleado Cajero { get; set;}
         public string Horario { get; set;}  

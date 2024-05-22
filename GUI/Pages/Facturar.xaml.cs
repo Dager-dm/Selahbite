@@ -31,7 +31,7 @@ namespace GUI.Pages
     {
 
 
-        private List<String> metodos;
+        
         ServicioProducto servicioproducto = new ServicioProducto();
         ServicioCliente servicioCliente = new ServicioCliente();
         ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
