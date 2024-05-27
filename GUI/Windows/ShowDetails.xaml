@@ -23,9 +23,9 @@
 
             <Border x:Name="InfoBorder" Grid.Row="1" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}" Margin="0 10 0 0" Height="auto">
               <Grid>
-                
-                
-                
+
+
+                    <WebBrowser></WebBrowser>
                 
                 
                 

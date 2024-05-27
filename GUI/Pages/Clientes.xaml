@@ -94,7 +94,7 @@
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
-                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Cedula}" Width="Auto"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
                             <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="Auto"/>
                             <GridViewColumn Width="10">

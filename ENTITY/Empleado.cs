@@ -10,10 +10,11 @@ namespace ENTITY
     public class Empleado : Persona
     {
         public Empleado() { }
-        public Empleado(string nombre, string id, string telefono, string cargo, float saldo) :base(nombre,id,telefono, saldo)
+        public Empleado(string Cedula, string nombre, string id, string telefono, CargosEmpleados cargo) :base(Cedula, nombre,id,telefono)
         {
             Cargo = cargo;
         }
-        public string Cargo { get; set; }
+        public CargosEmpleados Cargo { get; set; }
+
     }
 }

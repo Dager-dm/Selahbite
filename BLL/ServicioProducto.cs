@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENTITY;
+using DAL;
 
 
 namespace BLL
@@ -11,11 +12,12 @@ namespace BLL
     public class ServicioProducto
     {
        private static List<Producto> lstproducts;
+        ProductosRepository productsRepository = new ProductosRepository();
 
         public ServicioProducto() 
         {     
-        lstproducts = new List<Producto>();
-            productoprueba();
+           lstproducts = new List<Producto>();
+            
 
         }
 
@@ -42,20 +44,10 @@ namespace BLL
             lstproducts.Remove(Producto);
         }
 
-        private void productoprueba()
+        public List<CategoriasProductos> GetCategoriasProductos()
         {
-            Producto producto = new Producto("01","Almuerzo",12000, "Corriente");
-            Producto producto1 = new Producto("02", "Sopa", 12000, "Corriente");
-            Producto producto2 = new Producto("03", "Salchipapa", 12000, "Corriente");
-            Producto producto3 = new Producto("04", "Desayuno", 12000, "Corriente");
-            Producto producto4 = new Producto("05", "Pechuga Asada", 12000, "Corriente");
-            Producto producto5 = new Producto("06", "Costilla BBQ", 12000, "Corriente");
-            Producto producto6 = new Producto("07", "Chivo", 12000, "Corriente");
-            Producto producto7 = new Producto("08", "Sierra", 12000, "Corriente");
-            Producto producto8 = new Producto("09", "Hamburguesa", 12000, "Corriente");
-            lstproducts.Add(producto); lstproducts.Add(producto1); lstproducts.Add(producto2); lstproducts.Add(producto3); lstproducts.Add(producto4);
-            lstproducts.Add(producto5); lstproducts.Add(producto6); lstproducts.Add(producto7); lstproducts.Add(producto8); lstproducts.Add(producto); lstproducts.Add(producto1); lstproducts.Add(producto2); lstproducts.Add(producto3); lstproducts.Add(producto4);
-            lstproducts.Add(producto5); lstproducts.Add(producto6); lstproducts.Add(producto7); lstproducts.Add(producto8);
+            return productsRepository.GetCategories();
         }
+
     }
 }

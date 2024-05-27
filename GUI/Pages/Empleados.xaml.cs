@@ -34,7 +34,7 @@ namespace GUI.Pages
         private void NewEmployee(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddEmpleado addEmpleadoWindow = new AddEmpleado();
+            AddEmpleado addEmpleadoWindow = new AddEmpleado(servicioempleado.GetCargos());
             addEmpleadoWindow.Owner = mainWindow;
             addEmpleadoWindow.ShowDialog();
             servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
@@ -61,7 +61,7 @@ namespace GUI.Pages
            Button btnEditar = sender as Button;
            Empleado empleado = btnEditar.DataContext as Empleado;
            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado);
+           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado, servicioempleado.GetCargos());
            addEmpleadoWindow.Owner = mainWindow;
            addEmpleadoWindow.ShowDialog();
            servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);

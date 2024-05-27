@@ -61,7 +61,7 @@
                                                 <RowDefinition Height="30"/>
                                             </Grid.RowDefinitions>
 
-                                                <TextBlock Name="txtNombre" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  FontWeight="DemiBold" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" />
+                                                <TextBlock Name="txtNombre" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  FontWeight="DemiBold" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" TextWrapping="Wrap" />
                                                 <TextBlock Name="lblValor" Text="{Binding Valor, StringFormat=' {0:C0}'}" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"  FontWeight="DemiBold" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" />
                                                 <Button VerticalAlignment="Top" Name="btn" Grid.Row="0" Style="{DynamicResource MealButtonStyle}" Tag="{DynamicResource meal}" Margin=" 0 3 0 0" Click="BorderMealClick"/>
                                         </Grid>
@@ -102,7 +102,7 @@
                             
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="17"/>
                             
                         </Grid.RowDefinitions>
 
@@ -116,7 +116,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Cliente  " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboClientes"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
+                                <ComboBox HorizontalAlignment="Center" Name="cboClientes"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" DisplayMemberPath="Nombre" />
                             </Border>
 
                         </StackPanel>
@@ -126,15 +126,10 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Mesero " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboEmpleados" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" />
+                                <ComboBox HorizontalAlignment="Center" Name="cboEmpleados" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" DisplayMemberPath="Nombre" />
                             </Border>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
-                            <Label Content="Metodo" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
-                            <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboMetodos" IsEditable="True" Width="195" Height="25" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
-                            </Border>
-                        </StackPanel>
+
                         <Popup x:Name="Popup"  AllowsTransparency="True"  HorizontalOffset="-50" VerticalOffset="10">
                             <!--<ctls:UserPopup x:Name="Header" Foreground="{DynamicResource PrimaryTextColor}"/>-->
                             <ctls:UserPopup x:Name="Header" Foreground="{DynamicResource TertiaryBlueColor}"/>
@@ -142,7 +137,7 @@
                     </Grid>
 
                     <Border Name="ListviewBorder" CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Height="370" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" >
-                    <ListView Grid.Row="2" Name="listviewProductos" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="auto" >
+                    <ListView Grid.Row="2" Name="listviewProductos" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="auto"  >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
 
@@ -169,14 +164,14 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI"/>
+                                                    <TextBlock Text="{Binding Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap"/>
                                                     <TextBlock Text="{Binding Valor, StringFormat=' {0:C0}'}" FontSize="12" Foreground="{DynamicResource SecundaryTextColor}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     
                                     </GridViewColumn>
-                                <GridViewColumn Width="auto" >
+                                <GridViewColumn Width="205" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -185,12 +180,14 @@
                                                     <TextBox Name="txtCantidad" Text="1" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Background="Transparent" Margin="0 5 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent"/>
                                                   </Border>
                                                 <Button Name="btnSumarCantidad" Click="SumarCantidad_Click" Style="{DynamicResource PedidosButtonStyle}" Tag="{DynamicResource plus}"/>
-                                                <Button Name="btnEliminarproducto"  Style="{DynamicResource PedidosDeleteButtonStyle}" Tag="{DynamicResource quit}" Margin="-5 0 0 0"/>
-                                                </StackPanel>
+                                                    <TextBlock x:Name="valortoatl" Text="{Binding Valor, StringFormat=' {0:C0}'}"  FontSize="13" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                                    <Button Name="btnEliminarproducto"  Style="{DynamicResource PedidosDeleteButtonStyle}" Tag="{DynamicResource quit}" Margin="5 0 0 0" Click="QuitProduct"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                            </GridView>
+                     
+                                </GridView>
                         </ListView.View>
                     </ListView>
                     </Border>

@@ -36,7 +36,7 @@ namespace GUI.Pages
             InitializeComponent();
             List<string> lstingresos = new List<string> { "200.000", "150.000", "80.000", "70.000", "60.000", "500.000" };
             List<string> lstegresos = new List<string> { "200.000", "150.000"};
-            cboCajeros.ItemsSource=servicioEmpleado.GetStringCajeros();
+            cboCajeros.ItemsSource=servicioEmpleado.GetCajeros();
             lsbxegresos.ItemsSource = lstegresos;
             lsbxIngresos.ItemsSource = lstingresos;
             //lstturnos.ItemsSource = servicioTurno.GetTurnos();
@@ -46,14 +46,12 @@ namespace GUI.Pages
 
         }
 
-
-        private void DatePicker_LostFocus(object sender, RoutedEventArgs e)
-        {
-            // Cierra el calendario cuando el DatePicker pierde el foco
-            DatePicker datePicker = (DatePicker)sender;
-            datePicker.IsDropDownOpen = false;
-        }
-
+        
+        
+        
+        
+        
+        //evento para mostrar los cajeros
         private void cb_GotFocus(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
@@ -63,26 +61,34 @@ namespace GUI.Pages
             }
         }
 
+
+
+
+
+
+
+        //evento y funciones Turno
         private void TurnoButton_Click(object sender, RoutedEventArgs e)
         {
             PathGeometry iconostart = (PathGeometry)Application.Current.Resources["start"];
             PathGeometry iconofinish = (PathGeometry)Application.Current.Resources["finish"];
             if (TurnoButton.Content.ToString() == "Iniciar Turno")
             {
-                inicioTurno();
-                TakeInfo(null);
+                HideThingsinicioTurno();
+                TakeInfoTurnoInicio();
                 TurnoButton.Content = "Terminar Turno";
                 TurnoButton.Tag = iconofinish;   
             }
             else
             {
-                terminarTurno();
+                TakeInfoTurnoTerminar();
+                ShowThingsterminarTurno();
                 TurnoButton.Content = "Iniciar Turno";
                 TurnoButton.Tag = iconostart;  
             }
         }
 
-        private void inicioTurno()
+        private void HideThingsinicioTurno()
         {
             InfoTurnoBorder.Visibility = Visibility.Visible;
             GridIniciar.Visibility = Visibility.Hidden;
@@ -92,7 +98,7 @@ namespace GUI.Pages
 
         }
 
-        private void terminarTurno()
+        private void ShowThingsterminarTurno()
         {
             InfoTurnoBorder.Visibility = Visibility.Hidden;
             GridIniciar.Visibility = Visibility.Visible;
@@ -100,45 +106,111 @@ namespace GUI.Pages
             terminarBorder2.Visibility= Visibility.Hidden;
             Expanderegresos.IsExpanded = false;
             ExpanderIngresos.IsExpanded = false;
-        
-                
+            lblCajero.Content = null;
+            lblHorario.Content = null;
+            lblHorario.Content = null;
+            lblSaldoBase.Content = null;
+
+
         }
 
-        private void TakeInfo(ENTITY.Turno turno)
+        private void TakeInfoTurnoInicio()
         {
-            if (turno == null)
+            
+            ENTITY.Turno turnonuevo = new ENTITY.Turno();
+            turnonuevo.Fecha=DateTime.Now;
+            turnonuevo.Cajero = (Empleado)cboCajeros.SelectedItem;
+            if (HorarioDia.IsChecked == true)
             {
-                lblCajero.Content = cboCajeros.SelectedItem.ToString();
+                turnonuevo.Horario = lblIniciarDia.Content.ToString();
+            }else
+               {
+                   turnonuevo.Horario = lblIniciarNoche.Content.ToString();
+                }
+            
+            turnonuevo.SaldoInicial= float.Parse(txtSaldobase.Text);
+            turnonuevo.Estado = "Abierto";
+            ShowSelectedTurno(turnonuevo);
+            servicioTurno.CreateTurno(turnonuevo);
+
+        
+        }
+
+        private void TakeInfoTurnoTerminar()
+        {
+            ENTITY.Turno turnotoclose = servicioTurno.GetOpenTurno();
+            turnotoclose.SaldoPrevisto = float.Parse(lblSaldoPrevisto.Content.ToString());
+            turnotoclose.SaldoReal=float.Parse(txtSaldoReal.Text);
+            turnotoclose.SetDiferencia();
+            turnotoclose.SetEgresos();
+            turnotoclose.SetIngresos();
+            if (txtObservacion.Text != null)
+            {
+                turnotoclose.Observacion = txtObservacion.Text;
+            }
+            turnotoclose.CerrarTurno();
+            servicioTurno.EditTurno(turnotoclose);
+        }
+       
+        private void HideTurnos()
+        {
+            BorderTurnos.Visibility = Visibility.Hidden;
+            GoBackButton.Visibility = Visibility.Visible;
+            DataPickerBorder.Visibility = Visibility.Hidden;
+
+
+        }
+
+        private void ShowTurnos()
+        {
+            BorderTurnos.Visibility = Visibility.Visible;
+            GoBackButton.Visibility = Visibility.Hidden;
+            DataPickerBorder.Visibility = Visibility.Visible;
+            lblPedidos.Visibility = Visibility.Hidden;
+            lblEgresos.Visibility = Visibility.Hidden;
+
+        }
+
+        private void ShowSelectedTurno(ENTITY.Turno turnotoshow)
+        {
+            if (turnotoshow.Estado == "Cerrado")
+            {
+                lblCajero.Content = turnotoshow.Cajero.Nombre.ToString();
+                lblHorario.Content = turnotoshow.Horario.ToString();
+                lblSaldoBase.Content = string.Format("{0:C0}", turnotoshow.SaldoInicial);
+                lblSaldoPrevisto.Content = string.Format("{0:C0}", turnotoshow.SaldoPrevisto);
+                lblDiferencia.Content = string.Format("{0:C0}", turnotoshow.Diferencia);
+                txtSaldoReal.Text = string.Format("{0:C0}", turnotoshow.SaldoReal);
+                Expanderegresos.Header = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
+                ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turnotoshow.Ingreso);
+                txtSaldoReal.IsEnabled = false;
+                txtObservacion.IsEnabled = false;
+                if (turnotoshow.Observacion != null)
+                {
+                    txtObservacion.Text = turnotoshow.Observacion.ToString();
+                }
+            }
+            else
+            {
+                lblCajero.Content = turnotoshow.Cajero.Nombre;
                 if (HorarioDia.IsChecked == true)
                 {
-                    lblHorario.Content = lblIniciarDia.Content.ToString();
+                    lblHorario.Content = turnotoshow.Horario;                  
                 }
                 else
                 {
-                    lblHorario.Content = lblIniciarNoche.Content.ToString();
+                    lblHorario.Content = turnotoshow.Horario;
                 }
-                lblSaldoBase.Content = txtSaldobase.Text.ToString();
-
-            }else
-            {
-                lblCajero.Content = turno.empleado.Nombre.ToString();
-                lblHorario.Content = turno.Horario.ToString();
-                lblSaldoBase.Content = string.Format("{0:C0}", turno.SaldoInicial);
-                lblSaldoPrevisto.Content = string.Format("{0:C0}", turno.SaldoSistema);
-                lblDiferencia.Content = string.Format("{0:C0}", turno.Diferencia);
-                txtSaldoReal.Text = string.Format("{0:C0}", turno.SaldoUsuario);
-                Expanderegresos.Header = "Egreso Total: "+string.Format("{0:C0}",turno.Egresos);
-                ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turno.Ingresos);
-                txtSaldoReal.IsEnabled = false;
-                txtObservacion.IsEnabled = false;
-                if (turno.Observacion != null)
-                {
-                    txtObservacion.Text = turno.Observacion.ToString();
-                }
-                
-
+                lblSaldoBase.Content = turnotoshow.SaldoInicial.ToString();
             }
+
+
         }
+
+
+
+
+        //eventos de los botones de control(ver detalles, movimientos etc)
 
         private void MouseEnterbtnDetails(object sender, MouseEventArgs e)
         {
@@ -169,6 +241,64 @@ namespace GUI.Pages
             Popup.Visibility = Visibility.Collapsed;
             Popup.IsOpen = false;
         }
+
+        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button details = sender as Button;
+            ENTITY.Turno turno = details.DataContext as ENTITY.Turno;
+            HideThingsinicioTurno();
+            ShowSelectedTurno(turno);
+            TurnoButton.Visibility = Visibility.Hidden;
+            btnCloseDetails.Visibility = Visibility.Visible;
+
+        }
+
+        private void CloseDetailsButtonClick(object sender, RoutedEventArgs e)
+        {
+            var turno=servicioTurno.GetOpenTurno();
+            if (turno == null)
+            {
+                ShowThingsterminarTurno();
+            }
+            else
+            {
+                ShowSelectedTurno(turno);
+            }
+
+            TurnoButton.Visibility= Visibility.Visible;
+            btnCloseDetails.Visibility= Visibility.Hidden;
+            txtSaldoReal.IsEnabled = true;
+            txtObservacion.IsEnabled = true;
+        }
+
+        private void ShowPedidoDetails(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowPedidos(object sender, RoutedEventArgs e) 
+        {
+          BorderPedidos.Visibility = Visibility.Visible;
+          lblPedidos.Visibility = Visibility.Visible;
+          HideTurnos();
+
+        }
+       
+        private void ShowEgresos(object sender, RoutedEventArgs e)
+        {
+
+        }
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        //evento selector de fechas
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -202,60 +332,13 @@ namespace GUI.Pages
 
         }
 
-        private void DetailsButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            Button details = sender as Button;
-            ENTITY.Turno turno = details.DataContext as ENTITY.Turno;
-            inicioTurno();
-            TakeInfo(turno);
-            TurnoButton.Visibility = Visibility.Hidden;
-            btnCloseDetails.Visibility = Visibility.Visible;
-
-        }
-
-        private void CloseDetailsButtonClick(object sender, RoutedEventArgs e)
-        {
-            terminarTurno();
-            TurnoButton.Visibility= Visibility.Visible;
-            btnCloseDetails.Visibility= Visibility.Hidden;
-            txtSaldoReal.IsEnabled = true;
-            txtObservacion.IsEnabled = true;
-        }
-
-        private void ShowPedidoDetails(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ShowPedidos(object sender, RoutedEventArgs e) 
-        {
-          BorderPedidos.Visibility = Visibility.Visible;
-          lblPedidos.Visibility = Visibility.Visible;
-          HideTurnos();
 
 
 
-        }
-
-        private void HideTurnos()
-        {
-            BorderTurnos.Visibility = Visibility.Hidden;
-            GoBackButton.Visibility = Visibility.Visible;
-            DataPickerBorder.Visibility = Visibility.Hidden;
 
 
-        }
 
-        private void ShowTurnos()
-        {
-            BorderTurnos.Visibility = Visibility.Visible;
-            GoBackButton.Visibility = Visibility.Hidden;
-            DataPickerBorder.Visibility = Visibility.Visible;
-            lblPedidos.Visibility = Visibility.Hidden;
-            lblEgresos.Visibility = Visibility.Hidden;
-
-        }
+        //boton hacía atras
         private void GoBack(object sender, RoutedEventArgs e)
         {
 
@@ -264,9 +347,6 @@ namespace GUI.Pages
 
         }
 
-        private void ShowEgresos(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }

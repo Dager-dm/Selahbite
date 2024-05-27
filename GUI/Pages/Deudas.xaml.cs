@@ -25,8 +25,8 @@ namespace GUI.Pages
         public Deudas()
         {
             InitializeComponent();
-            serviciodeuda = new ServicioDeuda();
-            miListView.ItemsSource = serviciodeuda.GetAllDeudas();
+            //serviciodeuda = new ServicioDeuda();
+            //miListView.ItemsSource = serviciodeuda.GetAllDeudas();
             miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
         }
 
@@ -36,7 +36,7 @@ namespace GUI.Pages
             AddEmpleado addEmpleadoWindow = new AddEmpleado();
             addEmpleadoWindow.Owner = mainWindow;
             addEmpleadoWindow.ShowDialog();
-            serviciodeuda.AddDeuda(addDeudaWindow.DeudaPropiety);
+            //serviciodeuda.AddDeuda(addDeudaWindow.DeudaPropiety);
             Refreshlistview();
         }
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -52,7 +52,7 @@ namespace GUI.Pages
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
-            miListView.ItemsSource = serviciodeuda.GetAllDeudas();
+            //miListView.ItemsSource = serviciodeuda.GetAllDeudas();
         }
 
         //private void btnEditar_Click(object sender, RoutedEventArgs e)
@@ -125,13 +125,13 @@ namespace GUI.Pages
         {
 
             string filtro = txbBusqueda.Text.ToLower();
-            List<Deudas> deudas = serviciodeuda.GetAllDeudas();
+            //List<Deudas> deudas = serviciodeuda.GetAllDeudas();
 
 
-            List<Deudas> deudasFiltrados = deudas.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
+            //List<Deudas> deudasFiltrados = deudas.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
 
 
-            miListView.ItemsSource = deudasFiltrados;
+            //miListView.ItemsSource = deudasFiltrados;
         }
     }
 }

@@ -80,7 +80,7 @@
            
             <Border Grid.Row="5" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
 
-                <ComboBox Name="cboCargo" Width="145" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" />
+                <ComboBox Name="cboCargo" Width="145" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" BorderThickness="0" DisplayMemberPath="Nombre" />
 
             </Border>
 

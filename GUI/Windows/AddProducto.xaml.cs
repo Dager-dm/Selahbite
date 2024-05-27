@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BLL;
 using ENTITY;
 
 namespace GUI.Pages
@@ -20,25 +21,23 @@ namespace GUI.Pages
     /// </summary>
     public partial class AddProducto : Window
     {
-        private List<string> categories;
+
 
         public Producto ProductoPropiety { get; set; }
-
         public Producto ProductoModified { get; set; }
 
         private int accion = 0;
-        public AddProducto()
+        public AddProducto(List<CategoriasProductos> categories)
         {
             InitializeComponent();
-            categories = new List<string> { "Corriente", "Gourmet", "Asado", "Comida Rapida", "Adicionales", "Bebidas", "Adicionales" };
             cboCategoria.ItemsSource = categories;
             
         }
 
-        public AddProducto(Producto OldProducto)
+        public AddProducto(Producto OldProducto, List<CategoriasProductos> categories)
         {
             InitializeComponent();
-            categories = new List<string> { "Corriente", "Gourmet", "Asado", "Comida Rapida", "Adicionales", "Bebidas", "Adicionales" }; 
+
             cboCategoria.ItemsSource = categories;
             lblTitulo.Content = "Editar Plato/Bebida";
             txtboxNombre.Text = OldProducto.Nombre;
@@ -68,14 +67,16 @@ namespace GUI.Pages
                 ProductoPropiety.Nombre=txtboxNombre.Text.ToString();
                 ProductoPropiety.Id=txtboxId.Text.ToString();
                 ProductoPropiety.Valor = float.Parse(txtboxValor.Text);
-                ProductoPropiety.Categoria=cboCategoria.SelectedItem.ToString();
+                ProductoPropiety.Categoria=(CategoriasProductos)cboCategoria.SelectedItem;
 
-            }else
+
+            }
+            else
             {
                 ProductoModified.Nombre=txtboxNombre.Text.ToString();
                 ProductoModified.Id=txtboxId.Text.ToString();
                 ProductoModified.Valor=float.Parse(txtboxValor.Text);
-                ProductoModified.Categoria=cboCategoria.SelectedItem.ToString();
+                ProductoModified.Categoria=(CategoriasProductos)cboCategoria.SelectedItem;
 
             }
 

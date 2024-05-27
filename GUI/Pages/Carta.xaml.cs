@@ -34,7 +34,7 @@ namespace GUI.Pages
         private void NewProduct(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddProducto addProductoWindow = new AddProducto();
+            AddProducto addProductoWindow = new AddProducto(servicioProducto.GetCategoriasProductos());
             addProductoWindow.Owner = mainWindow;
             addProductoWindow.ShowDialog();
             servicioProducto.AddProductos(addProductoWindow.ProductoPropiety);
@@ -67,12 +67,12 @@ namespace GUI.Pages
                 if (listViewItem != null)
                 {
 
-                    ENTITY.Producto item = listViewItem.DataContext as ENTITY.Producto;
+                    Producto item = listViewItem.DataContext as ENTITY.Producto;
                     if (item != null)
                     {
 
                         MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-                        AddProducto addProductoWindow = new AddProducto(item);
+                        AddProducto addProductoWindow = new AddProducto(item, servicioProducto.GetCategoriasProductos());
                         addProductoWindow.Owner = mainWindow;
                         addProductoWindow.ShowDialog();
                         servicioProducto.EditProducto(addProductoWindow.ProductoPropiety, addProductoWindow.ProductoModified);
@@ -128,10 +128,10 @@ namespace GUI.Pages
         {
 
             string filtro = txbBusqueda.Text.ToLower();
-            List<ENTITY.Producto> Productos = servicioProducto.GetAllProducts();
+            List<Producto> Productos = servicioProducto.GetAllProducts();
 
 
-            List<ENTITY.Producto> ProductosFiltrados = Productos.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
+            List<Producto> ProductosFiltrados = Productos.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
 
 
             miListView.ItemsSource = ProductosFiltrados;

@@ -80,7 +80,7 @@
 
 
                     <Border x:Name="DataPickerBorder" Grid.Row="0" BorderBrush="{DynamicResource PrimaryTextColor}" CornerRadius="5" BorderThickness="1" Width="180" Height="35" Background="{DynamicResource TertiaryBackgroundColor}" Margin="0 5 0 0" >
-                        <DatePicker Name="Datepicker" Style="{StaticResource DatePicker}" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" SelectedDateChanged="DatePicker_SelectedDateChanged" />
+                        <DatePicker Name="Datepicker" Style="{StaticResource DatePicker}" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" SelectedDateChanged="DatePicker_SelectedDateChanged"  />
                     </Border>
                     
                     
@@ -267,7 +267,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="  Cajero      " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <ComboBox HorizontalAlignment="Center" Name="cboCajeros"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0"/>
+                                    <ComboBox HorizontalAlignment="Center" Name="cboCajeros"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" DisplayMemberPath="Nombre"/>
                             </Border>
 
                         </StackPanel>
@@ -417,7 +417,7 @@
                         
 
                        
-                        <Label Content="Diferencia" Grid.Row="2" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center"/>
+                        <Label Content="Diferencia" Grid.Row="2" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" />
                         <Label Name="lblDiferencia" Content="*********" Width="150" FontSize="15" Grid.Row="2" Grid.Column="1" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 
 
@@ -425,7 +425,7 @@
                        
                         <Label Content="Observaciones" Grid.Row="3" Grid.Column="0"  FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Top" Height="30"/>
                         <Border  Grid.Row="3" Grid.Column="1"  Width="150" Height="85" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                            <TextBox x:Name="txtObservacion" BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top"/>
+                                    <TextBox x:Name="txtObservacion" BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap"/>
                         </Border>
                         
 

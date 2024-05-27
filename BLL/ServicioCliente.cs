@@ -5,19 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENTITY;
+using DAL;
 
 namespace BLL
 {
     public class ServicioCliente
     {
         public static List<Cliente> lstClientes;
-   
+        ClientesRepository clientesRepository;
 
         public ServicioCliente()
         {
             lstClientes = new List<Cliente>();
+            clientesRepository = new ClientesRepository();
 
-            clienteprueba();
 
         }
 
@@ -28,12 +29,13 @@ namespace BLL
         {
 
             lstClientes.Add(newcliente);
+            clientesRepository.insert(newcliente);
   
         }
 
         public List<Cliente> GetAllClientes() {
         
-        return lstClientes;
+           return clientesRepository.GetClientes();
         
         }
 
@@ -50,11 +52,6 @@ namespace BLL
             lstClientes.Remove(clienteToDeelete);
         }
 
-
-
-
-
-
         public List<string> GetStringClientes()
         {
             List<string> StringList = new List<string>();
@@ -66,21 +63,7 @@ namespace BLL
             return StringList;
         }
 
-        private void clienteprueba()
-        {
-            Cliente cliente = new Cliente("Jose", "11", "301", 0);
-            lstClientes.Add(cliente);
-            Cliente cliente1 = new Cliente("Juanito", "11", "301", 0);
-            lstClientes.Add(cliente1);
-            Cliente cliente2 = new Cliente("Mario", "11", "301", 0);
-            lstClientes.Add(cliente2);
-            Cliente cliente3 = new Cliente("Carlos", "11", "301", 0);
-            lstClientes.Add(cliente3);
-            Cliente cliente4 = new Cliente("Mariano", "11", "301", 0);
-            lstClientes.Add(cliente4);
 
-
-        }
 
     }
 }

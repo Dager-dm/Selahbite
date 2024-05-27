@@ -27,6 +27,7 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
+            MaximizeWindow();
         }
        
         //metodo del boton de temas
@@ -120,7 +121,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            //frameContent.Navigate(new Messages());
+            frameContent.Navigate(new Deudas());
         }
 
         private void rdCarta_Click(object sender, RoutedEventArgs e)

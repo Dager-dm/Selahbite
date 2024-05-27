@@ -21,7 +21,7 @@ namespace GUI.Pages
     /// </summary>
     public partial class AddEmpleado : Window
     {
-        private List<string> cargos;
+       
         public Empleado EmpleadoPropiety {  get; set; }
         public Empleado EmpleadoModified { get; set; }
 
@@ -31,17 +31,15 @@ namespace GUI.Pages
 
         //ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
         //public event Action EmpleadoGuardado;
-        public AddEmpleado()
+        public AddEmpleado(List<CargosEmpleados> cargos)
         {
             InitializeComponent();
-            cargos = new List<string> { "Mesero", "Cajero", "Cocinero", "Bodeguero", "Oficios Varios"};
-            cboCargo.ItemsSource = cargos;
+            cboCargo.ItemsSource =cargos;
         }
 
-        public AddEmpleado(Empleado OldEmpleado)
+        public AddEmpleado(Empleado OldEmpleado, List<CargosEmpleados> cargos)
         {
             InitializeComponent();
-            cargos = new List<string> { "Mesero", "Cajero", "Cocinero", "Bodeguero", "Oficios Varios" };
             cboCargo.ItemsSource= cargos;
             lblTitulo.Content = "Editar Empleado";
             txtboxNombre.Text = OldEmpleado.Nombre;
@@ -73,9 +71,7 @@ namespace GUI.Pages
                 EmpleadoPropiety.Nombre = txtboxNombre.Text.ToString();
                 EmpleadoPropiety.Telefono = txtboxTelefono.Text.ToString();
                 EmpleadoPropiety.Id = txtboxId.Text.ToString();
-                EmpleadoPropiety.Cargo= cboCargo.SelectedItem.ToString();
-                EmpleadoPropiety.Saldo = 0;
-
+                EmpleadoPropiety.Cargo= (CargosEmpleados)cboCargo.SelectedItem;
 
             }
             else
@@ -84,7 +80,7 @@ namespace GUI.Pages
                 EmpleadoModified.Nombre= txtboxNombre.Text.ToString();
                 EmpleadoModified.Id= txtboxId.Text.ToString();
                 EmpleadoModified.Telefono= txtboxTelefono.Text.ToString();
-                EmpleadoModified.Cargo= cboCargo.SelectedItem.ToString();
+                EmpleadoModified.Cargo= (CargosEmpleados)cboCargo.SelectedItem;
 
             }
             

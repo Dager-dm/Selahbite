@@ -8,19 +8,20 @@ namespace ENTITY
 {
     public class Pedido : Movimiento
     {
-        public Pedido(DateTime fecha, Empleado cajero, string horario, float valor, string id, int numeroFactura, string formaPago)
-               :base ( fecha, cajero, horario, valor)
+        public Pedido(long numeroFactura, List<DetallePedido> detalles, string formaPago, Empleado mesero, Cliente cliente, DateTime Fecha, long ValorTotal): base (Fecha, ValorTotal)
         {
-            Id = id;
             NumeroFactura = numeroFactura;
+            Detalles = detalles;
             FormaPago = formaPago;
-            Platos = new List<Producto>();
-
+            Mesero = mesero;
+            Cliente = cliente;
         }
 
-        public string Id { get; set; }
-        public int NumeroFactura { get; set;}
-        public List<Producto> Platos { get; set;}
+ 
+        public long NumeroFactura { get; set;}
+        public List<DetallePedido> Detalles { get; set;}
         public string FormaPago { get; set; }
+        public Empleado Mesero { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }

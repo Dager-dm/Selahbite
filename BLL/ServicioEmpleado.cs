@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENTITY;
+using DAL;
 
 namespace BLL
 {
@@ -12,10 +13,12 @@ namespace BLL
     {
         private static List<Empleado> lstEmpleados;
 
+        EmpleadosRepository empleadosRepository = new EmpleadosRepository();
+
         public ServicioEmpleado()
         {
             lstEmpleados = new List<Empleado>();
-            empleadopr();
+
 
         }
     
@@ -35,7 +38,15 @@ namespace BLL
 
         }
 
+        public List<Empleado> GetCajeros() 
+        {
+            List<Empleado> lstCajeros;
 
+
+
+
+            return lstEmpleados; 
+        }
 
         public void EditEmpleado(Empleado empleadoOld, Empleado empleadoModified)
         {
@@ -51,56 +62,24 @@ namespace BLL
             lstEmpleados.Remove(empleadoToDelete);
         }
 
-
-
-
-
-        public List<string> GetStringMeseros()
+        public List<Empleado> GetMeseros()
         {
-            List<string> StringList = new List<string>();
-            foreach (var item in lstEmpleados)
-            {
-                if (item.Cargo == "Mesero")
-                {
-                    StringList.Add(item.Nombre);
-                }
 
-            }
-
-            return StringList;
-        }
-
-
-        public List<string> GetStringCajeros()
-        {
-            List<string> StringList = new List<string>();
-            foreach (var item in lstEmpleados)
-            {
-                if (item.Cargo == "Cajero")
-                {
-                    StringList.Add(item.Nombre);
-                }
-
-            }
-
-            return StringList;
+            return lstEmpleados;
         }
 
 
 
-        private void empleadopr()
+        public List<CargosEmpleados> GetCargos()
         {
-            Empleado empleado = new Empleado("Juan", "11", "301", "Mesero", 0);
-            Empleado empleado1 = new Empleado("Camilo", "12", "301", "Mesero", 0);
-            Empleado empleado2 = new Empleado("Andres", "13", "301", "Mesero", 0);
-            Empleado empleado3 = new Empleado("Maria", "14", "301", "Mesero", 0);
-            Empleado empleado4 = new Empleado("Carolina", "15", "301", "Cajero", 0);
-            Empleado empleado5 = new Empleado("Sofia", "16", "301", "Cajero", 0);
-            Empleado empleado6 = new Empleado("Andrea", "17", "301", "Cajero", 0);
-            Empleado empleado7 = new Empleado("Camila", "18", "301", "Cajero", 0);
-            lstEmpleados.Add(empleado); lstEmpleados.Add(empleado1); lstEmpleados.Add(empleado2); lstEmpleados.Add(empleado3);
-            lstEmpleados.Add(empleado4); lstEmpleados.Add(empleado5); lstEmpleados.Add(empleado6); lstEmpleados.Add(empleado7);
-
+            return empleadosRepository.GetCargos();
         }
+
+
+
+
+
+
+
     }
 }

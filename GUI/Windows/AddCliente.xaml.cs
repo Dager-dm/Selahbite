@@ -43,7 +43,7 @@ namespace GUI.Pages
             InitializeComponent();
             lblTitulo.Content = "Editar Cliente";
             txtboxNombre.Text = oldCliente.Nombre;
-            txtboxId.Text = oldCliente.Id;
+            txtboxId.Text = oldCliente.Cedula;
             txtboxTelefono.Text = oldCliente.Telefono;
             accion = 1;
             clienteModified = new Cliente();
@@ -69,7 +69,7 @@ namespace GUI.Pages
             if (accion==0) {
                 clientepr = new Cliente();
                 clientepr.Nombre = txtboxNombre.Text.ToString();
-                clientepr.Id = txtboxId.Text.ToString();
+                clientepr.Cedula = txtboxId.Text.ToString();
                 clientepr.Telefono = txtboxTelefono.Text.ToString();
                 clientepr.Saldo = 0;
 
@@ -77,7 +77,7 @@ namespace GUI.Pages
             else
             {
                 clienteModified.Nombre = txtboxNombre.Text.ToString();
-                clienteModified.Id = txtboxId.Text.ToString();
+                clienteModified.Cedula = txtboxId.Text.ToString();
                 clienteModified.Telefono = txtboxTelefono.Text.ToString();
                 
             }
