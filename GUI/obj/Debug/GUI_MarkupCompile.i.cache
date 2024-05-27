@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Work\Source\Repos\Selahbite\GUI\obj\Debug\
+D:\Proyecto\Selahbite\GUI\obj\Debug\
 GUI
 none
 false
 DEBUG;TRACE
-C:\Users\Work\Source\Repos\Selahbite\GUI\App.xaml
+D:\Proyecto\Selahbite\GUI\App.xaml
 21-785001610
 
 20-608197307
-161455086202
+16-2059876030
 Assets\Icons\Icons.xaml;MainWindow.xaml;Pages\AddCliente.xaml;Pages\AddEmpleado.xaml;Pages\AddProducto.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Pages\MiMessageBox.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\ComboBox.xaml;Styles\ListviewStyle.xaml;Styles\RadioButtonStyle.xaml;Styles\UserPopup.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
 
 True

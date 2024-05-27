@@ -25,18 +25,18 @@ namespace GUI.Pages
         public Egresos()
         {
             InitializeComponent();
-            servicioegresos = new ServicioEgresos();
-            miListView.ItemsSource = servicioegresos.GetAllEgresos();
+            //servicioegresos = new ServicioEgresos();
+            //miListView.ItemsSource = servicioegresos.GetAllEgresos();
             miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
         }
 
         private void NewEmployee(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddEgreso addEmpleadoWindow = new AddEgreso();
-            addEgresoWindow.Owner = mainWindow;
-            addEgresoWindow.ShowDialog();
-            servicioegreso.AddEgreso(addEgresoWindow.EgresoPropiety);
+            //AddEgreso addEmpleadoWindow = new AddEgreso();
+            //addEgresoWindow.Owner = mainWindow;
+            //addEgresoWindow.ShowDialog();
+            //servicioegreso.AddEgreso(addEgresoWindow.EgresoPropiety);
             Refreshlistview();
         }
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -52,7 +52,7 @@ namespace GUI.Pages
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
-            miListView.ItemsSource = servicioegreso.GetAllEgreso();
+            //miListView.ItemsSource = servicioegreso.GetAllEgreso();
         }
 
         //private void btnEditar_Click(object sender, RoutedEventArgs e)
@@ -124,14 +124,14 @@ namespace GUI.Pages
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-            string filtro = txbBusqueda.Text.ToLower();
-            List<Egreso> egresos = servicioegreso.GetAllEgreso();
+            //string filtro = txbBusqueda.Text.ToLower();
+            //List<Egreso> egresos = servicioegreso.GetAllEgreso();
 
 
-            List<Egreso> egresosFiltrados = egresos.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
+            //List<Egreso> egresosFiltrados = egresos.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
 
 
-            miListView.ItemsSource = egresosFiltrados;
+            //miListView.ItemsSource = egresosFiltrados;
         }
     }
 }
