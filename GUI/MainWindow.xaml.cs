@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using GUI.Themes;
 using GUI.Pages;
 using System.Windows.Media.Animation;
+using ENTITY;
 
 
 namespace GUI
@@ -22,8 +23,14 @@ namespace GUI
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
+    /// 
+
+
     public partial class MainWindow : Window
     {
+
+        public static ENTITY.Turno turnoAbiertoGLobal;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,9 +45,6 @@ namespace GUI
                 ThemesController.SetTheme(ThemesController.ThemeTypes.Dark);
             else
                 ThemesController.SetTheme(ThemesController.ThemeTypes.Light);
-  
-
-
 
         }
 
@@ -86,22 +90,22 @@ namespace GUI
             bordeInferior.CornerRadius = new CornerRadius(10);
         }
 
-
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
 
-
-
-
-
-
-
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
+
+
+
+
+
+
+        //Botones de navegacion
 
         private void rdFacturar_Click(object sender, RoutedEventArgs e)
         {
@@ -159,7 +163,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            frameContent.Navigate(new Turno());
+            frameContent.Navigate(new Pages.Turno());
 
         }
 
@@ -189,5 +193,10 @@ namespace GUI
             sb.Begin();
 
         }
+
+
+
+
+
     }
 }

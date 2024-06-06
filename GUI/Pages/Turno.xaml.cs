@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using ENTITY;
+using System.Globalization;
 
 namespace GUI.Pages
 {
@@ -26,31 +27,42 @@ namespace GUI.Pages
     public partial class Turno : Page
     {
        
-
+        ServicioCaja servicioCaja = new ServicioCaja();
         ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
         ServicioTurno servicioTurno = new ServicioTurno();
-        public ListCollectionView View { get; set; }
+        ServicioPedido servicopedido = new ServicioPedido();
+        private ListCollectionView View { get; set; }
 
         public Turno()
         {
             InitializeComponent();
-            List<string> lstingresos = new List<string> { "200.000", "150.000", "80.000", "70.000", "60.000", "500.000" };
-            List<string> lstegresos = new List<string> { "200.000", "150.000"};
             cboCajeros.ItemsSource=servicioEmpleado.GetCajeros();
-            lsbxegresos.ItemsSource = lstegresos;
-            lsbxIngresos.ItemsSource = lstingresos;
-            //lstturnos.ItemsSource = servicioTurno.GetTurnos();
-             View = new ListCollectionView(servicioTurno.GetTurnos());
-             lstturnos.ItemsSource = View;
-           
+            IsTurnoOpen();
+            View = new ListCollectionView(servicioTurno.GetTurnos());
+            lstturnos.ItemsSource = View;
+
+
 
         }
 
-        
-        
-        
-        
-        
+        private void IsTurnoOpen()
+        {
+            if (servicioTurno.GetOpenTurno()!=null)
+            {
+                MessageBox.Show("hay un turno abierto compae");
+                PathGeometry iconofinish = (PathGeometry)Application.Current.Resources["finish"];
+                HideThingsinicioTurno();
+                ShowSelectedTurno(servicioTurno.GetOpenTurno());
+                TurnoButton.Content = "Terminar Turno";
+                TurnoButton.Tag = iconofinish;
+            }
+        }
+
+
+
+
+
+
         //evento para mostrar los cajeros
         private void cb_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -84,7 +96,8 @@ namespace GUI.Pages
                 TakeInfoTurnoTerminar();
                 ShowThingsterminarTurno();
                 TurnoButton.Content = "Iniciar Turno";
-                TurnoButton.Tag = iconostart;  
+                TurnoButton.Tag = iconostart;
+                RefreshListTurnos();
             }
         }
 
@@ -120,18 +133,21 @@ namespace GUI.Pages
             ENTITY.Turno turnonuevo = new ENTITY.Turno();
             turnonuevo.Fecha=DateTime.Now;
             turnonuevo.Cajero = (Empleado)cboCajeros.SelectedItem;
+            turnonuevo.Ingreso = 0; turnonuevo.Egreso=0; turnonuevo.Diferencia=0;
             if (HorarioDia.IsChecked == true)
             {
-                turnonuevo.Horario = lblIniciarDia.Content.ToString();
+                turnonuevo.Horario = "Dia";
             }else
-               {
-                   turnonuevo.Horario = lblIniciarNoche.Content.ToString();
-                }
+            {
+                turnonuevo.Horario = "Noche";
+            }
             
             turnonuevo.SaldoInicial= float.Parse(txtSaldobase.Text);
-            turnonuevo.Estado = "Abierto";
+            servicioCaja.AsignarSaldoBase(turnonuevo.SaldoInicial);
+            turnonuevo.Estado = "A";
             ShowSelectedTurno(turnonuevo);
             servicioTurno.CreateTurno(turnonuevo);
+            
 
         
         }
@@ -139,17 +155,15 @@ namespace GUI.Pages
         private void TakeInfoTurnoTerminar()
         {
             ENTITY.Turno turnotoclose = servicioTurno.GetOpenTurno();
-            turnotoclose.SaldoPrevisto = float.Parse(lblSaldoPrevisto.Content.ToString());
+            turnotoclose.SaldoPrevisto = servicioCaja.GetSaldoSistema();
             turnotoclose.SaldoReal=float.Parse(txtSaldoReal.Text);
             turnotoclose.SetDiferencia();
             turnotoclose.SetEgresos();
             turnotoclose.SetIngresos();
-            if (txtObservacion.Text != null)
-            {
-                turnotoclose.Observacion = txtObservacion.Text;
-            }
+            turnotoclose.Observacion = txtObservacion.Text.ToString();
             turnotoclose.CerrarTurno();
-            servicioTurno.EditTurno(turnotoclose);
+            var ms=servicioTurno.EditTurno(turnotoclose);
+            MessageBox.Show(ms);
         }
        
         private void HideTurnos()
@@ -173,7 +187,7 @@ namespace GUI.Pages
 
         private void ShowSelectedTurno(ENTITY.Turno turnotoshow)
         {
-            if (turnotoshow.Estado == "Cerrado")
+            if (turnotoshow.Estado == "C")
             {
                 lblCajero.Content = turnotoshow.Cajero.Nombre.ToString();
                 lblHorario.Content = turnotoshow.Horario.ToString();
@@ -193,15 +207,14 @@ namespace GUI.Pages
             else
             {
                 lblCajero.Content = turnotoshow.Cajero.Nombre;
-                if (HorarioDia.IsChecked == true)
-                {
-                    lblHorario.Content = turnotoshow.Horario;                  
-                }
-                else
-                {
-                    lblHorario.Content = turnotoshow.Horario;
-                }
-                lblSaldoBase.Content = turnotoshow.SaldoInicial.ToString();
+                lblHorario.Content = turnotoshow.Horario;                  
+                lblSaldoBase.Content = string.Format("{0:C0}", turnotoshow.SaldoInicial);
+                Expanderegresos.Header = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
+                ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turnotoshow.Ingreso);
+                lblDiferencia.Content = string.Format("{0:C0}", turnotoshow.Diferencia);
+                lblSaldoPrevisto.Content = string.Format("{0:C0}", servicioCaja.GetSaldoSistema());
+
+
             }
 
 
@@ -282,7 +295,9 @@ namespace GUI.Pages
           BorderPedidos.Visibility = Visibility.Visible;
           lblPedidos.Visibility = Visibility.Visible;
           HideTurnos();
-
+          var source = sender as FrameworkElement;
+          var turno = source.DataContext as ENTITY.Turno;
+          PedidosListView.ItemsSource= servicopedido.GetPedidos(turno);
         }
        
         private void ShowEgresos(object sender, RoutedEventArgs e)
@@ -348,5 +363,30 @@ namespace GUI.Pages
         }
 
 
+
+        private void txtSaldoReal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtSaldoReal.Text!="")
+            {
+
+                var diferencia = float.Parse(txtSaldoReal.Text.ToString())- servicioCaja.GetSaldoSistema();
+                lblDiferencia.Content = string.Format("{0:C0}",diferencia);
+            }
+        }
+
+
+
+
+        private void RefreshListTurnos()
+        {
+            lstturnos.ItemsSource = null;
+            View = new ListCollectionView(servicioTurno.GetTurnos());
+            lstturnos.ItemsSource = View;
+        }
+
+      
+       
+
+      
     }
 }

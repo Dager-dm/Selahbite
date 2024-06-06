@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="37"/>
 
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="NeewEmployee" Content="Agregar Deuda" Grid.Column="1" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewEmployee" />
+                
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
@@ -76,10 +76,10 @@
 
             </Grid>
 
-            <Label Grid.Row="0" Content="Deudas" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="0" Content="Creditos" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
             <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="32,0,32,31" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ItemsSource="{Binding lstEmpleados}" Foreground="{DynamicResource PrimaryTextColor}">
+                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ItemsSource="{Binding lstEmpleados}" Foreground="{DynamicResource PrimaryTextColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Height" Value="40"/>
@@ -98,16 +98,17 @@
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
                             <GridViewColumn Header="Fecha" DisplayMemberBinding="{Binding Fecha}" Width="Auto"/>
-                            <GridViewColumn Header="Cajero" DisplayMemberBinding="{Binding Cajero}" Width="Auto"/>
-                            <GridViewColumn Header="Horario" DisplayMemberBinding="{Binding Horaio}" Width="Auto"/>
+                            <GridViewColumn Header="Cajero" DisplayMemberBinding="{Binding Turno.Cajero.Nombre}" Width="Auto"/>
+                            <GridViewColumn Header="Horario" DisplayMemberBinding="{Binding Turno.Horario}" Width="Auto"/>
+                            <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nombre}" Width="Auto"/>
                             <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor}" Width="Auto"/>
                             <GridViewColumn Header="Estado" DisplayMemberBinding="{Binding Estado}" Width="Auto"/>
                             <GridViewColumn Width="10">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <!--<Button Content="btnEditar" Click="btnEditar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
-                                            <Button Content="btnBorrar" Click="btnBorrar_Click" Style="{DynamicResource DeleteButtonStyle}" Tag="{DynamicResource Delete}"/>-->
+                                            <Button x:Name="btnAbonar" Click="btnAbonar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
+                                            
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

@@ -7,8 +7,11 @@
         WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="{DynamicResource Boxborder}"
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins"
-        Title="AddCliente" Height="auto" Width="450">
+        Title="AddCliente" Height="650" Width="450">
 
+ 
+    
+    
     <Border CornerRadius="10" Background="{DynamicResource PrimaryBackgroundColor}"  BorderBrush="{DynamicResource Boxborder}" BorderThickness="1">
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
@@ -18,23 +21,99 @@
             </Grid.RowDefinitions>
 
             <Border CornerRadius="10" Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource SecundaryBackgroundColor}" MouseLeftButtonDown="Border_MouseLeftButtonDown" BorderBrush="{DynamicResource Boxborder}">
-                <Button x:Name="btnClose" Style="{StaticResource IconStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" HorizontalAlignment="Right"/>
+                <Button x:Name="btnClose" Style="{StaticResource IconStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" HorizontalAlignment="Right" Margin="0 -4 0 0"/>
             </Border>
-
+           
             <Border x:Name="InfoBorder" Grid.Row="1" CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}" Margin="0 10 0 0" Height="auto">
               <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="35"/>
+                        <RowDefinition  Height="330"/>
+                        <RowDefinition  Height="50"/>
+                        <RowDefinition  Height="50"/>
+                        <RowDefinition  Height="50"/>
+                        <RowDefinition  Height="50"/>
+                        <RowDefinition  Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Pedido" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Border Name="ListviewBorder" CornerRadius="10" Grid.Row="1" Background="{DynamicResource Boxbackground}" Height="300" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" VerticalAlignment="Top" >
+                      <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                        <ListView Grid.Row="0" Name="listviewProductos" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
+                            <ListView.ItemContainerStyle >
+                                <Style TargetType="ListViewItem">
 
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="Focusable" Value="False"/>
 
-                    <WebBrowser></WebBrowser>
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="GridViewColumnHeader">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+
+                                    <GridViewColumn Width="350" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Producto.Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" Width="200" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap" />
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
+                                                        <TextBlock Text="{Binding Producto.Valor, StringFormat=' {0:C0}'}" FontSize="13" Foreground="{DynamicResource SecundaryTextColor}" VerticalAlignment="Center"/>
+                                                        <Label Name="txtCantidad" Height="25" VerticalAlignment="Center" FontSize="13" Background="Transparent" Margin="0 0 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent">
+                                                            <TextBlock>
+                                                         <Run Text=" X " />
+                                                         <Run Text="{Binding Cantidad}" />
+                                                         <Run Text=" Unidades " />
+                                                            </TextBlock>
+                                                        </Label>
+                                                        <TextBlock x:Name="valortotal" Width="60" Text="{Binding ValorProductoVendido, StringFormat=' {0:C0}'}"  FontSize="13" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                            <Border Grid.Row="1" Height="50" Background="#FD7E75" VerticalAlignment="Bottom" CornerRadius="8">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Label Grid.Row="2" Content="Total" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0"/>
+                                    <Label Name="lblTotalPedido" Grid.Row="2" Content="Total" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="225 0 0 0"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <Label Grid.Row="2" Content="Metodo de Pago" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0"/>
+                    <Border Grid.Row="2" HorizontalAlignment="Right"  Width="170" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" Margin="0 0 25 0" >
+                        <ComboBox HorizontalAlignment="Center" Name="cboMetodos"  Width="168" Height="27" Foreground="{DynamicResource PrimaryTextColor}"  BorderThickness="0" DisplayMemberPath="Nombre" SelectionChanged="cboMetodos_SelectionChanged" />
+                    </Border>
+
+                    <Label Name="lblEectivo1" Grid.Row="3" Content="Efectivo" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0" Visibility="Hidden"/>
+                    <Border x:Name="brdEfectivo1" Grid.Row="3" HorizontalAlignment="Right"  Width="170" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" Margin="0 0 25 0" Visibility="Hidden" >
+                        <TextBox Name="txt" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtEfectivo_TextChanged" />
+                    </Border>
+
+                    <Label Name="lblCambio1" Grid.Row="4" Content="Cambio" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0" Visibility="Hidden"/>
+                    <Label Name="lblCambio2" Grid.Row="4"  FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 25 0" Visibility="Hidden"/>
+                    <CheckBox x:Name="Checkprint" Content="Imprimir Factura" Grid.Row="5" HorizontalAlignment="Left" Height="21"  VerticalAlignment="Center" Width="160" Cursor="Hand" Margin="20 0 0 0" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" />
+                    <RadioButton Grid.Row="6" x:Name="btnConfirmarpago" Content="Confirmar Pago" Style="{DynamicResource AddButton}" Tag="{DynamicResource pay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" Click="btnConfirmarpago_Click" />
+               
               </Grid>
             </Border>
         </Grid>

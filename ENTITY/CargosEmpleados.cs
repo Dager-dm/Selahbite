@@ -12,7 +12,7 @@ namespace ENTITY
         {
             
         }
-        public CargosEmpleados(string nombre, char id)
+        public CargosEmpleados(string nombre, string id)
         {
             Nombre = nombre;
             Id = id;
@@ -20,6 +20,6 @@ namespace ENTITY
 
         public string Nombre { get; set; }
 
-        public char Id { get; set; }
+        public string Id { get; set; }
     }
 }

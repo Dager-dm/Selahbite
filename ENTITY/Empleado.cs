@@ -10,7 +10,7 @@ namespace ENTITY
     public class Empleado : Persona
     {
         public Empleado() { }
-        public Empleado(string Cedula, string nombre, string id, string telefono, CargosEmpleados cargo) :base(Cedula, nombre,id,telefono)
+        public Empleado(string Cedula, string nombre, long id, string telefono, CargosEmpleados cargo) :base(Cedula, nombre ,id ,telefono)
         {
             Cargo = cargo;
         }

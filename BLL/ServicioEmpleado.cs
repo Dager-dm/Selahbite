@@ -11,15 +11,13 @@ namespace BLL
 
     public class ServicioEmpleado
     {
-        private static List<Empleado> lstEmpleados;
+       
 
         EmpleadosRepository empleadosRepository = new EmpleadosRepository();
 
         public ServicioEmpleado()
         {
-            lstEmpleados = new List<Empleado>();
-
-
+            
         }
     
 
@@ -27,48 +25,42 @@ namespace BLL
         //Crud
         public void AddEmpleado(Empleado newempleado)
         {
-            lstEmpleados.Add(newempleado);
+            empleadosRepository.insert(newempleado);
             
         }
 
         public List<Empleado> GetAllEmpleados()
         {
 
-            return lstEmpleados;
+            return empleadosRepository.GetEmpleados();
 
-        }
-
-        public List<Empleado> GetCajeros() 
-        {
-            List<Empleado> lstCajeros;
-
-
-
-
-            return lstEmpleados; 
         }
 
         public void EditEmpleado(Empleado empleadoOld, Empleado empleadoModified)
         {
             empleadoOld.Nombre = empleadoModified.Nombre;
             empleadoOld.Telefono = empleadoModified.Telefono;
-            empleadoOld.Id = empleadoModified.Id;
+            empleadoOld.Cedula = empleadoModified.Cedula;
             empleadoOld.Cargo = empleadoModified.Cargo;
+            empleadosRepository.Edit(empleadoOld);
         }
 
         public void DeleteEmpleado(Empleado empleadoToDelete)
         {
 
-            lstEmpleados.Remove(empleadoToDelete);
+            
         }
 
         public List<Empleado> GetMeseros()
         {
 
-            return lstEmpleados;
+            return empleadosRepository.GetMeseros();
         }
 
-
+        public List<Empleado> GetCajeros() 
+        {
+            return empleadosRepository.GetCajeros(); 
+        }
 
         public List<CargosEmpleados> GetCargos()
         {

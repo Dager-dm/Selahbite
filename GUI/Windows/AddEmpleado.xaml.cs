@@ -21,7 +21,7 @@ namespace GUI.Pages
     /// </summary>
     public partial class AddEmpleado : Window
     {
-       
+        public bool guardarPresionado = false;
         public Empleado EmpleadoPropiety {  get; set; }
         public Empleado EmpleadoModified { get; set; }
 
@@ -43,7 +43,7 @@ namespace GUI.Pages
             cboCargo.ItemsSource= cargos;
             lblTitulo.Content = "Editar Empleado";
             txtboxNombre.Text = OldEmpleado.Nombre;
-            txtboxId.Text = OldEmpleado.Id;
+            txtboxId.Text = OldEmpleado.Cedula;
             txtboxTelefono.Text = OldEmpleado.Telefono;
             cboCargo.SelectedItem = OldEmpleado.Cargo;
             accion = 1;
@@ -65,12 +65,13 @@ namespace GUI.Pages
 
         private void AddEmpleadoButton_Click_1(object sender, RoutedEventArgs e)
         {
+            guardarPresionado = true;
             if (accion == 0)
             {
                 EmpleadoPropiety=new Empleado();
                 EmpleadoPropiety.Nombre = txtboxNombre.Text.ToString();
                 EmpleadoPropiety.Telefono = txtboxTelefono.Text.ToString();
-                EmpleadoPropiety.Id = txtboxId.Text.ToString();
+                EmpleadoPropiety.Cedula = txtboxId.Text.ToString();
                 EmpleadoPropiety.Cargo= (CargosEmpleados)cboCargo.SelectedItem;
 
             }
@@ -78,13 +79,12 @@ namespace GUI.Pages
             {
 
                 EmpleadoModified.Nombre= txtboxNombre.Text.ToString();
-                EmpleadoModified.Id= txtboxId.Text.ToString();
+                EmpleadoModified.Cedula= txtboxId.Text.ToString();
                 EmpleadoModified.Telefono= txtboxTelefono.Text.ToString();
                 EmpleadoModified.Cargo= (CargosEmpleados)cboCargo.SelectedItem;
 
             }
-            
-            //EmpleadoGuardado?.Invoke();
+
             Close();
         }
     }

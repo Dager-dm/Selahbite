@@ -22,7 +22,7 @@ namespace GUI.Pages
     public partial class AddProducto : Window
     {
 
-
+        public bool guardarPresionado = false;
         public Producto ProductoPropiety { get; set; }
         public Producto ProductoModified { get; set; }
 
@@ -41,9 +41,8 @@ namespace GUI.Pages
             cboCategoria.ItemsSource = categories;
             lblTitulo.Content = "Editar Plato/Bebida";
             txtboxNombre.Text = OldProducto.Nombre;
-            txtboxId.Text = OldProducto.Id;
             txtboxValor.Text = OldProducto.Valor.ToString();
-            cboCategoria.SelectedItem = OldProducto.Categoria;
+            cboCategoria.SelectedItem = OldProducto.Categoria.Nombre;
             accion = 1;
             ProductoModified = new Producto();
             ProductoPropiety = OldProducto;
@@ -61,11 +60,11 @@ namespace GUI.Pages
     
         private void AddProductoButton_Click(object sender, RoutedEventArgs e)
         {
+            guardarPresionado = true;
             if (accion == 0)
             {
                 ProductoPropiety = new Producto();
                 ProductoPropiety.Nombre=txtboxNombre.Text.ToString();
-                ProductoPropiety.Id=txtboxId.Text.ToString();
                 ProductoPropiety.Valor = float.Parse(txtboxValor.Text);
                 ProductoPropiety.Categoria=(CategoriasProductos)cboCategoria.SelectedItem;
 
@@ -74,7 +73,6 @@ namespace GUI.Pages
             else
             {
                 ProductoModified.Nombre=txtboxNombre.Text.ToString();
-                ProductoModified.Id=txtboxId.Text.ToString();
                 ProductoModified.Valor=float.Parse(txtboxValor.Text);
                 ProductoModified.Categoria=(CategoriasProductos)cboCategoria.SelectedItem;
 

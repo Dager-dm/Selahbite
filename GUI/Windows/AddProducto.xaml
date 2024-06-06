@@ -47,8 +47,8 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="3" Content="Id" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Grid.Row="3" Grid.Column="1"  Name="txtboxId" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
+            <Label Grid.Row="3" Content="Valor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Name="txtboxValor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
@@ -61,23 +61,9 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="4" Content="Valor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Name="txtboxValor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
-                <TextBox.Template>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
-                         BorderBrush="{TemplateBinding BorderBrush}" 
-                         BorderThickness="1" 
-                         CornerRadius="3">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </TextBox.Template>
-            </TextBox>
+            <Label Grid.Row="4" Content="Categoría" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-            <Label Grid.Row="5" Content="Categoría" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-            <Border Grid.Row="5" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+            <Border Grid.Row="4" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
 
                 <ComboBox Name="cboCategoria" Width="145" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" DisplayMemberPath="Nombre" BorderThickness="0" />
 

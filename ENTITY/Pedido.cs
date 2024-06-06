@@ -8,20 +8,37 @@ namespace ENTITY
 {
     public class Pedido : Movimiento
     {
-        public Pedido(long numeroFactura, List<DetallePedido> detalles, string formaPago, Empleado mesero, Cliente cliente, DateTime Fecha, long ValorTotal): base (Fecha, ValorTotal)
+        public Pedido(): base(DateTime.Now, 0)
         {
-            NumeroFactura = numeroFactura;
+            
+        }
+        public Pedido(long id, List<DetallePedido> detalles, MetodosPago metodopago, Empleado mesero, Cliente cliente, Turno turno, DateTime Fecha, long ValorTotal, string esatdo): base (Fecha, ValorTotal)
+        {
+            Id = id;
             Detalles = detalles;
-            FormaPago = formaPago;
+            MetodoPago = metodopago;
             Mesero = mesero;
             Cliente = cliente;
+            Estado = esatdo;
+            Turno = turno;
         }
 
- 
-        public long NumeroFactura { get; set;}
+
+        public string Estado { get; set; }
+        public long Id { get; set;}
         public List<DetallePedido> Detalles { get; set;}
-        public string FormaPago { get; set; }
+        public MetodosPago MetodoPago { get; set; }
         public Empleado Mesero { get; set; }
         public Cliente Cliente { get; set; }
+        public Turno Turno { get; set; }
+
+        public void CalculoValor()
+        {
+            foreach (var item in Detalles)
+            {
+                Valor=Valor+item.ValorProductoVendido;
+            }
+        }
+
     }
 }

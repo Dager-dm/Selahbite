@@ -11,24 +11,26 @@ namespace BLL
 {
     public class ServicioProducto
     {
-       private static List<Producto> lstproducts;
+      
+
         ProductosRepository productsRepository = new ProductosRepository();
 
         public ServicioProducto() 
         {     
-           lstproducts = new List<Producto>();
+          
+
             
 
         }
 
-        public void AddProductos(Producto productos)
+        public void AddProductos(Producto producto)
         {
-            lstproducts.Add(productos);
+            productsRepository.insert(producto);
         }
 
         public List<Producto> GetAllProducts() { 
         
-         return lstproducts;
+         return productsRepository.GetProductos();
         }
 
         public void EditProducto(Producto OldProducto, Producto ModifiedProduct)
@@ -36,12 +38,13 @@ namespace BLL
             OldProducto.Nombre = ModifiedProduct.Nombre;
             OldProducto.Valor = ModifiedProduct.Valor;
             OldProducto.Categoria = ModifiedProduct.Categoria;
+            productsRepository.Edit(OldProducto);
           
         }
 
         public void DeleteProducto(Producto Producto)
         {
-            lstproducts.Remove(Producto);
+            
         }
 
         public List<CategoriasProductos> GetCategoriasProductos()

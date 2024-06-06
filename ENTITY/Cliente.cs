@@ -10,7 +10,7 @@ namespace ENTITY
     public class Cliente : Persona
     {
         public Cliente() { }
-        public Cliente(string Cedula, string nombre, string id, string telefono, float saldo) : base(Cedula,nombre, id, telefono)
+        public Cliente(string Cedula, string nombre, long id, string telefono, float saldo) : base(Cedula, nombre, id, telefono)
         {
          Saldo = saldo;
         }

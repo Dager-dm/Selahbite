@@ -31,39 +31,25 @@ namespace GUI.Pages
 
         public Clientes()
         {
-          
             InitializeComponent();
             serviciocliente = new ServicioCliente();
             miListView.ItemsSource = serviciocliente.GetAllClientes();
-            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
 
         }
 
         private void NewClient(object sender, RoutedEventArgs e)
         {
             
-            // addClienteWindow.ClienteGuardado += Refreshlistview;
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente();
             addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
-            serviciocliente.AddClientes(addClienteWindow.clientepr);
-            Refreshlistview();
-
-
-        }
-
-
-        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            var gridView = listView.View as GridView;
-            var width = listView.ActualWidth / gridView.Columns.Count;
-            foreach (var column in gridView.Columns)
+            if (addClienteWindow.guardarPresionado)
             {
-                column.Width = width;
+                serviciocliente.AddClientes(addClienteWindow.clientepr);
+                Refreshlistview();
             }
-          
+
         }
 
         public void Refreshlistview()
@@ -76,67 +62,30 @@ namespace GUI.Pages
         {
             
             Button btnEditar = sender as Button;
-            if (btnEditar != null)
+            Cliente cliente = btnEditar.DataContext as Cliente;
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            AddCliente addClienteWindow = new AddCliente(cliente);
+            addClienteWindow.Owner = mainWindow;
+            addClienteWindow.ShowDialog();
+            if (addClienteWindow.guardarPresionado)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
-                if (listViewItem != null)
-                {
-                   
-                    Cliente item = listViewItem.DataContext as Cliente;
-                    if (item != null)
-                    {
-                       
-                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-                        AddCliente addClienteWindow = new AddCliente(item);
-                        addClienteWindow.Owner = mainWindow;
-                        addClienteWindow.ShowDialog();
-                        serviciocliente.EditCliente(addClienteWindow.clientepr, addClienteWindow.clienteModified);
-                        Refreshlistview();
-
-                    }
-                }
+                serviciocliente.EditCliente(addClienteWindow.clientepr, addClienteWindow.clienteModified);
+                Refreshlistview();
             }
         }
 
         private void btnBorrar_Click(object sender, RoutedEventArgs e)
         {
             Button btnBorrar = sender as Button;
-            if (btnBorrar != null)
+            Cliente cliente = btnBorrar.DataContext as Cliente;
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+cliente.Nombre+"?");
+            bool? resultado = messageBox.ShowDialog();
+            if (resultado == true)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
-                if (listViewItem != null)
-                {
+              serviciocliente.DeleteCliente(cliente);
+              Refreshlistview();
+            }
                     
-                    Cliente item = listViewItem.DataContext as Cliente;
-                    if (item != null)
-                    {
-                        
-                       
-                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+item.Nombre+"?");
-                        bool? resultado = messageBox.ShowDialog();
-
-                        if (resultado == true)
-                        {
-                            serviciocliente.DeleteCliente(item);
-                            Refreshlistview();
-                        }
-                    }
-                }
-            }
-        }
-
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
         }
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)

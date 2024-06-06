@@ -1,4 +1,5 @@
-﻿using ENTITY;
+﻿using DAL;
+using ENTITY;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
+
     public class ServicioTurno
     {
-        private static List<Turno> turnos = new List<Turno>();
-
+        TurnosRepository TurnosRepository = new TurnosRepository();
+        
+        public static Turno turnoAbierto;
         public ServicioTurno()
         {
 
@@ -19,25 +22,32 @@ namespace BLL
 
         public void CreateTurno(Turno turno)
         {
+            turnoAbierto = TurnosRepository.AbrirTurno(turno);
 
-           
+
         }
 
-        public void EditTurno(Turno turno)
+        public string EditTurno(Turno turno)
         {
-
+           if(TurnosRepository.CerrarTurno(turno)==true)
+           {
+                turnoAbierto = null;
+                return "Turno cerrado correctamente";
+           }
+            else
+            {
+                return "Error al cerrar el turno";
+            }
         }
 
         public List<Turno> GetTurnos()
         {
-            return turnos;
+            return TurnosRepository.GetTurnos();
         }
 
         public Turno GetOpenTurno()
         {
-            Turno turno = null;
-
-            return turno;
+            return turnoAbierto;
         }
     }
 }

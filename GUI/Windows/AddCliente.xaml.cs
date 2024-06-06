@@ -24,6 +24,7 @@ namespace GUI.Pages
     {
         //ServicioCliente serviciocliente = new ServicioCliente();
         //public event Action ClienteGuardado;
+        public bool guardarPresionado = false;
         public Cliente clientepr { get; set; }
         public Cliente clienteModified { get; set; }
 
@@ -64,8 +65,7 @@ namespace GUI.Pages
         private void AddButton(object sender, RoutedEventArgs e)
         {
 
-           //Cliente cliente = new Cliente(txtboxNombre.Text.ToString(), txtboxId.Text.ToString(), txtboxTelefono.Text.ToString(), 0);
-            //ClienteGuardado?.Invoke();
+            guardarPresionado = true;
             if (accion==0) {
                 clientepr = new Cliente();
                 clientepr.Nombre = txtboxNombre.Text.ToString();

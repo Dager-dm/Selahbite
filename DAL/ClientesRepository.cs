@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ENTITY;
 using System.Data;
 using System.Runtime.ConstrainedExecution;
+using Oracle.ManagedDataAccess.Types;
 
 namespace DAL
 {
@@ -29,7 +30,7 @@ namespace DAL
             oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = cliente.Nombre;
             oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = cliente.Cedula;
             oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = cliente.Telefono;
-            oracleCommand.Parameters.Add("sald", OracleDbType.Varchar2).Value = cliente.Saldo;
+            oracleCommand.Parameters.Add("sald", OracleDbType.Long).Value = cliente.Saldo;
             //pr_InsertValuesClientes(nomb CLIENTES.nombre % type, ced CLIENTES.cedula % type, tel CLIENTES.telefono % type, sald CLIENTES.saldo % type)
             // Ejecuta el procedimiento
             var i = oracleCommand.ExecuteNonQuery();
@@ -41,24 +42,6 @@ namespace DAL
             return false;
         }
 
-        public List<Cliente> GetClientes()
-        {
-            oracleCommand = new OracleCommand();
-            List<Cliente> lstClientes = new List<Cliente>();
-            string oracle = "SELECT id_cliente, cedula, nombre, telefono, saldo FROM CLIENTES";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
-            while (reader.Read())
-            {
-                lstClientes.Add(MapCliente(reader));
-            }
-            CerrarConexion();
-            return lstClientes;
-
-
-        }
 
         public bool Edit(Cliente cliente)
         {
@@ -112,15 +95,51 @@ namespace DAL
 
             return false;
         }
-        private Cliente MapCliente(OracleDataReader reader)
+
+        public static Cliente MapCliente(OracleDataReader reader)
         {
             Cliente client = new Cliente();
-            client.Id = reader.GetString(0);
+            client.Id = reader.GetInt64(0);
             client.Cedula = reader.GetString(1);
             client.Nombre = reader.GetString(2);
             client.Telefono = reader.GetString(3);
             client.Saldo = reader.GetFloat(4);
             return client;
         }
+
+        public List<Cliente> GetClientess()
+        {
+            List<Cliente> lstClientes = new List<Cliente>();
+            oracleCommand = new OracleCommand();
+            oracleCommand.Connection= Conexion();
+            AbrirConexion();
+
+            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_clientes; END;";
+            oracleCommand.CommandType = System.Data.CommandType.Text;
+
+            OracleParameter cursor = new OracleParameter();
+            cursor.ParameterName = "cursor";
+            cursor.OracleDbType = OracleDbType.RefCursor;
+            cursor.Direction = System.Data.ParameterDirection.Output;
+
+            oracleCommand.Parameters.Add(cursor);
+
+            oracleCommand.ExecuteNonQuery();
+
+            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            {
+                while (reader.Read())
+                {
+                    lstClientes.Add(MapCliente(reader));
+                }
+            }
+            CerrarConexion();
+            return lstClientes;
+                
+        }
+
+        
+
+
     }
 }

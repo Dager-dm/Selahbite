@@ -10,7 +10,7 @@ namespace ENTITY
     {
         public Persona() { }
 
-        public Persona(string cedula, string nombre, string id, string telefono)
+        public Persona(string cedula, string nombre, long id, string telefono)
         {
             Cedula = cedula;
             Nombre = nombre;
@@ -20,7 +20,7 @@ namespace ENTITY
 
         public string Cedula { get; set; }
         public string Nombre { get; set;}
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Telefono { get; set; }
         
     }

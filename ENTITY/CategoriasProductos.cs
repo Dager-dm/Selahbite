@@ -13,7 +13,7 @@ namespace ENTITY
 
         }
 
-        public CategoriasProductos(string nombre, char id)
+        public CategoriasProductos(string nombre, string id)
         {
             Nombre = nombre;
             Id = id;
@@ -21,6 +21,6 @@ namespace ENTITY
 
         public string Nombre {  get; set; }
 
-        public char Id {  get; set; }
+        public string Id {  get; set; }
     }
 }

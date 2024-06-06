@@ -79,10 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientesRepository.cs" />
+    <Compile Include="DetallesRepository.cs" />
+    <Compile Include="EgresosRepository.cs" />
     <Compile Include="EmpleadosRepository.cs" />
+    <Compile Include="PedidosRepository.cs" />
     <Compile Include="ProductosRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelahbiteDB.cs" />
+    <Compile Include="TurnosRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENTITY\ENTITY.csproj">

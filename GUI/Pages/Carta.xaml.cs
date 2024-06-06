@@ -28,7 +28,7 @@ namespace GUI.Pages
             InitializeComponent();
             servicioProducto = new ServicioProducto();
             miListView.ItemsSource= servicioProducto.GetAllProducts();
-            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+            
         }
 
         private void NewProduct(object sender, RoutedEventArgs e)
@@ -37,20 +37,13 @@ namespace GUI.Pages
             AddProducto addProductoWindow = new AddProducto(servicioProducto.GetCategoriasProductos());
             addProductoWindow.Owner = mainWindow;
             addProductoWindow.ShowDialog();
-            servicioProducto.AddProductos(addProductoWindow.ProductoPropiety);
-            Refreshlistview();
-        }
-
-        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            var gridView = listView.View as GridView;
-            var width = listView.ActualWidth / gridView.Columns.Count;
-            foreach (var column in gridView.Columns)
+            if (addProductoWindow.guardarPresionado)
             {
-                column.Width = width;
+                servicioProducto.AddProductos(addProductoWindow.ProductoPropiety);
+                Refreshlistview();
             }
         }
+
 
         public void Refreshlistview()
         {
@@ -61,68 +54,32 @@ namespace GUI.Pages
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
             Button btnEditar = sender as Button;
-            if (btnEditar != null)
+            Producto producto = btnEditar.DataContext as Producto;
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            AddProducto addProductoWindow = new AddProducto(producto, servicioProducto.GetCategoriasProductos());
+            addProductoWindow.Owner = mainWindow;
+            addProductoWindow.ShowDialog();
+            if (addProductoWindow.guardarPresionado)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
-                if (listViewItem != null)
-                {
-
-                    Producto item = listViewItem.DataContext as ENTITY.Producto;
-                    if (item != null)
-                    {
-
-                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-                        AddProducto addProductoWindow = new AddProducto(item, servicioProducto.GetCategoriasProductos());
-                        addProductoWindow.Owner = mainWindow;
-                        addProductoWindow.ShowDialog();
-                        servicioProducto.EditProducto(addProductoWindow.ProductoPropiety, addProductoWindow.ProductoModified);
-                        Refreshlistview();
-
-                    }
-                }
+                servicioProducto.EditProducto(addProductoWindow.ProductoPropiety, addProductoWindow.ProductoModified);
+                Refreshlistview();
             }
         }
 
         private void btnBorrar_Click(object sender, RoutedEventArgs e)
         {
             Button btnBorrar = sender as Button;
-            if (btnBorrar != null)
+            Producto producto = btnBorrar.DataContext as Producto;
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Plato " + producto.Nombre + "?");
+            bool? resultado = messageBox.ShowDialog();
+            if (resultado == true)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
-                if (listViewItem != null)
-                {
-
-                    ENTITY.Producto item = listViewItem.DataContext as ENTITY.Producto;
-                    if (item != null)
-                    {
-
-
-                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Plato " + item.Nombre + "?");
-                        bool? resultado = messageBox.ShowDialog();
-
-                        if (resultado == true)
-                        {
-                            servicioProducto.DeleteProducto(item);
-                            Refreshlistview();
-                        }
-                    }
-                }
+                servicioProducto.DeleteProducto(producto);
+                Refreshlistview();
             }
         }
 
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
-        }
+
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {

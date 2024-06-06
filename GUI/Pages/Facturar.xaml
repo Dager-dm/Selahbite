@@ -8,6 +8,21 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Facturar">
 
+    <Page.Resources>
+        <Style x:Key="GridHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <TextBlock Text="{TemplateBinding Content}" Padding="5" Width="{TemplateBinding Width}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     
 
     <Border CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}">
@@ -24,7 +39,7 @@
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel x:Name="stackBuscar" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                       <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
                       <TextBox x:Name="txbBusqueda" Width="300" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" HorizontalAlignment="Center" TextChanged="TxtBusqueda_TextChanged" >
                         <TextBox.Template>
@@ -39,8 +54,14 @@
                         </TextBox.Template>
                        </TextBox>
                     </StackPanel>
-                    
-                    <Border  CornerRadius="8" Background="Transparent" Grid.Row="1" Margin="24,0,24,24">
+
+                    <Label Name="lblPedidos" Grid.Row="0" Content="Pedidos" Visibility="Hidden" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 15 0 0"/>
+
+                    <Button Name="GoBackButton" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource GoBack}" Click="GoBack" Margin="38 0 0 0" />
+                   
+                    <Button Name="ShowPedidos"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource Details}" Click="ShowPedidos_Click" Margin="38 0 0 0" />
+                   
+                    <Border x:Name="BorderProductos"  CornerRadius="8" Background="Transparent" Grid.Row="1" Margin="24,0,24,24">
                       <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="0 15 0 0" Grid.Row="1" HorizontalAlignment="Center">
                         <ItemsControl x:Name="items" ItemsSource="{Binding Prodcutos}">
 
@@ -63,7 +84,7 @@
 
                                                 <TextBlock Name="txtNombre" Text="{Binding Nombre}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  FontWeight="DemiBold" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" TextWrapping="Wrap" />
                                                 <TextBlock Name="lblValor" Text="{Binding Valor, StringFormat=' {0:C0}'}" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"  FontWeight="DemiBold" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" />
-                                                <Button VerticalAlignment="Top" Name="btn" Grid.Row="0" Style="{DynamicResource MealButtonStyle}" Tag="{DynamicResource meal}" Margin=" 0 3 0 0" Click="BorderMealClick"/>
+                                                <Button VerticalAlignment="Top" Name="btn" Grid.Row="0" Style="{DynamicResource MealButtonStyle}" Tag="{DynamicResource Meal2}" Margin=" 0 3 0 0" Click="BorderMealClick"/>
                                         </Grid>
                                             <Border.BitmapEffect>
                                                 <DropShadowBitmapEffect
@@ -78,6 +99,44 @@
                         </ItemsControl>
 
                     </ScrollViewer>
+                    </Border>
+
+                    <Border x:Name="BorderPedidos" CornerRadius="8" Background="{DynamicResource  TertiaryBackgroundColor}" Grid.Row="1" Margin="37,20,37,37" Visibility="Hidden">
+                        <ListView Name="PedidosListView"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" Margin="0 15 0 0" >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Height" Value="40"/>
+                                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                                    <Setter Property="FontWeight" Value="DemiBold"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="Focusable" Value="False"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
+                                    <GridViewColumn Header="N° Factura" DisplayMemberBinding="{Binding Id}" Width="120"/>
+                                    <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nombre}" Width="180"/>
+                                    <GridViewColumn Header="Mesero" DisplayMemberBinding="{Binding Mesero.Nombre}" Width="180"/>
+                                    <GridViewColumn Header="Forma de Pago" DisplayMemberBinding="{Binding MetodoPago.Nombre}" Width="150"/>
+                                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding Valor}" Width="170"/>
+                                    <GridViewColumn Width="10">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <Button Name="PedidoDetailsButton" Visibility="Visible" VerticalAlignment="Center"  Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource Details}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </Border>
                 </Grid>
             </Border>
@@ -137,7 +196,7 @@
                     </Grid>
 
                     <Border Name="ListviewBorder" CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Height="370" Width="Auto" BorderBrush="Transparent" BorderThickness="1" Margin="24,5,24,24" >
-                    <ListView Grid.Row="2" Name="listviewProductos" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="auto"  >
+                    <ListView Grid.Row="2" Name="listviewProductos" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"  >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
 
@@ -160,27 +219,27 @@
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle>
 
-                                <GridViewColumn Width="200">
+                                <GridViewColumn Width="195">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap"/>
-                                                    <TextBlock Text="{Binding Valor, StringFormat=' {0:C0}'}" FontSize="12" Foreground="{DynamicResource SecundaryTextColor}"/>
+                                                    <TextBlock Text="{Binding Producto.Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding Producto.Valor, StringFormat=' {0:C0}'}" FontSize="12" Foreground="{DynamicResource SecundaryTextColor}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     
                                     </GridViewColumn>
-                                <GridViewColumn Width="205" >
+                                <GridViewColumn Width="210" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                 <Button Name="btnRestarCantidad" Click="RestarCantidad_Click" Style="{DynamicResource PedidosButtonStyle}" Tag="{DynamicResource less}"/>
                                                   <Border Width="25" Height="25" Background="Transparent" BorderBrush="{DynamicResource Boxborder}" CornerRadius="5" BorderThickness="1">
-                                                    <TextBox Name="txtCantidad" Text="1" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Background="Transparent" Margin="0 5 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent"/>
+                                                    <TextBox Name="txtCantidad" Text="{Binding Cantidad}" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Background="Transparent" Margin="0 5 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent" IsEnabled="False"/>
                                                   </Border>
                                                 <Button Name="btnSumarCantidad" Click="SumarCantidad_Click" Style="{DynamicResource PedidosButtonStyle}" Tag="{DynamicResource plus}"/>
-                                                    <TextBlock x:Name="valortoatl" Text="{Binding Valor, StringFormat=' {0:C0}'}"  FontSize="13" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                                    <TextBlock x:Name="valortotal" Width="60" Text="{Binding ValorProductoVendido, StringFormat=' {0:C0}'}"  FontSize="13" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontFamily="Segoe UI" VerticalAlignment="Center"/>
                                                     <Button Name="btnEliminarproducto"  Style="{DynamicResource PedidosDeleteButtonStyle}" Tag="{DynamicResource quit}" Margin="5 0 0 0" Click="QuitProduct"/>
                                             </StackPanel>
                                         </DataTemplate>
@@ -192,7 +251,7 @@
                     </ListView>
                     </Border>
                     <!--<StackPanel Orientation="Horizontal" Grid.Row="3">-->
-                    <RadioButton Grid.Row="5" x:Name="ConfirmarPago" Content="Confirmar Pedido" Style="{DynamicResource AddButton}" Tag="{DynamicResource pay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" />
+                    <RadioButton Grid.Row="5" x:Name="ConfirmarPago" Content="Confirmar Pedido" Style="{DynamicResource AddButton}" Tag="{DynamicResource pay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" Click="ConfirmarPago_Click"/>
                     <!--</StackPanel>-->
 
                 </Grid>

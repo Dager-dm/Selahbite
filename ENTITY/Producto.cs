@@ -10,7 +10,7 @@ namespace ENTITY
     {
         public Producto() { }
 
-        public Producto(string id, string nombre, float valor, CategoriasProductos categoria)
+        public Producto(long id, string nombre, float valor, CategoriasProductos categoria)
         {
             Id = id;
             Nombre = nombre;
@@ -18,7 +18,7 @@ namespace ENTITY
             Categoria = categoria;
         }
 
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Nombre { get; set; }
         public float Valor { get; set; } 
         public CategoriasProductos Categoria { get; set; }

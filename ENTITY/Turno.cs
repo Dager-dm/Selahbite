@@ -10,17 +10,18 @@ namespace ENTITY
     {
         public Turno()
         {
-            
+            Pedidos = new List<Pedido>();
+            LstEgresos = new List<Egreso>();
         }
 
-        public Turno(string horario, DateTime fecha, float saldoInicial, Empleado cajero, float egresos, float ingresos, float saldoPrevisto, float saldoReal, float diferencia, string observacion, List<Pedido> pedidos, List<Egreso> lstEgresos, string estado)
+        public Turno(string horario, DateTime fecha, float saldoInicial, Empleado cajero, float egreso, float ingreso, float saldoPrevisto, float saldoReal, float diferencia, string observacion, List<Pedido> pedidos, List<Egreso> lstEgresos, string estado, long id)
         {
             Horario = horario;
             Fecha = fecha;
             SaldoInicial = saldoInicial;
             Cajero = cajero;
-            Egreso = egresos;
-            Ingreso = ingresos;
+            Egreso = egreso;
+            Ingreso = ingreso;
             SaldoPrevisto = saldoPrevisto;
             SaldoReal = saldoReal;
             Diferencia = diferencia;
@@ -28,6 +29,7 @@ namespace ENTITY
             Pedidos = pedidos;
             LstEgresos = lstEgresos;
             Estado = estado;
+            Id = id;
         }
 
         public string Horario { get; set; }
@@ -43,13 +45,13 @@ namespace ENTITY
         public List<Pedido> Pedidos { get; set; }
         public List<Egreso> LstEgresos { get; set; }
         public string Estado {  get; set; }
-        
+        public long Id { get; set; }
         
 
 
         public void CerrarTurno()
         {
-            Estado = "Cerrado";
+            Estado = "C";
         }
 
         public void SetAPedido(Pedido pedido)
@@ -65,7 +67,7 @@ namespace ENTITY
         }
         public void SetDiferencia()
         {
-            Diferencia = SaldoPrevisto - SaldoReal;
+            Diferencia = SaldoReal - SaldoPrevisto;
         }
 
         public void SetEgresos()

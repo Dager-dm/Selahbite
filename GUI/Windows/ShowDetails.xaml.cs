@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using ENTITY;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,25 @@ namespace GUI.Windows
     /// </summary>
     public partial class ShowDetails : Window
     {
-        public ShowDetails()
+
+        public Pedido NPedido { get; set; }
+
+        public string Cambio;
+
+        public string Efectivo;
+
+        public bool Confirmar= false;
+
+        public bool print=false;
+        public ShowDetails( List<DetallePedido> detalles, List<MetodosPago> metodos, Cliente cliente, Empleado Mesero)
         {
             InitializeComponent();
+            listviewProductos.ItemsSource = detalles;
+            cboMetodos.ItemsSource = metodos;
+            CreatePedido(detalles, cliente, Mesero);
+            lblTotalPedido.Content = string.Format("{0:C0}", NPedido.Valor);
+            
+
         }
 
 
@@ -38,5 +56,87 @@ namespace GUI.Windows
         }
 
 
+
+
+
+        private void cboMetodos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MetodosPago metodo=(MetodosPago)cboMetodos.SelectedItem;
+            if (metodo.Nombre=="Efectivo")
+            {
+              lblEectivo1.Visibility = Visibility.Visible;
+              brdEfectivo1.Visibility=Visibility.Visible;
+              lblCambio1.Visibility = Visibility.Visible;
+              lblCambio2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lblEectivo1.Visibility = Visibility.Hidden;
+                brdEfectivo1.Visibility = Visibility.Hidden;
+                lblCambio1.Visibility = Visibility.Hidden;
+                lblCambio2.Visibility = Visibility.Hidden;
+
+            }
+        }
+
+        private void CreatePedido(List<DetallePedido> detalles, Cliente cliente, Empleado mesero)
+        {
+            Pedido pedido = new Pedido();
+            pedido.Detalles = detalles;
+            pedido.CalculoValor();
+            pedido.Mesero= mesero;
+            pedido.Cliente= cliente;
+            pedido.Estado="Pagado";
+            pedido.Fecha=DateTime.Now;
+            NPedido = pedido;
+            foreach (var item in detalles)
+            {
+                item.Pedido = pedido;
+            }
+            
+
+        }
+        private void cb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+        }
+
+        private void btnConfirmarpago_Click(object sender, RoutedEventArgs e)
+        {
+            Confirmar = true;
+            NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
+            if (NPedido.MetodoPago.Nombre=="Efectivo")
+            {
+                Cambio = lblCambio2.Content.ToString();
+                Efectivo = txt.Text.ToString();
+            }else if (NPedido.MetodoPago.Nombre == "Credito")
+             {
+                NPedido.Estado = "Pendiente";
+                Cambio = "0";
+                Efectivo = "0";
+            }
+            else
+            {
+                Cambio = "0";
+                Efectivo = "0";
+            }
+
+            if (Checkprint.IsChecked==true) { print = true; }
+            Close();
+        }
+
+        private void txtEfectivo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txt.Text!="")
+            {
+                lblCambio2.Content = string.Format("{0:C0}", float.Parse(txt.Text) - NPedido.Valor);
+            }
+
+            
+        }
     }
 }

@@ -330,9 +330,9 @@
                         <!-- Icono -->
                         <Path x:Name="Icon"
                          Data="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
-                         Height="60" Width="60"
+                         Height="50" Width="60"
                          Stretch="Uniform"
-                         Margin="4 0 0 0"
+                         Margin="0 0 0 0"
                          Fill="{DynamicResource PrimaryTextColor}"
                          VerticalAlignment="Center"/>
                     </Grid>

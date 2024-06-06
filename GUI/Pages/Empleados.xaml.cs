@@ -28,7 +28,7 @@ namespace GUI.Pages
             InitializeComponent();
             servicioempleado = new ServicioEmpleado();
             miListView.ItemsSource = servicioempleado.GetAllEmpleados();
-            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+
         }
 
         private void NewEmployee(object sender, RoutedEventArgs e)
@@ -37,19 +37,13 @@ namespace GUI.Pages
             AddEmpleado addEmpleadoWindow = new AddEmpleado(servicioempleado.GetCargos());
             addEmpleadoWindow.Owner = mainWindow;
             addEmpleadoWindow.ShowDialog();
-            servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
-            Refreshlistview();
-        }
-        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            var gridView = listView.View as GridView;
-            var width = listView.ActualWidth / gridView.Columns.Count;
-            foreach (var column in gridView.Columns)
+            if (addEmpleadoWindow.guardarPresionado)
             {
-                column.Width = width;
+                servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
+                Refreshlistview();
             }
         }
+
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
@@ -64,9 +58,11 @@ namespace GUI.Pages
            AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado, servicioempleado.GetCargos());
            addEmpleadoWindow.Owner = mainWindow;
            addEmpleadoWindow.ShowDialog();
-           servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
-           Refreshlistview();
-
+            if (addEmpleadoWindow.guardarPresionado)
+            {
+                servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
+                Refreshlistview();
+            }
         }
 
         private void btnBorrar_Click(object sender, RoutedEventArgs e)
@@ -91,11 +87,7 @@ namespace GUI.Pages
 
             string filtro = txbBusqueda.Text.ToLower();
             List<Empleado> empleados = servicioempleado.GetAllEmpleados();
-
-
             List<Empleado> empleadosFiltrados = empleados.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
-
-
             miListView.ItemsSource = empleadosFiltrados;
         }
     }

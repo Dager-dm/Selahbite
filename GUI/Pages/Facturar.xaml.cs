@@ -1,5 +1,6 @@
 ﻿using BLL;
 using ENTITY;
+using GUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,66 +33,50 @@ namespace GUI.Pages
     {
 
 
-        
         ServicioProducto servicioproducto = new ServicioProducto();
         ServicioCliente servicioCliente = new ServicioCliente();
         ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
+        ServicioPedido servicioPedido = new ServicioPedido();
+        ServicioDetalles servicioDetalles = new ServicioDetalles();
+
         private List<Producto> filteredItems;
-        private List<Producto> ProductosDePedido = new List<Producto>();
+        private List<DetallePedido> Detalles = new List<DetallePedido>();
 
 
         public Facturar()
         {
             InitializeComponent();
-            List<string> metodos = new List<string> {"Efectivo","Nequi","Bancolombia","Daviplata", "Credito" };
-           /* List<Producto> ProductosDePedido = new List<Producto>()*/;
-            cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
-            cboClientes.ItemsSource = servicioCliente.GetAllClientes();
-            items.ItemsSource = servicioproducto.GetAllProducts();
+            //cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
+            //cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            //items.ItemsSource = servicioproducto.GetAllProducts();
 
         }
-
-
-
-
-
-
-
-
 
         private void SumarCantidad_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            Producto producto = btn.DataContext as Producto;
-            var listViewItem = FindAncestor<ListViewItem>(btn);
-            var textBoxCantidad = FindVisualChild<TextBox>(listViewItem, "txtCantidad");
-            var textBlockTotal = FindVisualChild<TextBlock>(listViewItem, "valortoatl");
-            int cantidad = int.Parse(textBoxCantidad.Text);
-            cantidad++;
-            textBoxCantidad.Text = cantidad.ToString();
-            textBlockTotal.Text = string.Format("{0:C0}",(cantidad * producto.Valor).ToString());
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            detalle.Cantidad++;
+            detalle.CalculoValor();
+            RefreshDetallesList();
+
 
         }
 
         private void RestarCantidad_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            Producto producto = btn.DataContext as Producto;
-            var listViewItem = FindAncestor<ListViewItem>(btn);
-            var textBoxCantidad = FindVisualChild<TextBox>(listViewItem, "txtCantidad");
-            var textBlockTotal = FindVisualChild<TextBlock>(listViewItem, "valortoatl");
-            int cantidad = int.Parse(textBoxCantidad.Text);
-            if (cantidad == 1)
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            if (detalle.Cantidad == 1)
             {
-                ProductosDePedido.Remove(producto);
-                listviewProductos.ItemsSource = null;
-                listviewProductos.ItemsSource = ProductosDePedido;
+                Detalles.Remove(detalle);
+                RefreshDetallesList();
             }
             else
             {
-                cantidad--;
-                textBoxCantidad.Text = cantidad.ToString();
-                textBlockTotal.Text = string.Format("{0:C0}", (cantidad * producto.Valor).ToString());
+                detalle.Cantidad--;
+                detalle.CalculoValor();
+                RefreshDetallesList();
             }
 
         }
@@ -99,44 +84,10 @@ namespace GUI.Pages
         private void QuitProduct(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            Producto producto = btn.DataContext as Producto;
-            ProductosDePedido.Remove(producto);
-            listviewProductos.ItemsSource = null;
-            listviewProductos.ItemsSource = ProductosDePedido;
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            Detalles.Remove(detalle);
+            RefreshDetallesList();
         }
-
-
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            while (current != null && !(current is T))
-            {
-                current = VisualTreeHelper.GetParent(current);
-            }
-            return current as T;
-        }
-
-  
-        private T FindVisualChild<T>(DependencyObject parent, string name) where T : FrameworkElement
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T && (child as T).Name == name)
-                {
-                    return child as T;
-                }
-                else
-                {
-                    var foundChild = FindVisualChild<T>(child, name);
-                    if (foundChild != null)
-                        return foundChild;
-                }
-            }
-            return null;
-        }
-
-
-
 
         private void btnAddClient_Click(object sender, RoutedEventArgs e)
         {
@@ -144,8 +95,8 @@ namespace GUI.Pages
             AddCliente addClienteWindow = new AddCliente();
             addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
-            servicioCliente.AddClientes(addClienteWindow.clientepr);
-            cboClientes.ItemsSource = servicioCliente.GetStringClientes();
+            //servicioCliente.AddClientes(addClienteWindow.clientepr);
+            //cboClientes.ItemsSource = servicioCliente.GetAllClientes();
 
         }
 
@@ -189,7 +140,7 @@ namespace GUI.Pages
         {
             Border borderm = sender as Border;
             SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["TertiaryBackgroundColor"];
-            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["meal"];
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Meal2"];
             SolidColorBrush color = (SolidColorBrush)System.Windows.Application.Current.Resources["SecundaryTextColor"];
 
             var txtNombre = (TextBlock)borderm.FindName("txtNombre");
@@ -215,8 +166,8 @@ namespace GUI.Pages
         {
 
             string searchText = txbBusqueda.Text.ToLower();
-            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
-            items.ItemsSource = filteredItems;
+            //filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
+            //items.ItemsSource = filteredItems;
 
         }
 
@@ -225,13 +176,97 @@ namespace GUI.Pages
 
             var source = sender as FrameworkElement;
             var producto = source.DataContext as Producto;
-            ProductosDePedido.Add(producto);
-            listviewProductos.ItemsSource = null;
-            listviewProductos.ItemsSource = ProductosDePedido;
-            
+            DetallePedido detalle = new DetallePedido();
+            detalle.Producto=producto;
+            detalle.Cantidad = 1;
+            detalle.CalculoValor();
+            var detalleFound=ValidarDetalle(detalle);
+            if (detalleFound!=null)
+            {
+                detalleFound.Cantidad++;
+                detalleFound.CalculoValor();
+                RefreshDetallesList();
+            }
+            else
+            {
+                Detalles.Add(detalle);
+                RefreshDetallesList();
+            }
+
         }
 
-      
+        private void RefreshDetallesList()
+        {
+            listviewProductos.ItemsSource = null;
+            listviewProductos.ItemsSource = Detalles;
+
+
+        }
+
+        private DetallePedido ValidarDetalle(DetallePedido detalle)
+        {
+            foreach (var item in Detalles)
+            {
+                if (detalle.Producto==item.Producto)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        private void ConfirmarPago_Click(object sender, RoutedEventArgs e)
+        {
+
+            //MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+            //ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, servicioPedido.GetMetodos(), (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
+            //ShowDetailsWindow.Owner = mainWindow;
+            //ShowDetailsWindow.ShowDialog();
+            //if (ShowDetailsWindow.Confirmar)
+            //{
+            //    var pedido=servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
+            //    ShowDetailsWindow.NPedido.Id= pedido.Id;
+            //    if (ShowDetailsWindow.print)
+            //    {
+            //        servicioPedido.GenerateFactura(ShowDetailsWindow.NPedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
+            //    }
+
+            //    foreach (var item in Detalles)
+            //    {
+            //        item.Pedido.Id=pedido.Id;
+            //        servicioDetalles.AddDetalle(item);
+            //    }
+
+            //}
+        }
+
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+
+            BorderPedidos.Visibility = Visibility.Hidden;
+            BorderProductos.Visibility = Visibility.Visible;
+            ShowPedidos.Visibility = Visibility.Visible;
+            GoBackButton.Visibility = Visibility.Hidden;
+            stackBuscar.Visibility = Visibility.Visible;
+            lblPedidos.Visibility = Visibility.Hidden;
+
+        }
+
+        private void ShowPedidos_Click(object sender, RoutedEventArgs e)
+        {
+            BorderProductos.Visibility = Visibility.Hidden;
+            BorderPedidos.Visibility = Visibility.Visible;
+            ShowPedidos.Visibility = Visibility.Hidden;
+            GoBackButton.Visibility = Visibility.Visible;
+            stackBuscar.Visibility = Visibility.Hidden;
+            lblPedidos.Visibility = Visibility.Visible;
+            if (ServicioTurno.turnoAbierto!=null)
+            {
+                //PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
+            }
+            
+        }
     }
 
 

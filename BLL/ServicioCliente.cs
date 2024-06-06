@@ -11,12 +11,11 @@ namespace BLL
 {
     public class ServicioCliente
     {
-        public static List<Cliente> lstClientes;
+
         ClientesRepository clientesRepository;
 
         public ServicioCliente()
         {
-            lstClientes = new List<Cliente>();
             clientesRepository = new ClientesRepository();
 
 
@@ -28,14 +27,13 @@ namespace BLL
         public void AddClientes(Cliente newcliente) 
         {
 
-            lstClientes.Add(newcliente);
-            clientesRepository.insert(newcliente);
+          clientesRepository.insert(newcliente);
   
         }
 
         public List<Cliente> GetAllClientes() {
         
-           return clientesRepository.GetClientes();
+           return clientesRepository.GetClientess();
         
         }
 
@@ -43,27 +41,20 @@ namespace BLL
         {
             clienteOld.Nombre = clienteModified.Nombre;
             clienteOld.Telefono = clienteModified.Telefono;
-            clienteOld.Id = clienteModified.Id;
+            clienteOld.Cedula = clienteModified.Cedula;
+            clientesRepository.Edit(clienteOld);
         }
 
         public void DeleteCliente(Cliente clienteToDeelete)
         {
 
-            lstClientes.Remove(clienteToDeelete);
+           
         }
 
-        public List<string> GetStringClientes()
+        public void EditSaldoCliente(Cliente cliente) 
         {
-            List<string> StringList = new List<string>();
-            foreach (var item in lstClientes)
-            {
-                StringList.Add(item.Nombre);
-            }
-
-            return StringList;
+         clientesRepository.EditSaldo(cliente);
         }
-
-
 
     }
 }

@@ -42,19 +42,17 @@ namespace DAL
         {
             oracleCommand = new OracleCommand();
             List<Empleado> lstEmpleados = new List<Empleado>();
-            string oracle = "SELECT id_empleado, cedula, nombre, telefono, id_cargo FROM EMPLEADOS";
+            string oracle = "SELECT * FROM EMPLEADOS";
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
+            var reader = oracleCommand.ExecuteReader(); 
             while (reader.Read())
             {
                 lstEmpleados.Add(MapEmpleado(reader));
             }
             CerrarConexion();
             return lstEmpleados;
-
-
         }
 
         public bool Edit(Empleado empleado)
@@ -82,6 +80,8 @@ namespace DAL
 
 
 
+
+
         public List<CargosEmpleados> GetCargos()
         {
             oracleCommand = new OracleCommand();
@@ -100,31 +100,70 @@ namespace DAL
 
         }
 
-        private CargosEmpleados LoadCargo(char id)
+        public List<Empleado> GetCajeros()
         {
-            CargosEmpleados cargo = new CargosEmpleados();
-            var cargos = GetCargos();
-            foreach (var item in cargos)
+            oracleCommand = new OracleCommand();
+            List<Empleado> cajeros = new List<Empleado>();
+            string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '1'";
+            oracleCommand.CommandText = oracle;
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+            var reader = oracleCommand.ExecuteReader();
+            while (reader.Read())
             {
-                if (id==item.Id)
-                {
-                    return item;
-                }
+                cajeros.Add(MapEmpleado(reader));
             }
+            CerrarConexion();
+            return cajeros;
 
-           return null;
+        }
+
+        public List<Empleado> GetMeseros()
+        {
+            oracleCommand = new OracleCommand();
+            List<Empleado> meseros = new List<Empleado>();
+            string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '2'";
+            oracleCommand.CommandText = oracle;
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+            var reader = oracleCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                meseros.Add(MapEmpleado(reader));
+            }
+            CerrarConexion();
+            return meseros;
+
         }
 
 
+        private CargosEmpleados LoadCargo(string idCargo)
+        {
+            oracleCommand = new OracleCommand();
+            string oracle = "SELECT * FROM CARGOS WHERE id_cargo = :idCargo";
+            oracleCommand.CommandText = oracle;
+            oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCargo));
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+            var reader = oracleCommand.ExecuteReader(); // select
+            if (reader.Read())
+            {
+                return MapCargo(reader);
 
-        private Empleado MapEmpleado(OracleDataReader reader)
+            }
+            CerrarConexion();
+
+            return null;
+        }
+
+        public Empleado MapEmpleado(OracleDataReader reader)
         {
             Empleado empleado = new Empleado();
-            empleado.Id = reader.GetString(0);
-            empleado.Cedula = reader.GetString(1);
-            empleado.Nombre = reader.GetString(2);
+            empleado.Id = reader.GetInt64(0);
+            empleado.Cedula = reader.GetString(2);
+            empleado.Nombre = reader.GetString(1);
             empleado.Telefono = reader.GetString(3);
-            empleado.Cargo=LoadCargo(reader.GetChar(4));
+            empleado.Cargo=LoadCargo(reader.GetString(4));
             
             return empleado;
         }
@@ -132,11 +171,11 @@ namespace DAL
         private CargosEmpleados MapCargo(OracleDataReader reader)
         {
             CargosEmpleados cargo = new CargosEmpleados();
-            cargo.Id = reader.GetChar(0);
+            cargo.Id = reader.GetString(0);
             cargo.Nombre = reader.GetString(1);
             return cargo;
         }
 
-
+        
     }
 }

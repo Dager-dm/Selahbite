@@ -79,7 +79,7 @@
             <Label Grid.Row="0" Content="Platos/Bebidas" FontSize="35" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
             <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="32,0,32,31" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}">
+                <ListView Name="miListView"  Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Height" Value="40"/>
@@ -97,11 +97,11 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
-                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
-                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
-                            <GridViewColumn Header="Categoría" DisplayMemberBinding="{Binding Categoria}" Width="Auto"/>
-                            <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor}" Width="Auto"/>
-                            <GridViewColumn Width="10">
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="70"/>
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="300"/>
+                            <GridViewColumn Header="Categoría" DisplayMemberBinding="{Binding Categoria.Nombre}" Width="300"/>
+                            <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor}" Width="100"/>
+                            <GridViewColumn Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

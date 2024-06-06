@@ -9,6 +9,10 @@ using System.Drawing;
 using System.IO;
 using ENTITY;
 using Org.BouncyCastle.Utilities;
+using System.Globalization;
+using ESC_POS_USB_NET.Printer;
+using System.Management;
+using PDFtoPrinter;
 
 namespace BLL
 {
@@ -20,9 +24,9 @@ namespace BLL
         }
 
 
-        public static void CreateFactura(string Cajero, Pedido pedido)
+        public static void CreateFactura(Empleado Cajero, Pedido pedido, string cambio, string efectivo)
         {
-            float alturaagregada = pedido.Detalles.Count() * 25; 
+            float alturaagregada = pedido.Detalles.Count() * 20; 
             float ancho = 80f;
             float alto = 130f + alturaagregada;
             float marginLeft = 10f;
@@ -35,8 +39,11 @@ namespace BLL
 
 
             // Crea una instancia de PdfWriter
-            PdfWriter.GetInstance(doc, new FileStream("factura_N°" + pedido.NumeroFactura.ToString() + ".pdf", FileMode.Create));
+            PdfWriter.GetInstance(doc, new FileStream("factura_N°" + pedido.Id.ToString() + ".pdf", FileMode.Create));
 
+            NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
+            nfi.CurrencySymbol = "$";
+            nfi.CurrencyGroupSeparator = ".";
 
             string verdanaFontPath = "C:\\Windows\\Fonts\\Verdana.ttf";
 
@@ -69,7 +76,7 @@ namespace BLL
             doc.Add(separator);
 
 
-            iTextSharp.text.Paragraph InfoClienteCajero = new iTextSharp.text.Paragraph("Factura N°: "+pedido.NumeroFactura.ToString()+" \nFecha: "+pedido.Fecha.ToString()+" \nCajero: " + Cajero + "\nCliente: " + pedido.Cliente.Nombre.ToString() + "\nC.C: "+pedido.Cliente.Id.ToString(), verdanaFont);
+            iTextSharp.text.Paragraph InfoClienteCajero = new iTextSharp.text.Paragraph("Factura N°: "+pedido.Id.ToString()+" \nFecha: "+pedido.Fecha.ToString()+" \nCajero: " + Cajero.Nombre + "\nCliente: " + pedido.Cliente.Nombre.ToString() + "\nC.C: "+pedido.Cliente.Cedula.ToString(), verdanaFont);
             InfoClienteCajero.Alignment = Element.ALIGN_LEFT;
             doc.Add(InfoClienteCajero);
             doc.Add(separator);
@@ -89,13 +96,12 @@ namespace BLL
                 cell1.Border = iTextSharp.text.Rectangle.NO_BORDER;
                 cell1.HorizontalAlignment = Element.ALIGN_LEFT; cell1.PaddingTop = 15f;
                 table.AddCell(cell1);
-
-                PdfPCell cell2 = new PdfPCell(new Phrase(item.ValorProductoVendido.ToString(), verdanaFont));
+                PdfPCell cell2 = new PdfPCell(new Phrase(item.ValorProductoVendido.ToString("C0", nfi), verdanaFont));
                 cell2.Border = iTextSharp.text.Rectangle.NO_BORDER;
                 cell2.HorizontalAlignment = Element.ALIGN_RIGHT; cell2.PaddingTop = 15f;
                 table.AddCell(cell2);
 
-                PdfPCell cell3 = new PdfPCell(new Phrase(item.Producto.Valor.ToString()+" x "+item.Cantidad.ToString()+" Unidades", verdanaFontNoBold));
+                PdfPCell cell3 = new PdfPCell(new Phrase(item.Producto.Valor.ToString("C0", nfi) + " x "+item.Cantidad.ToString()+" Unidades", verdanaFontNoBold));
                 cell3.Border = iTextSharp.text.Rectangle.NO_BORDER; cell3.PaddingTop = 5f;
                 cell3.Colspan = 2;
                 table.AddCell(cell3);
@@ -105,6 +111,9 @@ namespace BLL
             doc.Add(table);
             doc.Add(separator);
 
+            decimal valorNumerico = Convert.ToDecimal(efectivo);
+            
+
             PdfPTable tabletotal = new PdfPTable(2);
             tabletotal.TotalWidth = 210; tabletotal.LockedWidth = true;
 
@@ -112,7 +121,7 @@ namespace BLL
             celltotal.HorizontalAlignment = Element.ALIGN_RIGHT; celltotal.PaddingTop = 15f; celltotal.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(celltotal);
 
-            PdfPCell celltotalvalue = new PdfPCell(new Phrase(pedido.Valor.ToString(), verdanaFontBoldbig));
+            PdfPCell celltotalvalue = new PdfPCell(new Phrase(pedido.Valor.ToString("C0", nfi), verdanaFontBoldbig));
             celltotalvalue.HorizontalAlignment = Element.ALIGN_RIGHT; celltotalvalue.PaddingTop = 15f; celltotalvalue.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(celltotalvalue);
 
@@ -121,8 +130,7 @@ namespace BLL
             cellefectivo.HorizontalAlignment = Element.ALIGN_LEFT; cellefectivo.PaddingTop = 15f; cellefectivo.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellefectivo);
 
-
-            PdfPCell cellefectivovalue = new PdfPCell(new Phrase("$50.000", verdanaFontNoBold));
+            PdfPCell cellefectivovalue = new PdfPCell(new Phrase(valorNumerico.ToString("C0", nfi), verdanaFontNoBold));
             cellefectivovalue.HorizontalAlignment = Element.ALIGN_RIGHT; cellefectivovalue.PaddingTop = 15f; cellefectivovalue.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellefectivovalue);
 
@@ -130,7 +138,7 @@ namespace BLL
             cellcambio.HorizontalAlignment = Element.ALIGN_RIGHT; cellcambio.PaddingTop = 15f; cellcambio.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellcambio);
 
-            PdfPCell cellcambiovalue = new PdfPCell(new Phrase("$50.000", verdanaFontBoldbig));
+            PdfPCell cellcambiovalue = new PdfPCell(new Phrase(cambio, verdanaFontBoldbig));
             cellcambiovalue.HorizontalAlignment = Element.ALIGN_RIGHT; cellcambiovalue.PaddingTop = 15f; cellcambiovalue.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellcambiovalue);
 
@@ -138,10 +146,72 @@ namespace BLL
             doc.Close();
         }
 
+       
+
+        public void Pint()
+        {
+            string printerName = FindUSBPrinter("XP-80C");
+            string imagePath = "D:\\Documentos\\try.jpg";
 
 
+        }
 
+        static string FindUSBPrinter(string printerName)
+        {
+            string query = "SELECT * FROM Win32_Printer WHERE PortName LIKE '%USB%'";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
+            foreach (ManagementObject printer in searcher.Get())
+            {
+                if (printer["Name"].ToString() == printerName)
+                {
+                    return printer["Name"].ToString();
+                }
+            }
 
+            return null;
+        }
+
+        static public void printImg()
+        {
+            string printerName = "XP-80C";
+            string imagePath = "D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\output.jpg";
+
+            Printer printer = new Printer(printerName);
+
+            // Cargar la imagen
+            Bitmap image = new Bitmap(imagePath);
+            
+            // Imprimir la imagen
+            printer.Image(image);
+            printer.FullPaperCut();
+            // Enviar los comandosla impresora
+            printer.PrintDocument();
+        }
+
+        public static void OpenCash()
+        {
+            string printerName = "XP-80C";
+
+            Printer printer = new Printer(printerName);
+
+            // Enviar el comando para abrir el cajón de dinero
+            printer.OpenDrawer();
+
+            // Cerrar la conexión con la impresora
+            // printer.FullPaperCut();
+            printer.PrintDocument();
+        }
+
+        public void test()
+        {
+            var filePath = @"D:\Proyecto\Selahbite\GUI\bin\Debug\factura_N°1.pdf"; // Ruta al archivo PDF que deseas imprimir
+            var networkPrinterName = @"XP-80C"; // Nombre de la impresora de red
+            var printTimeout = new TimeSpan(0, 0, 30); // Tiempo máximo de impresión (30 segundos)
+
+            var printer = new PDFtoPrinterPrinter();
+            printer.Print(new PrintingOptions(networkPrinterName, filePath), printTimeout);
+
+        }
     }
 }
