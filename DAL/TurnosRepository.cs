@@ -136,8 +136,9 @@ namespace DAL
             turno.Observacion = reader.GetString(9); 
             turno.Cajero=LoadCajero(reader.GetString(10));
             turno.Estado = reader.GetString(11);
-            turno.LstEgresos = EgresosRepository.GetEgresos(turno);
-            turno.Pedidos = PedidosRepository.GetPedidos(turno);
+            turno.LstEgresos = EgresosRepository.GetEgresos(turno.Id);
+            turno.Pedidos = PedidosRepository.GetPedidos(turno.Id);
+            
             return turno;
         }
 

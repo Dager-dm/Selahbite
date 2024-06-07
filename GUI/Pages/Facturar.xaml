@@ -124,7 +124,7 @@
                                     <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nombre}" Width="180"/>
                                     <GridViewColumn Header="Mesero" DisplayMemberBinding="{Binding Mesero.Nombre}" Width="180"/>
                                     <GridViewColumn Header="Forma de Pago" DisplayMemberBinding="{Binding MetodoPago.Nombre}" Width="150"/>
-                                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding Valor}" Width="170"/>
+                                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding Valor, StringFormat=' {0:C0}'}" Width="170"/>
                                     <GridViewColumn Width="10">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>

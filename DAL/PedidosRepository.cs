@@ -15,13 +15,13 @@ namespace DAL
 
         EmpleadosRepository empleadosRepository = new EmpleadosRepository();
         DetallesRepository detallesRepository= new DetallesRepository();
-        TurnosRepository turnosRepository= new TurnosRepository();
+        //TurnosRepository turnosRepository= new TurnosRepository();
         private OracleCommand oracleCommand;
         public PedidosRepository()
         {
             
         }
-        public Pedido Insert(Pedido pedido)
+        public Pedido Insert(Pedido pedido, long idTurno)
         {
             oracleCommand = new OracleCommand();
             oracleCommand.Connection = Conexion();
@@ -30,16 +30,17 @@ namespace DAL
                       DECLARE
                        idd NUMBER;
                        BEGIN
-                        idd := fn_InsertPedido(:id_pago, :valor, :id_tur, :id_client, :id_empl, :es);
+                        idd := fn_InsertPedido(:id_pago, :valor, :id_tur, :id_client, :id_empl, :es, :modalidad);
                        :return_value := idd;
                        END;";
             oracleCommand.CommandType = CommandType.Text;
             oracleCommand.Parameters.Add("id_pago", OracleDbType.Varchar2).Value = pedido.MetodoPago.Id;
             oracleCommand.Parameters.Add("valor", OracleDbType.Int32).Value = pedido.Valor;
-            oracleCommand.Parameters.Add("id_tur", OracleDbType.Int32).Value = pedido.Turno.Id;
+            oracleCommand.Parameters.Add("id_tur", OracleDbType.Int32).Value = idTurno;
             oracleCommand.Parameters.Add("id_client", OracleDbType.Int32).Value = pedido.Cliente.Id;
             oracleCommand.Parameters.Add("id_empl", OracleDbType.Int32).Value = pedido.Mesero.Id;
             oracleCommand.Parameters.Add("es", OracleDbType.Varchar2).Value = pedido.Estado;
+            oracleCommand.Parameters.Add("modalidad", OracleDbType.Varchar2).Value = pedido.FormaDePago.ToString(); ;
 
             OracleParameter returnParam = new OracleParameter("return_value", OracleDbType.Int32);
             returnParam.Direction = ParameterDirection.Output;
@@ -57,7 +58,40 @@ namespace DAL
             return pedido;
         }
 
-        public  List<Pedido> GetPedidos(Turno turno)
+        //public  List<Pedido> GetPedidos(Turno turno)
+        //{
+        //    List<Pedido> lstPedidos = new List<Pedido>();
+        //    oracleCommand = new OracleCommand();
+        //    oracleCommand.Connection = Conexion();
+        //    AbrirConexion();
+        //    oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_pedidos(:idturno); END;";
+        //    oracleCommand.CommandType = System.Data.CommandType.Text;
+        //    OracleParameter cursor = new OracleParameter();
+        //    cursor.ParameterName = "cursor";
+        //    cursor.OracleDbType = OracleDbType.RefCursor;
+        //    cursor.Direction = System.Data.ParameterDirection.Output;
+
+        //    oracleCommand.Parameters.Add(cursor);
+        //    oracleCommand.Parameters.Add("idturno", OracleDbType.Int32).Value = turno.Id; 
+
+
+        //    oracleCommand.ExecuteNonQuery();
+
+        //    using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            var p=MapPedido(reader);
+        //            //p.Turno= turno;
+        //            lstPedidos.Add(p);
+        //        }
+        //    }
+        //    CerrarConexion();
+        //    return lstPedidos;
+        //}
+
+
+        public List<Pedido> GetPedidos(long idTurno)
         {
             List<Pedido> lstPedidos = new List<Pedido>();
             oracleCommand = new OracleCommand();
@@ -71,7 +105,7 @@ namespace DAL
             cursor.Direction = System.Data.ParameterDirection.Output;
 
             oracleCommand.Parameters.Add(cursor);
-            oracleCommand.Parameters.Add("idturno", OracleDbType.Int32).Value = turno.Id; // Asegúrate de reemplazar "pedido.Id" con el valor correcto
+            oracleCommand.Parameters.Add("idturno", OracleDbType.Int32).Value = idTurno; // Asegúrate de reemplazar "pedido.Id" con el valor correcto
 
 
             oracleCommand.ExecuteNonQuery();
@@ -80,22 +114,27 @@ namespace DAL
             {
                 while (reader.Read())
                 {
-                    var p=MapPedido(reader);
-                    p.Turno= turno;
-                    lstPedidos.Add(p);
+                    lstPedidos.Add(MapPedido(reader));
                 }
             }
             CerrarConexion();
             return lstPedidos;
         }
-
         private  Pedido MapPedido(OracleDataReader reader)
         {
             Pedido pedido = new Pedido();
             pedido.Id = reader.GetInt64(0);
-            pedido.MetodoPago=LoadMetodo(reader.GetString(1));
+            pedido.FormaDePago = reader.GetString(8) == "Contado" ? FormaDePago.Contado : FormaDePago.Credito; //operador ternario
+            if (pedido.FormaDePago==FormaDePago.Contado)
+            {
+                pedido.MetodoPago = LoadMetodo(reader.GetString(1));
+            }
+            else
+            {
+                pedido.MetodoPago=LoadNullMetodo();
+            }
             pedido.Valor = reader.GetInt64(2);
-            pedido.Turno = LoadTurno(reader.GetInt64(3));
+            //pedido.Turno = LoadTurno(reader.GetInt64(3));
             pedido.Cliente=LoadCliente(reader.GetInt64(4));
             pedido.Mesero=LoadMesero(reader.GetInt64(5));
             pedido.Estado=reader.GetString(6);
@@ -229,23 +268,13 @@ namespace DAL
 
         }
 
-        private Turno LoadTurno(float idturno)
+        private MetodosPago LoadNullMetodo()
         {
-            oracleCommand = new OracleCommand();
-            string oracle = "SELECT * FROM TURNOS WHERE id_turno = :idturno";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("idturno", idturno));
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
-            {
-                return turnosRepository.MapTurno(reader);
+            MetodosPago m = new MetodosPago();
+            m.Nombre = "";
+            m.Id = "0";
+            return m;
 
-            }
-            CerrarConexion();
-
-            return null;
         }
     }
 }

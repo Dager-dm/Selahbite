@@ -12,7 +12,7 @@ namespace ENTITY
         {
             
         }
-        public Pedido(long id, List<DetallePedido> detalles, MetodosPago metodopago, Empleado mesero, Cliente cliente, Turno turno, DateTime Fecha, long ValorTotal, string esatdo): base (Fecha, ValorTotal)
+        public Pedido(long id, List<DetallePedido> detalles, MetodosPago metodopago, Empleado mesero, Cliente cliente, DateTime Fecha, long ValorTotal, string esatdo): base (Fecha, ValorTotal)
         {
             Id = id;
             Detalles = detalles;
@@ -20,7 +20,8 @@ namespace ENTITY
             Mesero = mesero;
             Cliente = cliente;
             Estado = esatdo;
-            Turno = turno;
+
+            //Turno = turno;
         }
 
 
@@ -30,7 +31,8 @@ namespace ENTITY
         public MetodosPago MetodoPago { get; set; }
         public Empleado Mesero { get; set; }
         public Cliente Cliente { get; set; }
-        public Turno Turno { get; set; }
+        public FormaDePago FormaDePago { get; set; }
+        //public Turno Turno { get; set; }
 
         public void CalculoValor()
         {
@@ -40,5 +42,6 @@ namespace ENTITY
             }
         }
 
+        
     }
 }

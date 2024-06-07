@@ -167,4 +167,3 @@ D:\Proyecto\Selahbite\GUI\bin\Debug\ESC-POS-USB-NET.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Drawing.Common.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Drawing.Common.pdb
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Drawing.Common.xml
-D:\Proyecto\Selahbite\GUI\bin\Debug\PDFtoPrinter.dll

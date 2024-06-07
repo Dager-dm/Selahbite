@@ -70,7 +70,36 @@ namespace DAL
             return lstEgresos;
 
         }
+        public List<Egreso> GetEgresos(long idTurno)
+        {
+            List<Egreso> lstEgresos = new List<Egreso>();
+            oracleCommand = new OracleCommand();
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_egresos(:id_turn); END;";
+            oracleCommand.CommandType = System.Data.CommandType.Text;
+            OracleParameter cursor = new OracleParameter();
+            cursor.ParameterName = "cursor";
+            cursor.OracleDbType = OracleDbType.RefCursor;
+            cursor.Direction = System.Data.ParameterDirection.Output;
 
+            oracleCommand.Parameters.Add(cursor);
+            oracleCommand.Parameters.Add("id_turn", OracleDbType.Int32).Value = idTurno; // Asegúrate de reemplazar "pedido.Id" con el valor correcto
+
+
+            oracleCommand.ExecuteNonQuery();
+
+            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            {
+                while (reader.Read())
+                {
+                    lstEgresos.Add(MapEgresos(reader));
+                }
+            }
+            CerrarConexion();
+            return lstEgresos;
+
+        }
         private static Egreso MapEgresos(OracleDataReader reader)
         {
             Egreso egreso = new Egreso();

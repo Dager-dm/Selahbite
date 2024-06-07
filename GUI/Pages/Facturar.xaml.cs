@@ -46,9 +46,9 @@ namespace GUI.Pages
         public Facturar()
         {
             InitializeComponent();
-            //cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
-            //cboClientes.ItemsSource = servicioCliente.GetAllClientes();
-            //items.ItemsSource = servicioproducto.GetAllProducts();
+            cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
+            cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            items.ItemsSource = servicioproducto.GetAllProducts();
 
         }
 
@@ -95,8 +95,8 @@ namespace GUI.Pages
             AddCliente addClienteWindow = new AddCliente();
             addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
-            //servicioCliente.AddClientes(addClienteWindow.clientepr);
-            //cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            servicioCliente.AddClientes(addClienteWindow.clientepr);
+            cboClientes.ItemsSource = servicioCliente.GetAllClientes();
 
         }
 
@@ -166,8 +166,8 @@ namespace GUI.Pages
         {
 
             string searchText = txbBusqueda.Text.ToLower();
-            //filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
-            //items.ItemsSource = filteredItems;
+            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
+            items.ItemsSource = filteredItems;
 
         }
 
@@ -199,8 +199,6 @@ namespace GUI.Pages
         {
             listviewProductos.ItemsSource = null;
             listviewProductos.ItemsSource = Detalles;
-
-
         }
 
         private DetallePedido ValidarDetalle(DetallePedido detalle)
@@ -219,26 +217,27 @@ namespace GUI.Pages
         private void ConfirmarPago_Click(object sender, RoutedEventArgs e)
         {
 
-            //MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
-            //ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, servicioPedido.GetMetodos(), (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
-            //ShowDetailsWindow.Owner = mainWindow;
-            //ShowDetailsWindow.ShowDialog();
-            //if (ShowDetailsWindow.Confirmar)
-            //{
-            //    var pedido=servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
-            //    ShowDetailsWindow.NPedido.Id= pedido.Id;
-            //    if (ShowDetailsWindow.print)
-            //    {
-            //        servicioPedido.GenerateFactura(ShowDetailsWindow.NPedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
-            //    }
+            MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+            ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, servicioPedido.GetMetodos(), (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
+            ShowDetailsWindow.Owner = mainWindow;
+            ShowDetailsWindow.ShowDialog();
+            if (ShowDetailsWindow.Confirmar)
+            {
+                var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
+                ShowDetailsWindow.NPedido.Id = pedido.Id;
+                if (ShowDetailsWindow.print)
+                {
+                    servicioPedido.GenerateFactura(ShowDetailsWindow.NPedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
+                    //MessageBox.Show(i);
+                }
 
-            //    foreach (var item in Detalles)
-            //    {
-            //        item.Pedido.Id=pedido.Id;
-            //        servicioDetalles.AddDetalle(item);
-            //    }
+                foreach (var item in Detalles)
+                {
+                    item.Pedido.Id = pedido.Id;
+                    servicioDetalles.AddDetalle(item);
+                }
 
-            //}
+            }
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
@@ -263,7 +262,7 @@ namespace GUI.Pages
             lblPedidos.Visibility = Visibility.Visible;
             if (ServicioTurno.turnoAbierto!=null)
             {
-                //PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
+                PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
             }
             
         }

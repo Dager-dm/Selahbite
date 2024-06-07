@@ -427,7 +427,7 @@
                        
                         <Label Content="Observaciones" Grid.Row="3" Grid.Column="0"  FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Top" Height="30"/>
                         <Border  Grid.Row="3" Grid.Column="1"  Width="150" Height="85" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                                    <TextBox x:Name="txtObservacion" BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap"/>
+                                    <TextBox x:Name="txtObservacion" Text=" " BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap"/>
                         </Border>
                         
 

@@ -39,7 +39,7 @@ namespace GUI.Windows
             cboMetodos.ItemsSource = metodos;
             CreatePedido(detalles, cliente, Mesero);
             lblTotalPedido.Content = string.Format("{0:C0}", NPedido.Valor);
-            
+            rbnContado.IsChecked = true;
 
         }
 
@@ -54,9 +54,6 @@ namespace GUI.Windows
         {
             this.DragMove();
         }
-
-
-
 
 
         private void cboMetodos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -88,7 +85,9 @@ namespace GUI.Windows
             pedido.Cliente= cliente;
             pedido.Estado="Pagado";
             pedido.Fecha=DateTime.Now;
+            pedido.FormaDePago = FormaDePago.Contado;
             NPedido = pedido;
+
             foreach (var item in detalles)
             {
                 item.Pedido = pedido;
@@ -96,6 +95,7 @@ namespace GUI.Windows
             
 
         }
+
         private void cb_GotFocus(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
@@ -108,21 +108,28 @@ namespace GUI.Windows
         private void btnConfirmarpago_Click(object sender, RoutedEventArgs e)
         {
             Confirmar = true;
-            NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
-            if (NPedido.MetodoPago.Nombre=="Efectivo")
+  
+
+
+            if (rbnCredito.IsChecked==true)
             {
-                Cambio = lblCambio2.Content.ToString();
-                Efectivo = txt.Text.ToString();
-            }else if (NPedido.MetodoPago.Nombre == "Credito")
-             {
                 NPedido.Estado = "Pendiente";
-                Cambio = "0";
-                Efectivo = "0";
+                NPedido.FormaDePago = FormaDePago.Credito;
             }
             else
             {
-                Cambio = "0";
-                Efectivo = "0";
+                NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
+                if (NPedido.MetodoPago.Nombre == "Efectivo")
+                {
+                    Cambio = lblCambio2.Content.ToString();
+                    Efectivo = txt.Text.ToString();
+                }
+                else
+                {
+                    Cambio = "0";
+                    Efectivo = "0";
+                }
+
             }
 
             if (Checkprint.IsChecked==true) { print = true; }
@@ -137,6 +144,18 @@ namespace GUI.Windows
             }
 
             
+        }
+
+        private void rbnCredito_Checked(object sender, RoutedEventArgs e)
+        {
+            cboMetodos.Visibility= Visibility.Hidden;
+            Checkprint.Visibility= Visibility.Hidden;
+        }
+
+        private void rbnContado_Checked(object sender, RoutedEventArgs e)
+        {
+            cboMetodos.Visibility = Visibility.Visible;
+            Checkprint.Visibility= Visibility.Visible;
         }
     }
 }

@@ -12,8 +12,7 @@ using Org.BouncyCastle.Utilities;
 using System.Globalization;
 using ESC_POS_USB_NET.Printer;
 using System.Management;
-using PDFtoPrinter;
-
+using System.Drawing.Imaging;
 namespace BLL
 {
     public class ServicioFactura
@@ -39,7 +38,7 @@ namespace BLL
 
 
             // Crea una instancia de PdfWriter
-            PdfWriter.GetInstance(doc, new FileStream("factura_N°" + pedido.Id.ToString() + ".pdf", FileMode.Create));
+            PdfWriter.GetInstance(doc, new FileStream("factura.pdf", FileMode.Create));
 
             NumberFormatInfo nfi = new CultureInfo("es-CO", false).NumberFormat;
             nfi.CurrencySymbol = "$";
@@ -146,16 +145,6 @@ namespace BLL
             doc.Close();
         }
 
-       
-
-        public void Pint()
-        {
-            string printerName = FindUSBPrinter("XP-80C");
-            string imagePath = "D:\\Documentos\\try.jpg";
-
-
-        }
-
         static string FindUSBPrinter(string printerName)
         {
             string query = "SELECT * FROM Win32_Printer WHERE PortName LIKE '%USB%'";
@@ -172,20 +161,26 @@ namespace BLL
             return null;
         }
 
+        public static void PdfToImg()
+        {
+            string imagePath = @"output.png"; 
+            string rutaArchivoPDF = @"D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\factura.pdf";
+            Spire.Pdf.PdfDocument doc = new Spire.Pdf.PdfDocument();
+            doc.LoadFromFile(rutaArchivoPDF);
+            System.Drawing.Image image = doc.SaveAsImage(0, 900, 900);
+            image.Save(imagePath, System.Drawing.Imaging.ImageFormat.Png);
+            doc.Close();
+
+        }
+
         static public void printImg()
         {
             string printerName = "XP-80C";
-            string imagePath = "D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\output.jpg";
-
+            string imagePath = "D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\output.png";
             Printer printer = new Printer(printerName);
-
-            // Cargar la imagen
             Bitmap image = new Bitmap(imagePath);
-            
-            // Imprimir la imagen
             printer.Image(image);
             printer.FullPaperCut();
-            // Enviar los comandosla impresora
             printer.PrintDocument();
         }
 
@@ -203,15 +198,6 @@ namespace BLL
             printer.PrintDocument();
         }
 
-        public void test()
-        {
-            var filePath = @"D:\Proyecto\Selahbite\GUI\bin\Debug\factura_N°1.pdf"; // Ruta al archivo PDF que deseas imprimir
-            var networkPrinterName = @"XP-80C"; // Nombre de la impresora de red
-            var printTimeout = new TimeSpan(0, 0, 30); // Tiempo máximo de impresión (30 segundos)
 
-            var printer = new PDFtoPrinterPrinter();
-            printer.Print(new PrintingOptions(networkPrinterName, filePath), printTimeout);
-
-        }
     }
 }
