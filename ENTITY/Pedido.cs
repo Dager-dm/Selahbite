@@ -31,7 +31,7 @@ namespace ENTITY
         public MetodosPago MetodoPago { get; set; }
         public Empleado Mesero { get; set; }
         public Cliente Cliente { get; set; }
-        public FormaDePago FormaDePago { get; set; }
+        public ModalidadDePago ModalidadDePago { get; set; }
         //public Turno Turno { get; set; }
 
         public void CalculoValor()

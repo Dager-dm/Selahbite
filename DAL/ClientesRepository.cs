@@ -42,7 +42,6 @@ namespace DAL
             return false;
         }
 
-
         public bool Edit(Cliente cliente)
         {
             oracleCommand = new OracleCommand("pr_EditCliente");
@@ -68,24 +67,13 @@ namespace DAL
 
         public bool Delete(Cliente cliente)
         {
-
-
-            return false;
-        }
-  
-        
-
-        public bool EditSaldo(Cliente cliente)
-        {
-            oracleCommand = new OracleCommand("pr_EditSaldoCliente");
+            oracleCommand = new OracleCommand("pr_DeleteCliente");
             oracleCommand.CommandType = CommandType.StoredProcedure;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
 
             oracleCommand.Parameters.Add("idclient", OracleDbType.Varchar2).Value = cliente.Id;
-            oracleCommand.Parameters.Add("sald", OracleDbType.Decimal).Value = cliente.Saldo;
 
-            // pr_EditSaldoCliente( idclient CLIENTES.id_cliente%type, sald CLIENTES.saldo%type)
             var i = oracleCommand.ExecuteNonQuery();
             if (i > 0)
             {
@@ -95,15 +83,15 @@ namespace DAL
 
             return false;
         }
-
+  
         public static Cliente MapCliente(OracleDataReader reader)
         {
             Cliente client = new Cliente();
-            client.Id = reader.GetInt64(0);
-            client.Cedula = reader.GetString(1);
-            client.Nombre = reader.GetString(2);
-            client.Telefono = reader.GetString(3);
-            client.Saldo = reader.GetFloat(4);
+            client.Id = reader.GetInt64(4);
+            client.Cedula = reader.GetString(0);
+            client.Nombre = reader.GetString(1);
+            client.Telefono = reader.GetString(2);
+            client.Saldo = reader.GetFloat(3);
             return client;
         }
 
@@ -139,7 +127,5 @@ namespace DAL
         }
 
         
-
-
     }
 }

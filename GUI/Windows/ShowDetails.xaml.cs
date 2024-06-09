@@ -22,7 +22,7 @@ namespace GUI.Windows
     /// </summary>
     public partial class ShowDetails : Window
     {
-
+       ServicioPedido serviciopedido = new ServicioPedido();
         public Pedido NPedido { get; set; }
 
         public string Cambio;
@@ -32,14 +32,44 @@ namespace GUI.Windows
         public bool Confirmar= false;
 
         public bool print=false;
-        public ShowDetails( List<DetallePedido> detalles, List<MetodosPago> metodos, Cliente cliente, Empleado Mesero)
+        public ShowDetails( List<DetallePedido> detalles, Cliente cliente, Empleado Mesero)
         {
             InitializeComponent();
             listviewProductos.ItemsSource = detalles;
-            cboMetodos.ItemsSource = metodos;
+            cboMetodos.ItemsSource = serviciopedido.GetMetodos();
             CreatePedido(detalles, cliente, Mesero);
             lblTotalPedido.Content = string.Format("{0:C0}", NPedido.Valor);
             rbnContado.IsChecked = true;
+
+        }
+
+        public ShowDetails(VistaDeuda vista)
+        {
+            InitializeComponent();
+            listviewProductos.ItemsSource = vista.Detalles;
+            cboMetodos.ItemsSource = serviciopedido.GetMetodos();
+            lblTotalPedido.Content = string.Format("{0:C0}", vista.Valor);
+            modalidad.Visibility = Visibility.Hidden;
+            NPedido= new Pedido();
+            rbnCredito.IsChecked = false;
+
+        }
+
+        public ShowDetails(Pedido pedido) 
+        {
+            InitializeComponent();
+            listviewProductos.ItemsSource = pedido.Detalles;
+            lblTotalPedido.Content = string.Format("{0:C0}", pedido.Valor);
+            modalidad.Visibility = Visibility.Hidden;
+            cboMetodos.Visibility = Visibility.Hidden;
+            Checkprint.Visibility = Visibility.Hidden;
+            lblmetodos.Visibility = Visibility.Hidden;
+            bdmetodos.Visibility = Visibility.Hidden;
+            btnConfirmarpago.Content = "Aceptar";
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Save"];
+            btnConfirmarpago.Tag= icono;
+            Grid.SetRow(btnConfirmarpago, 2);
+            this.Height = 500;
 
         }
 
@@ -85,7 +115,7 @@ namespace GUI.Windows
             pedido.Cliente= cliente;
             pedido.Estado="Pagado";
             pedido.Fecha=DateTime.Now;
-            pedido.FormaDePago = FormaDePago.Contado;
+            pedido.ModalidadDePago = ModalidadDePago.Contado; 
             NPedido = pedido;
 
             foreach (var item in detalles)
@@ -108,31 +138,36 @@ namespace GUI.Windows
         private void btnConfirmarpago_Click(object sender, RoutedEventArgs e)
         {
             Confirmar = true;
-  
 
-
-            if (rbnCredito.IsChecked==true)
+            if (btnConfirmarpago.Content.ToString() != "Aceptar")
             {
-                NPedido.Estado = "Pendiente";
-                NPedido.FormaDePago = FormaDePago.Credito;
-            }
-            else
-            {
-                NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
-                if (NPedido.MetodoPago.Nombre == "Efectivo")
+                if (rbnCredito.IsChecked == true)
                 {
-                    Cambio = lblCambio2.Content.ToString();
-                    Efectivo = txt.Text.ToString();
+                    NPedido.Estado = "Pendiente";
+                    NPedido.ModalidadDePago = ModalidadDePago.Credito;
+                    MetodosPago m = new MetodosPago("Credito", "5");
+                    NPedido.MetodoPago = m;
                 }
                 else
                 {
-                    Cambio = "0";
-                    Efectivo = "0";
+                    NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
+                    if (NPedido.MetodoPago.Nombre == "Efectivo")
+                    {
+                        Cambio = lblCambio2.Content.ToString();
+                        Efectivo = txt.Text.ToString();
+                    }
+                    else
+                    {
+                        Cambio = "0";
+                        Efectivo = "0";
+                    }
+
                 }
 
+                if (Checkprint.IsChecked == true) { print = true; }
             }
 
-            if (Checkprint.IsChecked==true) { print = true; }
+
             Close();
         }
 
@@ -150,12 +185,22 @@ namespace GUI.Windows
         {
             cboMetodos.Visibility= Visibility.Hidden;
             Checkprint.Visibility= Visibility.Hidden;
+            lblmetodos.Visibility=Visibility.Hidden;
+            bdmetodos.Visibility= Visibility.Hidden;
+            lblEectivo1.Visibility = Visibility.Hidden;
+            brdEfectivo1.Visibility = Visibility.Hidden;
+            lblCambio1.Visibility = Visibility.Hidden;
+            lblCambio2.Visibility = Visibility.Hidden;
+            btnConfirmarpago.Content = "Confirmar";
         }
 
         private void rbnContado_Checked(object sender, RoutedEventArgs e)
         {
             cboMetodos.Visibility = Visibility.Visible;
             Checkprint.Visibility= Visibility.Visible;
+            btnConfirmarpago.Content = "Confirmar Pago";
+            lblmetodos.Visibility = Visibility.Hidden;
+            bdmetodos.Visibility = Visibility.Hidden;
         }
     }
 }

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Proyecto\Selahbite\GUI\App.xaml
-22-1681234752
+24-310071086
 
-22491705820
-17-1934402955
-Assets\Icons\Icons.xaml;MainWindow.xaml;Styles\JustPop.xaml;Windows\AddCliente.xaml;Windows\AddEmpleado.xaml;Windows\AddProducto.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Windows\MessageBox.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Styles\UserPopup.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Windows\NewEgreso.xaml;Windows\ShowDetails.xaml;
+241692759522
+26-1327102237
+Assets\Icons\Icons.xaml;MainWindow.xaml;Styles\JustPop.xaml;Windows\AddCliente.xaml;Windows\AddEgresos.xaml;Windows\AddEmpleado.xaml;Windows\AddProducto.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Windows\Login.xaml;Windows\MessageBox.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Styles\UserPopup.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Windows\NewEgreso.xaml;Windows\ShowDetails.xaml;
 
 False
 

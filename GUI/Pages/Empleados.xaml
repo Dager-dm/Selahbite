@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="37"/>
 
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="NeewEmployee" Content="Agregar Empleado" Grid.Column="1" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewEmployee" />
+                <RadioButton x:Name="NeewEmployee" Content="Agregar Empleado" Grid.Column="1" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewEmployee" Margin="-5 0 0 0" />
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
@@ -98,7 +98,7 @@
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
                             <GridViewColumn Header="Cedula" DisplayMemberBinding="{Binding Cedula}" Width="200"/>
-                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="200"/>
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="250"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="200"/>
                             <GridViewColumn Header="Cargo" DisplayMemberBinding="{Binding Cargo.Nombre}" Width="200"/>
                             <GridViewColumn Width="200">

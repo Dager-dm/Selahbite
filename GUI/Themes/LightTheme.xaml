@@ -14,10 +14,9 @@
     <SolidColorBrush x:Key="TertiaryTextColor" Color="#1C3254"/>
 
     <SolidColorBrush x:Key="Shadow" Color="#DBDBDB"/>
-   
-    
-    
-    
+    <Color x:Key="Bitefect">#EBEBEB</Color>
+
+
     <!-- Blue Colors-->
     <SolidColorBrush x:Key="PrimaryBlueColor" Color="#004FC4"/>
     <SolidColorBrush x:Key="SecundaryBlueColor" Color="#0063F7"/>

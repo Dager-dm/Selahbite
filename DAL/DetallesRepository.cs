@@ -45,25 +45,25 @@ namespace DAL
             return false;
         }
 
-        public List<DetallePedido> GetDetalle(Pedido pedido)
+        public List<DetallePedido> GetDetalle(long Idpedido)
         {
             oracleCommand = new OracleCommand();
             List<DetallePedido> lstDetalles= new List<DetallePedido>();
             string oracle = "SELECT * FROM DETALLEPEDIDO WHERE id_pedido = :id";
             oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("id", pedido.Id));
+            oracleCommand.Parameters.Add(new OracleParameter("id", Idpedido));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
             var reader = oracleCommand.ExecuteReader(); //select
             while (reader.Read())
             {
-                lstDetalles.Add(MapDetalle(reader, pedido));
+                lstDetalles.Add(MapDetalle(reader));
             }
             CerrarConexion();
             return lstDetalles;
         }
 
-        public List<DetallePedido> GetDetalles(Pedido pedido) 
+        public List<DetallePedido> GetDetalles(long Idpedido) 
         {
 
             List<DetallePedido> lstDetalles = new List<DetallePedido>();
@@ -76,9 +76,8 @@ namespace DAL
             cursor.ParameterName = "cursor";
             cursor.OracleDbType = OracleDbType.RefCursor;
             cursor.Direction = System.Data.ParameterDirection.Output;
-
             oracleCommand.Parameters.Add(cursor);
-            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = pedido.Id; // Asegúrate de reemplazar "pedido.Id" con el valor correcto
+            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = Idpedido; 
 
 
             oracleCommand.ExecuteNonQuery();
@@ -87,7 +86,7 @@ namespace DAL
             {
                 while (reader.Read())
                 {
-                    lstDetalles.Add(MapDetalle(reader, pedido));
+                    lstDetalles.Add(MapDetalle(reader));
                 }
             }
             CerrarConexion();
@@ -95,15 +94,13 @@ namespace DAL
 
         }
 
-        private DetallePedido MapDetalle(OracleDataReader reader, Pedido pedido)
+        private DetallePedido MapDetalle(OracleDataReader reader)
         {
             DetallePedido detalle = new DetallePedido();
             detalle.Producto = LoadProducto(reader.GetInt64(0));
             detalle.Cantidad = reader.GetInt16(1);
             detalle.ValorProductoVendido = reader.GetInt32(2);
-            detalle.Id = reader.GetInt64(3);
-            detalle.Pedido = pedido;
-
+            detalle.Id = reader.GetInt64(4);
             return detalle;
 
         }

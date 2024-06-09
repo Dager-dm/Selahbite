@@ -9,6 +9,8 @@
     <SolidColorBrush x:Key="BColor" Color="#343434"/>
     <SolidColorBrush x:Key="Boxbackground" Color="#222222"/>
 
+    <Color x:Key="Bitefect">#1C1C1C</Color>
+    <SolidColorBrush x:Key="Shadow" Color="#222222"/>
     <!-- System Colors -->
     <!-- Typograhy Colors -->
     <SolidColorBrush x:Key="PrimaryTextColor" Color="#C0C9EA"/>

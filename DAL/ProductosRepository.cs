@@ -42,11 +42,11 @@ namespace DAL
         {
             oracleCommand = new OracleCommand();
             List<Producto> lstProductos = new List<Producto>();
-            string oracle = "SELECT id_producto, nombre, valor, id_categoria FROM PRODUCTOS";
+            string oracle = "SELECT * FROM PRODUCTOS";
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
+            var reader = oracleCommand.ExecuteReader(); 
             while (reader.Read())
             {
                 lstProductos.Add(MapProducto(reader));
@@ -69,7 +69,25 @@ namespace DAL
             oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
             oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
 
-            // pr_EditProducto(nomb PRODUCTOS.nombre%type, val PRODUCTOS.valor%type, id_cat PRODUCTOS.id_categoria%type, idproduct PRODUCTOS.id_producto%type)
+            var i = oracleCommand.ExecuteNonQuery();
+            if (i > 0)
+            {
+                return true;
+            }
+            CerrarConexion();
+
+            return false;
+        }
+
+        public bool Delete(Producto producto)
+        {
+            oracleCommand = new OracleCommand("pr_DeleteProducto");
+            oracleCommand.CommandType = CommandType.StoredProcedure;
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+
+            oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
+
             var i = oracleCommand.ExecuteNonQuery();
             if (i > 0)
             {
@@ -84,14 +102,13 @@ namespace DAL
 
 
 
-
         public Producto MapProducto(OracleDataReader reader)
         {
             Producto producto = new Producto();
-            producto.Id = reader.GetInt64(0);
-            producto.Nombre = reader.GetString(1);
-            producto.Valor = reader.GetFloat(2);
-            producto.Categoria=LoadCategoria(reader.GetString(3));
+            producto.Id = reader.GetInt64(3);
+            producto.Nombre = reader.GetString(0);
+            producto.Valor = reader.GetFloat(1);
+            producto.Categoria=LoadCategoria(reader.GetString(2));
             return producto;
         }
 
@@ -128,7 +145,7 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCategoria));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
+            var reader = oracleCommand.ExecuteReader(); 
             if (reader.Read())
             {
                 return MapCategories(reader);

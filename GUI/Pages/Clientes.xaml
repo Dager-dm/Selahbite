@@ -51,7 +51,7 @@
                     <ColumnDefinition Width="37"/>
 
                 </Grid.ColumnDefinitions>
-                <RadioButton Grid.Column="1" x:Name="NeewClient" HorizontalAlignment="Left" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Click="NewClient"/>
+                <RadioButton Grid.Column="1" x:Name="NeewClient" HorizontalAlignment="Left" Content="Agregar Cliente" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Click="NewClient" Margin="-5 0 0 0"/>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
@@ -93,10 +93,10 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
+                            <GridViewColumn Header="Cedula" DisplayMemberBinding="{Binding Cedula}" Width="200"/>
                             <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="200"/>
-                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Cedula}" Width="200"/>
                             <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="200"/>
-                            <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="50"/>
+                            <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo, StringFormat=' {0:C0}'}" Width="150"/>
                             <GridViewColumn Width="80">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -117,4 +117,3 @@
     </Border>
 </Page>
 
-<!--arriba, derecha, abajo, izquierda.-->

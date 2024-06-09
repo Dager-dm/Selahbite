@@ -1,5 +1,6 @@
 ﻿using BLL;
 using ENTITY;
+using GUI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +23,25 @@ namespace GUI.Pages
     /// </summary>
     public partial class Egresos : Page
     {
+        ServicioEgresos servicioegresos = new ServicioEgresos();
         public Egresos()
         {
             InitializeComponent();
-            ServicioEgresos servicioegresos = new ServicioEgresos();
-            //miListView.ItemsSource = servicioegresos.GetAllEgresos();
-            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+            miListView.ItemsSource = servicioegresos.GetEgresos();
+
         }
 
-        private void NewEmployee(object sender, RoutedEventArgs e)
+        private void AddEgreso(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            //AddEgreso addEmpleadoWindow = new AddEgreso();
-            //addEgresoWindow.Owner = mainWindow;
-            //addEgresoWindow.ShowDialog();
-            //servicioegreso.AddEgreso(addEgresoWindow.EgresoPropiety);
+            AddEgresos addEgresoWindow = new AddEgresos();
+            addEgresoWindow.Owner = mainWindow;
+            addEgresoWindow.ShowDialog();
+            if (addEgresoWindow.guardarPresionado)
+            {
+                servicioegresos.Insertar(addEgresoWindow.egreso);
+                Refreshlistview();
+            }
             Refreshlistview();
         }
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -52,74 +57,11 @@ namespace GUI.Pages
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
-            //miListView.ItemsSource = servicioegreso.GetAllEgreso();
+            miListView.ItemsSource = servicioegresos.GetEgresos();
         }
 
-        //private void btnEditar_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button btnEditar = sender as Button;
-        //    if (btnEditar != null)
-        //    {
-        //        ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
-        //        if (listViewItem != null)
-        //        {
-
-        //            Empleado item = listViewItem.DataContext as Empleado;
-        //            if (item != null)
-        //            {
-
-        //                MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-        //                AddEmpleado addEmpleadoWindow = new AddEmpleado(item);
-        //                addEmpleadoWindow.Owner = mainWindow;
-        //                addEmpleadoWindow.ShowDialog();
-        //                servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
-        //                Refreshlistview();
-
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void btnBorrar_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button btnBorrar = sender as Button;
-        //    if (btnBorrar != null)
-        //    {
-        //        ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
-        //        if (listViewItem != null)
-        //        {
-
-        //            Empleado item = listViewItem.DataContext as Empleado;
-        //            if (item != null)
-        //            {
 
 
-        //                MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + item.Nombre + "?");
-        //                bool? resultado = messageBox.ShowDialog();
-
-        //                if (resultado == true)
-        //                {
-        //                    servicioempleado.DeleteEmpleado(item);
-        //                    Refreshlistview();
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
-        }
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {

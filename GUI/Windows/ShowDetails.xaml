@@ -100,9 +100,9 @@
                             </Border>
                         </Grid>
                     </Border>
-                    <Label Grid.Row="3" Content="Metodo de Pago" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0"/>
-                    <Border Grid.Row="3" HorizontalAlignment="Right"  Width="170" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" Margin="0 0 25 0" >
-                        <ComboBox HorizontalAlignment="Center" Name="cboMetodos"  Width="168" Height="27" Foreground="{DynamicResource PrimaryTextColor}"  BorderThickness="0" DisplayMemberPath="Nombre" SelectionChanged="cboMetodos_SelectionChanged" />
+                    <Label Grid.Row="3" Name="lblmetodos" Content="Metodo de Pago" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0"/>
+                    <Border Grid.Row="3" Name="bdmetodos" HorizontalAlignment="Right"  Width="170" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" Margin="0 0 25 0" >
+                        <ComboBox HorizontalAlignment="Center" Name="cboMetodos"  Width="140" Height="25" Foreground="{DynamicResource PrimaryTextColor}"  BorderThickness="0" DisplayMemberPath="Nombre" SelectionChanged="cboMetodos_SelectionChanged" Cursor="Hand" />
                     </Border>
 
                     <Label Name="lblEectivo1" Grid.Row="4" Content="Efectivo" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0 0 0" Visibility="Hidden"/>
@@ -115,8 +115,8 @@
                     <CheckBox x:Name="Checkprint" Content="Imprimir Factura" Grid.Row="6" HorizontalAlignment="Left" Height="21"  VerticalAlignment="Center" Width="160" Cursor="Hand" Margin="20 0 0 0" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" />
                     <RadioButton Grid.Row="7" x:Name="btnConfirmarpago" Content="Confirmar Pago" Style="{DynamicResource AddButton}" Tag="{DynamicResource pay}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 -22 0 0" Click="btnConfirmarpago_Click" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
-                        <Label Content="Modalidad de Pago   " FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
+                    <StackPanel x:Name="modalidad" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+                        <Label Content="Modalidad de Pago   " FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="0 0 7 0"/>
                         <RadioButton Name="rbnContado"  FontSize="18" VerticalAlignment="Center" Cursor="Hand" Checked="rbnContado_Checked"/>
                         <Label  Content="Contado      " FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                         <RadioButton Name="rbnCredito"  FontSize="15" VerticalAlignment="Center" Cursor="Hand" Checked="rbnCredito_Checked"/>

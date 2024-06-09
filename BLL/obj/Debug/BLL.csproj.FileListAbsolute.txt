@@ -52,4 +52,6 @@ D:\Proyecto\Selahbite\BLL\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\Proyecto\Selahbite\BLL\bin\Debug\System.Buffers.xml
 D:\Proyecto\Selahbite\BLL\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\Proyecto\Selahbite\BLL\bin\Debug\ESC-POS-USB-NET.dll
-D:\Proyecto\Selahbite\BLL\bin\Debug\PDFtoPrinter.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\Spire.Pdf.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\Microsoft.mshtml.dll
+D:\Proyecto\Selahbite\BLL\bin\Debug\Spire.Pdf.xml

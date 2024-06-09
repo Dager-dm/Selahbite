@@ -78,7 +78,24 @@ namespace DAL
             return false;
         }
 
+        public bool Delete(Empleado empleado)
+        {
+            oracleCommand = new OracleCommand("pr_DeleteEmpleado");
+            oracleCommand.CommandType = CommandType.StoredProcedure;
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
 
+            oracleCommand.Parameters.Add("idemp", OracleDbType.Varchar2).Value = empleado.Id;
+          
+            var i = oracleCommand.ExecuteNonQuery();
+            if (i > 0)
+            {
+                return true;
+            }
+            CerrarConexion();
+
+            return false;
+        }
 
 
 
@@ -159,11 +176,11 @@ namespace DAL
         public Empleado MapEmpleado(OracleDataReader reader)
         {
             Empleado empleado = new Empleado();
-            empleado.Id = reader.GetInt64(0);
-            empleado.Cedula = reader.GetString(2);
-            empleado.Nombre = reader.GetString(1);
-            empleado.Telefono = reader.GetString(3);
-            empleado.Cargo=LoadCargo(reader.GetString(4));
+            empleado.Id = reader.GetInt64(4);
+            empleado.Cedula = reader.GetString(1);
+            empleado.Nombre = reader.GetString(0);
+            empleado.Telefono = reader.GetString(2);
+            empleado.Cargo=LoadCargo(reader.GetString(3));
             
             return empleado;
         }

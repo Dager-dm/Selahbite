@@ -44,7 +44,7 @@ namespace BLL
 
         public void DeleteProducto(Producto Producto)
         {
-            
+            productsRepository.Delete(Producto);
         }
 
         public List<CategoriasProductos> GetCategoriasProductos()

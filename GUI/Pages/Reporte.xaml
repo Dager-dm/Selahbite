@@ -3,12 +3,34 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:GUI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Reporte">
+    <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource SecundaryBackgroundColor}" Margin="5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-    <Grid>
-        
-    </Grid>
+            <Label Grid.Row="0" Content="Reporte" FontSize="30"  FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+
+
+            <RadioButton Grid.Row="0" VerticalAlignment="Bottom" x:Name="VentasMensuales" Content="Ventas Mensuales" Style="{DynamicResource JustTextButtonStyle}"  Click="BtnMensuales_Click" Margin="-700 0 0 0"/>
+            <RadioButton VerticalAlignment="Bottom" x:Name="VentasSemanales" HorizontalAlignment="Left" Content="Ventas Semanales" Style="{DynamicResource JustTextButtonStyle}"  Click="BtnSemanales_Click" Margin="40 0 0 0"/>
+            
+            <Border Grid.Row="2" Background="{DynamicResource TertiaryBackgroundColor}" CornerRadius="10" Margin="40 0 40 40" >
+                <lvc:CartesianChart Name="cartesianChart" Margin="10" Background="Transparent" >
+                    <lvc:CartesianChart.AxisX >
+                        <lvc:Axis Labels="{Binding Labels}" Foreground="{DynamicResource PrimaryTextColor}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY >
+                        <lvc:Axis  LabelFormatter="{Binding Formatter}" Foreground="{DynamicResource PrimaryTextColor}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+    </Border>
 </Page>

@@ -20,12 +20,19 @@ namespace GUI.Pages
     /// </summary>
     public partial class MiMessageBox : Window
     {
+        public MiMessageBox()
+        {
+            
+        }
         public MiMessageBox(string mensaje)
         {
             InitializeComponent();          
-            lblQuestion.Content = mensaje;
+            lblQuestion.Content = mensaje; 
+            btnAceptar.Visibility = Visibility.Hidden;
+            btnYes.Visibility = Visibility.Visible;
+            btnNo.Visibility = Visibility.Visible;
         }
-
+       
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -40,5 +47,59 @@ namespace GUI.Pages
         {
             this.DialogResult = false;
         }
+
+        public MiMessageBox(AfirmativeMessage m, string message)
+        {
+            InitializeComponent();
+            lblQuestion.Content = message;
+            btnAceptar.Visibility = Visibility.Visible;
+            btnYes.Visibility = Visibility.Hidden;
+            btnNo.Visibility = Visibility.Hidden;
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Afirmative"];
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["TertiaryGreenColor"];
+            icon.Data = icono;
+            icon.Fill = Color;
+
+        }
+
+        public MiMessageBox(NegativeMessage m, string message)
+        {
+            InitializeComponent();
+            lblQuestion.Content = message;
+            btnAceptar.Visibility = Visibility.Visible;
+            btnYes.Visibility = Visibility.Hidden;
+            btnNo.Visibility = Visibility.Hidden;
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Negative"];
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["TertiaryRedColor"];
+            icon.Data = icono;
+            icon.Fill= Color;
+        }
+
+        public MiMessageBox(WarningMessage m, string message)   
+        {
+            InitializeComponent();
+            lblQuestion.Content = message;
+            btnAceptar.Visibility = Visibility.Visible;
+            btnYes.Visibility = Visibility.Hidden;
+            btnNo.Visibility = Visibility.Hidden;
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Warning"];
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["SecundaryYellowColor"];
+            icon.Data = icono;
+            icon.Fill = Color;
+        }
+
+    }
+
+    public enum AfirmativeMessage
+    {
+        A
+    }
+    public enum NegativeMessage
+    {
+        N
+    }
+    public enum WarningMessage
+    {
+        W
     }
 }

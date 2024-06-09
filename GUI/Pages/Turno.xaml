@@ -84,14 +84,16 @@
                     <Border x:Name="DataPickerBorder" Grid.Row="0" BorderBrush="{DynamicResource PrimaryTextColor}" CornerRadius="5" BorderThickness="1" Width="180" Height="35" Background="{DynamicResource TertiaryBackgroundColor}" Margin="0 5 0 0" >
                         <DatePicker Name="Datepicker" Style="{StaticResource DatePicker}" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" SelectedDateChanged="DatePicker_SelectedDateChanged"  />
                     </Border>
+
                     
-                    
+                    <Button Name="ShowPedidosOT"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource Details}" Click="ShowPedidosOT_Click" Margin="38 0 0 0" MouseEnter="MouseEnterbtnDetails" MouseLeave="MoueseLeavebtnDetails" />
+                    <Button Name="EgresosButtonOT"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="7" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource cli}" MouseEnter="MouseEnterbtnDetails" MouseLeave="MoueseLeavebtnDetails" Click="EgresosButtonOT_Click" Margin="90 0 0 0"/>
                     <Button Name="GoBackButton" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource GoBack}" Click="GoBack" Margin="25 0 0 0" />
                     <Label Name="lblPedidos" Grid.Row="0" Content="Pedidos" Visibility="Hidden" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Label Name="lblEgresos" Grid.Row="0" Content="Egresos" Visibility="Hidden" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 
-                    <Border x:Name="BorderTurnos" Grid.Row="1" Background="Transparent">
+                    <Border x:Name="BorderTurnos" Grid.Row="1" Background="Transparent" Cursor="IBeam">
 
                         <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="0 0 0 0" Grid.Row="1" HorizontalAlignment="Center">
                             <ItemsControl x:Name="lstturnos" >
@@ -142,7 +144,7 @@
                                                 <DropShadowBitmapEffect
                                                   ShadowDepth="3"
                                                   Direction="0"
-                                                  Color="#EBEBEB"
+                                                  Color="{DynamicResource Bitefect}"
                                                   Softness="0.6"/>
                                             </Border.BitmapEffect>
                                         </Border>
@@ -156,7 +158,7 @@
 
 
                     <Border x:Name="BorderPedidos" Visibility="Hidden" Grid.Row="1" Background="{DynamicResource TertiaryBackgroundColor}" CornerRadius="10" Margin="24 5 24 24" >
-                        <ListView Name="PedidosListView"  SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}">
+                        <ListView Name="PedidosListView"  SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Height" Value="40"/>
@@ -178,7 +180,7 @@
                                     <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nombre}" Width="Auto"/>
                                     <GridViewColumn Header="Mesero" DisplayMemberBinding="{Binding Mesero.Nombre}" Width="Auto"/>
                                     <GridViewColumn Header="Forma de Pago" DisplayMemberBinding="{Binding MetodoPago.Nombre}" Width="Auto"/>
-                                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding Valor}" Width="Auto"/>
+                                    <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding Valor, StringFormat=' {0:C0}'}" Width="Auto"/>
                                     <GridViewColumn Width="10">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -194,8 +196,8 @@
                     </Border>
 
 
-                    <Border x:Name="BorderEgresos" Visibility="Hidden" Grid.Row="1" Background="{DynamicResource TertiaryBackgroundColor}" CornerRadius="10" Margin="24 5 24 24" >
-                        <ListView Name="EgresosListView"  SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}">
+                    <Border x:Name="BorderEgresos" Visibility="Hidden" Grid.Row="1" Background="{DynamicResource TertiaryBackgroundColor}" CornerRadius="10" Margin="24 5 24 24"  >
+                        <ListView Name="EgresosListView"  SizeChanged="ListView_SizeChanged" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Height" Value="40"/>
@@ -213,11 +215,16 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Fecha" DisplayMemberBinding="{Binding NumeroFactura}" Width="Auto"/>
-                                    <GridViewColumn Header="Quien Recibe" DisplayMemberBinding="{Binding Mesero}" Width="Auto"/>
-                                    <GridViewColumn Header="Descripción" DisplayMemberBinding="{Binding FormaPago}" Width="Auto"/>
-                                    <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor}" Width="Auto"/>
-
+                                    <GridViewColumn Header="Fecha" DisplayMemberBinding="{Binding Fecha}" Width="Auto"/>
+                                    <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor, StringFormat=' {0:C0}'}" Width="Auto"/>
+                                    <GridViewColumn Header="Recibidor" DisplayMemberBinding="{Binding Recibidor}" Width="Auto"/>
+                                    <GridViewColumn Header="Descripcion" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Descripcion}"  Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" TextWrapping="Wrap"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -244,7 +251,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
 
-                        </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" Content="Turno" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Button x:Name="btnCloseDetails" HorizontalAlignment="Right" Grid.Row="0" Style="{StaticResource IconStyle}" Content="{DynamicResource close}" Click="CloseDetailsButtonClick" Tag="IsCloseButton" Visibility="Hidden" Margin="0 0 50 0"/>
@@ -269,7 +276,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="  Cajero      " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                    <ComboBox HorizontalAlignment="Center" Name="cboCajeros"  IsEditable="True" Width="200" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" DisplayMemberPath="Nombre"/>
+                                    <ComboBox HorizontalAlignment="Center" Name="cboCajeros"  IsEditable="True" Width="170" Height="30" Foreground="{DynamicResource PrimaryTextColor}" GotFocus="cb_GotFocus" BorderThickness="0" DisplayMemberPath="Nombre"/>
                             </Border>
 
                         </StackPanel>
@@ -279,7 +286,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Saldo Base " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"/>
+                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" SelectionBrush="{DynamicResource TertiaryRedColor}" Foreground="{DynamicResource PrimaryTextColor}"/>
                             </Border>
                         </StackPanel>
 
@@ -351,34 +358,18 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Expander.Style>
-
-                                        <ListBox x:Name="lsbxIngresos" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" FontFamily="Segoe UI" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                                        <StackPanel Orientation="Vertical" Margin="30 0 0 0">
+                                            <TextBox x:Name="txtINequi" Text="Ingresos Nequi: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <TextBox x:Name="txtIDaviplata" Text="Ingresos Daviplata: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <TextBox x:Name="txtIBanco" Text="Ingresos Bancolombia: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <TextBox x:Name="txtICredito" Text="Ingresos Credito: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" />
+                                            <TextBox x:Name="txtIEfectivo" Text="Ingresos Efectivo: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                        </StackPanel>
                                     </Expander>
                                 </Border>
 
                                 <Border  CornerRadius="10" Background="{DynamicResource TertiaryBackgroundColor}" Width="320" Margin="0 5 0 0">
-                                    <Expander x:Name="Expanderegresos" Header="Egreso Total: 4000" IsExpanded="False" 
-                                              Cursor="Hand" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}"
-                                              FontWeight="Bold" FontSize="15" FontFamily="Segoe UI" VerticalAlignment="Center" Height="30" >
-
-                                       
-                                            <Expander.Style>
-                                                <Style TargetType="Expander">
-                                                    <Style.Triggers>
-                                                        <EventTrigger RoutedEvent="Expander.Expanded">
-                                                            <BeginStoryboard Storyboard="{StaticResource ExpandAnimationEgreso}"/>
-                                                        </EventTrigger>
-                                                        <EventTrigger RoutedEvent="Expander.Collapsed">
-                                                            <BeginStoryboard Storyboard="{StaticResource CollapseAnimationEgreso}"/>
-                                                        </EventTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Expander.Style>
-
-                                            <ListBox x:Name="lsbxegresos" BorderThickness="0" Margin="20 0 0 0" Cursor="Arrow"
-                                                     Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}"
-                                                     FontFamily="Segoe UI" ScrollViewer.VerticalScrollBarVisibility="Disabled" Focusable="False" />
-                                    </Expander>
+                                    <TextBox x:Name="txtEgreso" Text="Egreso: $" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI" VerticalAlignment="Center" Margin="10 0 0 0"/>
                                 </Border>
                             </StackPanel>
 
@@ -413,12 +404,14 @@
 
                         
                         <Label Content="Saldo Real" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
-                        <Border Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
+                        <Border Name="bdsaldoreal" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
                             <TextBox x:Name="txtSaldoReal" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtSaldoReal_TextChanged" />
                         </Border>
-                        
 
-                       
+                        <Border Name="bdsaldorealselected" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
+                            <TextBox x:Name="txtSaldoRealSelected" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextColor}"  />
+                        </Border>
+
                         <Label Content="Diferencia" Grid.Row="2" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" />
                         <Label Name="lblDiferencia" Content=" " Width="150" FontSize="15" Grid.Row="2" Grid.Column="1" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 

@@ -95,17 +95,32 @@ namespace GUI.Pages
             AddCliente addClienteWindow = new AddCliente();
             addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
-            servicioCliente.AddClientes(addClienteWindow.clientepr);
-            cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            if (addClienteWindow.guardarPresionado)
+            {
+                servicioCliente.AddClientes(addClienteWindow.clientepr);
+                cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            }
 
         }
 
         private void MouseEnterbtnAddClient(object sender, MouseEventArgs e)
         {
-            Popup.PlacementTarget = btnAddClient;
+            Button btn = sender as Button;
+            Popup.PlacementTarget = btn;
             Popup.Placement = PlacementMode.Bottom;
             Popup.IsOpen = true;
-            Header.PopupText.Text = "Agregar Cliente";
+            switch (btn.Name)
+            {
+                case "ShowPedidos":
+                    Header.PopupText.Text = "Ver Pedidos";
+                    break;
+                case "btnAddClient":
+                    Header.PopupText.Text = "Añadir Cliente";
+                    break;
+                case "PedidoDetailsButton":
+                    Header.PopupText.Text = "Ver Detalles";
+                    break;
+            }
         }
 
         private void MoueseLeavebtnAddClient(object sender, MouseEventArgs e)
@@ -218,7 +233,7 @@ namespace GUI.Pages
         {
 
             MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
-            ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, servicioPedido.GetMetodos(), (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
+            ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
             ShowDetailsWindow.Owner = mainWindow;
             ShowDetailsWindow.ShowDialog();
             if (ShowDetailsWindow.Confirmar)
@@ -265,6 +280,14 @@ namespace GUI.Pages
                 PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
             }
             
+        }
+
+        private void PedidoDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Pedido pedido = btn.DataContext as Pedido;
+            ShowDetails detailswindows = new ShowDetails(pedido);
+            detailswindows.ShowDialog();
         }
     }
 

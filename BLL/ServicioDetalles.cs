@@ -21,9 +21,9 @@ namespace BLL
             detallesRepository.Insert(detalle);
         }
 
-        public List<DetallePedido> GetDetalles(Pedido pedido)
+        public List<DetallePedido> GetDetalles(long Idpedido)
         {
-            return detallesRepository.GetDetalles(pedido);
+            return detallesRepository.GetDetalles(Idpedido);
         }
     }
 }

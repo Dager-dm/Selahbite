@@ -47,14 +47,10 @@ namespace BLL
 
         public void DeleteCliente(Cliente clienteToDeelete)
         {
-
+            clientesRepository.Delete(clienteToDeelete);
            
         }
 
-        public void EditSaldoCliente(Cliente cliente) 
-        {
-         clientesRepository.EditSaldo(cliente);
-        }
 
     }
 }

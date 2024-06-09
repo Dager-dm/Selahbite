@@ -3,6 +3,7 @@ using ENTITY;
 using Org.BouncyCastle.Asn1.Tsp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Text;
@@ -26,10 +27,9 @@ namespace BLL
 
         public Pedido AddPedido(Pedido pedido)
         {
-            var turno = servicioTurno.GetOpenTurno();
-            var pedid = PedidosRepository.Insert(pedido, turno.Id);
             var TurnoA = servicioTurno.GetOpenTurno();
-            TurnoA.Pedidos.Add(pedido);
+            var pedid = PedidosRepository.Insert(pedido, TurnoA.Id);
+            TurnoA.SetAPedido(pedido);
             TurnoA.SetIngresos();
             if (pedido.MetodoPago.Nombre == "Efectivo") { servicioCaja.SumarIngreso(pedido.Valor); }
             return pedid;
@@ -51,10 +51,9 @@ namespace BLL
         public string GenerateFactura(Pedido pedido, string cambio, string efectivo)
         {
             Turno turno = servicioTurno.GetOpenTurno();
-            //Empleado cajero = new Empleado();
-            //cajero.Nombre = "Jose Dolores Herazo Peñaranda";
-            //cajero.Cedula = "11230402";
-            ServicioFactura.CreateFactura(turno.Cajero, pedido, cambio, efectivo);
+            var dto=Serviciofactura.MapFacturaDto(turno.Cajero.Nombre, pedido, cambio, efectivo);
+            ServicioFactura.CreateFactura(dto);
+            //ServicioFactura.CreateFactura(turno.Cajero, pedido, cambio, efectivo);
             ServicioFactura.OpenCash();
             ServicioFactura.PdfToImg();
             ServicioFactura.printImg();
@@ -63,13 +62,16 @@ namespace BLL
             
         }
 
-        public List<Pedido> GetCreditos() 
+        public void PagarPedido(long idPedido, string idMetodo)
         {
-            return PedidosRepository.GetCreditos();
+            PedidosRepository.PagarPedido(idPedido, idMetodo);
 
         }
 
+        public void SumarIngreso(Pedido pedido)
+        {
 
+        }
     }
 
 }

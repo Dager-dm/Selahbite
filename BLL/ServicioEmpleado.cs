@@ -47,7 +47,7 @@ namespace BLL
 
         public void DeleteEmpleado(Empleado empleadoToDelete)
         {
-
+            empleadosRepository.Delete(empleadoToDelete);
             
         }
 

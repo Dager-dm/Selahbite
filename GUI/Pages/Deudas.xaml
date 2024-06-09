@@ -98,16 +98,16 @@
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
                             <GridViewColumn Header="Fecha" DisplayMemberBinding="{Binding Fecha}" Width="Auto"/>
-                            <GridViewColumn Header="Cajero" DisplayMemberBinding="{Binding Turno.Cajero.Nombre}" Width="Auto"/>
-                            <GridViewColumn Header="Horario" DisplayMemberBinding="{Binding Turno.Horario}" Width="Auto"/>
-                            <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Cliente.Nombre}" Width="Auto"/>
-                            <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor}" Width="Auto"/>
+                            <GridViewColumn Header="Cajero" DisplayMemberBinding="{Binding NombreCajero}" Width="Auto"/>
+                            <GridViewColumn Header="Horario" DisplayMemberBinding="{Binding Horario}" Width="Auto"/>
+                            <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding NombreCliente}" Width="Auto"/>
+                            <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor, StringFormat=' {0:C0}'}" Width="Auto"/>
                             <GridViewColumn Header="Estado" DisplayMemberBinding="{Binding Estado}" Width="Auto"/>
                             <GridViewColumn Width="10">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button x:Name="btnAbonar" Click="btnAbonar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource edit1}"/>
+                                            <Button x:Name="btnPagar" Click="btnPagar_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource pay}"/>
                                             
                                         </StackPanel>
                                     </DataTemplate>

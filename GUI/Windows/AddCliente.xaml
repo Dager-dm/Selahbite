@@ -33,7 +33,7 @@
             </Border>
 
 
-            <Label Grid.Row="2" Grid.Column="0" Content="Nombre" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Nombre" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="2" Grid.Column="1" Name="txtboxNombre" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" >
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -47,7 +47,7 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="3" Content="Id" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Content="Cedula" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="3" Grid.Column="1"  Name="txtboxId" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -61,7 +61,7 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="4" Content="Telefono" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Label Grid.Row="4" Content="Telefono" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="4" Grid.Column="1" Name="txtboxTelefono" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">

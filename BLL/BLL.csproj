@@ -71,6 +71,9 @@
     <Compile Include="ServicioPedido.cs" />
     <Compile Include="ServicioProducto.cs" />
     <Compile Include="ServicioTurno.cs" />
+    <Compile Include="ServicioUsuarios.cs" />
+    <Compile Include="ServicioValidacion.cs" />
+    <Compile Include="ServicioVistaDeuda.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

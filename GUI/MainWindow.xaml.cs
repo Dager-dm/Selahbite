@@ -16,6 +16,10 @@ using GUI.Themes;
 using GUI.Pages;
 using System.Windows.Media.Animation;
 using ENTITY;
+using BLL;
+using System.Diagnostics;
+using GUI.Windows;
+using MaterialDesignThemes.Wpf;
 
 
 namespace GUI
@@ -29,23 +33,46 @@ namespace GUI
     public partial class MainWindow : Window
     {
 
-        public static ENTITY.Turno turnoAbiertoGLobal;
-
+        ServicioTurno servicioTurno = new ServicioTurno();
+        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         public MainWindow()
         {
             InitializeComponent();
             MaximizeWindow();
+            IsTurnoOpen();
+          
         }
-       
+
+
+
+        private void IsTurnoOpen()
+        {
+            var t = servicioTurno.IsAnyTurnoOpen();
+            if (t!=null)
+            {
+                frameContent.Navigate(new Pages.Turno(t));
+            }
+            else
+            {
+                frameContent.Navigate(new Pages.Turno(null));
+            }
+        }
+
         //metodo del boton de temas
         private void Themes_Click(object sender, RoutedEventArgs e)
         {
-
+            ITheme theme = paletteHelper.GetTheme();
             if (Themes.IsChecked == true)
+            {
                 ThemesController.SetTheme(ThemesController.ThemeTypes.Dark);
+                theme.SetBaseTheme(Theme.Dark);
+            }
             else
+            {
                 ThemesController.SetTheme(ThemesController.ThemeTypes.Light);
-
+                theme.SetBaseTheme(Theme.Light);
+            }
+            paletteHelper.SetTheme(theme);
         }
 
 
@@ -57,7 +84,16 @@ namespace GUI
         //Botones max, min, close
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            var t = servicioTurno.GetOpenTurno();
+            if (t==null)
+            {
+                Close();
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W,"No puede salir del prgrama sin cerrar turno"); messageBox.ShowDialog();
+            }
+            
         }
 
         private void btnRestore_Click(object sender, RoutedEventArgs e)
@@ -109,16 +145,31 @@ namespace GUI
 
         private void rdFacturar_Click(object sender, RoutedEventArgs e)
         {
-            var radioButton = (RadioButton)sender;
-            ShowIndicator(radioButton);
-            frameContent.Navigate(new Facturar());
+            if (servicioTurno.GetOpenTurno()!=null)
+            {
+                var radioButton = (RadioButton)sender;
+                ShowIndicator(radioButton);
+                frameContent.Navigate(new Facturar());
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar pedidos sin abrir turno"); messageBox.ShowDialog();
+            }
+
         }
 
         private void rdEgresos_Click(object sender, RoutedEventArgs e)
         {
-            var radioButton = (RadioButton)sender;
-            ShowIndicator(radioButton);
-            frameContent.Navigate(new Egresos());
+            if (servicioTurno.GetOpenTurno() != null)
+            {
+                var radioButton = (RadioButton)sender;
+                ShowIndicator(radioButton);
+                frameContent.Navigate(new Egresos());
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar egresos sin abrir turno"); messageBox.ShowDialog();
+            }
         }
 
         private void rdDeudas_Click(object sender, RoutedEventArgs e)
@@ -163,7 +214,7 @@ namespace GUI
         {
             var radioButton = (RadioButton)sender;
             ShowIndicator(radioButton);
-            frameContent.Navigate(new Pages.Turno());
+            frameContent.Navigate(new Pages.Turno(null));
 
         }
 

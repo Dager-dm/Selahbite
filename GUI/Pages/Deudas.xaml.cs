@@ -23,11 +23,13 @@ namespace GUI.Pages
     /// </summary>
     public partial class Deudas : Page
     {
-        //ServicioPedido servicioPedido = new ServicioPedido();
+        ServicioVistaDeuda servicioVistaDeuda =  new ServicioVistaDeuda();
+       
+        
         public Deudas()
         {
             InitializeComponent();
-            //miListView.ItemsSource = servicioPedido.GetCreditos();
+            miListView.ItemsSource = servicioVistaDeuda.GetCreditos();
 
         }
 
@@ -44,39 +46,52 @@ namespace GUI.Pages
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
-            //miListView.ItemsSource = servicioPedido.GetCreditos();
+            miListView.ItemsSource = servicioVistaDeuda.GetCreditos();
         }
-
-        private void btnEditar_Click(object sender, RoutedEventArgs e)
-        {
-            //Button btn = sender as Button;
-            //Pedido pedido = btn.DataContext as Pedido;
-            //MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            //NewEgreso newEgreso= new NewEgreso(pedido);
-            //newEgreso.Owner = mainWindow;
-            //newEgreso.ShowDialog();
-            //servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
-            //Refreshlistview();
-
-             
-        }
-
-
-
 
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-            //string filtro = txbBusqueda.Text.ToLower();
-            //List<Pedido> creditos = servicioPedido.GetCreditos();
-            //List<Pedido> deudasFiltrados = creditos.Where(c => c.Cliente.Nombre.ToLower().Contains(filtro)).ToList();
-            //miListView.ItemsSource = deudasFiltrados;
+            string filtro = txbBusqueda.Text.ToLower();
+            List<VistaDeuda> creditos = servicioVistaDeuda.GetCreditos();
+            List<VistaDeuda> deudasFiltrados = creditos.Where(c => c.NombreCliente.ToLower().Contains(filtro)).ToList();
+            miListView.ItemsSource = deudasFiltrados;
         }
 
-        private void btnAbonar_Click(object sender, RoutedEventArgs e)
+        private void btnPagar_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
+            VistaDeuda vista = btn.DataContext as VistaDeuda;
+            if (vista.Estado=="Pendiente")
+            {
+                ShowPayWindow(vista);
+            }
+            else
+            {
+                MessageBox.Show("Este pedido ya se pagó");
+            }
+            
 
+        }
+
+        private void ShowPayWindow(VistaDeuda vista)
+        {
+            vista.Detalles = servicioVistaDeuda.LoadDetalles(vista.Id_pedido);
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            ShowDetails showDetails = new ShowDetails(vista);
+            showDetails.Owner = mainWindow;
+            showDetails.ShowDialog();
+            if (showDetails.Confirmar)
+            {
+                servicioVistaDeuda.PagarPedido(vista.Id_pedido, (MetodosPago)showDetails.cboMetodos.SelectedItem, vista.Valor);
+                if (showDetails.print)
+                {
+                    servicioVistaDeuda.PrintTrue(vista);
+                }
+
+            }
+            Refreshlistview();
         }
     }
 }

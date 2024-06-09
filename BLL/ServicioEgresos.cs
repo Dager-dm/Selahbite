@@ -1,6 +1,9 @@
-﻿using System;
+﻿using DAL;
+using ENTITY;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,5 +11,31 @@ namespace BLL
 {
     public class ServicioEgresos
     {
+        EgresosRepository egresorepository = new EgresosRepository();
+        ServicioTurno servicioturno = new ServicioTurno();
+        ServicioCaja serviciocaja = new ServicioCaja();
+        public ServicioEgresos()
+        {
+            
+        }
+
+        public void Insertar(Egreso egreso) 
+        {
+            var t=servicioturno.GetOpenTurno();
+            egresorepository.insert(egreso, t.Id);
+            t.LstEgresos.Add(egreso);
+            t.SetEgresos();
+            serviciocaja.RestarEgreso(egreso.Valor);
+        }
+
+        public List<Egreso> GetEgresos() 
+        {
+            var t = servicioturno.GetOpenTurno();
+            if (t!=null)
+            {
+                return egresorepository.GetEgresos(t.Id);
+            }
+            return null;
+        }
     }
 }

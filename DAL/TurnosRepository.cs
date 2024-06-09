@@ -124,18 +124,18 @@ namespace DAL
         public Turno MapTurno(OracleDataReader reader)
         {
             Turno turno = new Turno();
-            turno.Id = reader.GetInt64(0);
-            turno.Horario = reader.GetString(1);
-            turno.Fecha = reader.GetDateTime(2);
-            turno.SaldoInicial = reader.GetInt64(3);
-            turno.Ingreso= reader.GetInt64(4);
-            turno.Egreso= reader.GetInt64(5);
-            turno.SaldoReal = reader.GetInt64(6);
-            turno.SaldoPrevisto = reader.GetInt64(7);
-            turno.Diferencia = reader.GetInt64(8);
-            turno.Observacion = reader.GetString(9); 
-            turno.Cajero=LoadCajero(reader.GetString(10));
-            turno.Estado = reader.GetString(11);
+            turno.Id = reader.GetInt64(11);
+            turno.Horario = reader.GetString(0);
+            turno.Fecha = reader.GetDateTime(1);
+            turno.SaldoInicial = reader.GetInt64(2);
+            turno.Ingreso= reader.GetInt64(3);
+            turno.Egreso= reader.GetInt64(4);
+            turno.SaldoReal = reader.GetInt64(5);
+            turno.SaldoPrevisto = reader.GetInt64(6);
+            turno.Diferencia = reader.GetInt64(7);
+            turno.Observacion = reader.GetString(8); 
+            turno.Cajero=LoadCajero(reader.GetString(9));
+            turno.Estado = reader.GetString(10);
             turno.LstEgresos = EgresosRepository.GetEgresos(turno.Id);
             turno.Pedidos = PedidosRepository.GetPedidos(turno.Id);
             
@@ -161,6 +161,47 @@ namespace DAL
             return null;
         }
 
+        public Turno IsAnyTurnoOpen()
+        {
+            Turno turno = new Turno();
+            oracleCommand = new OracleCommand();
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+
+            oracleCommand.CommandText = "BEGIN :cursor := FN_OBTENERTURNOABIERTO; END;";
+            oracleCommand.CommandType = System.Data.CommandType.Text;
+
+            OracleParameter cursor = new OracleParameter();
+            cursor.ParameterName = "cursor";
+            cursor.OracleDbType = OracleDbType.RefCursor;
+            cursor.Direction = System.Data.ParameterDirection.Output;
+
+            oracleCommand.Parameters.Add(cursor);
+
+            oracleCommand.ExecuteNonQuery();
+
+            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        turno = (MapTurno(reader));
+                    }
+                }
+                else
+                {
+                    CerrarConexion();
+                    return null;
+                }
+
+            }
+            CerrarConexion();
+            turno.SetEgresos();
+            turno.SetIngresos();
+            turno.LoadSaldoPrevisto();
+            return turno;
+        }
         
 
 

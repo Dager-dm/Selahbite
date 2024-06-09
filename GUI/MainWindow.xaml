@@ -81,7 +81,7 @@
 
                     <RadioButton x:Name="rdFacturar" Content="Facturar" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource pedidos2}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdFacturar_Click"/>
                     <RadioButton x:Name="rdEgresos" Content="Egresos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource cli}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEgresos_Click"/>
-                    <RadioButton x:Name="rdDeudas" Content="Deudas" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Deudas2}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdDeudas_Click"/>
+                    <RadioButton x:Name="rdDeudas" Content="Creditos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Deudas2}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdDeudas_Click"/>
                     <RadioButton x:Name="rdEmpleadoss" Content="Empleados" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource users}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEmpleados_Click"/>
                     <RadioButton x:Name="rdClientes" Content="Clientes" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Clientes}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdClientes_Click"/>
                     <RadioButton x:Name="rdCarta" Content="Carta" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Carta}" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdCarta_Click" />

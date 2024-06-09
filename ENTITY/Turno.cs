@@ -59,7 +59,6 @@ namespace ENTITY
           Pedidos.Add(pedido);
         
         }
-
         public void SetAEgreso(Egreso egreso)
         {
             LstEgresos.Add(egreso);
@@ -69,7 +68,6 @@ namespace ENTITY
         {
             Diferencia = SaldoReal - SaldoPrevisto;
         }
-
         public void SetEgresos()
         {
             foreach(var item in LstEgresos)
@@ -79,7 +77,6 @@ namespace ENTITY
             }
 
         }
-
         public void SetIngresos()
         {
             foreach (var item in Pedidos)
@@ -88,6 +85,24 @@ namespace ENTITY
 
             }
 
+        }
+        public void LoadSaldoPrevisto() 
+        {
+            float p=0, e=0;
+            foreach (var item in Pedidos)
+            {
+                if (item.MetodoPago.Nombre=="Efectivo")
+                {
+                    p=p+item.Valor;
+                }
+            }
+
+            foreach (var item in LstEgresos)
+            {
+                e=e+item.Valor;
+            }
+
+            SaldoPrevisto =SaldoInicial + (p - e);
         }
     }
 }

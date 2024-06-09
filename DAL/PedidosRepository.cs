@@ -40,7 +40,7 @@ namespace DAL
             oracleCommand.Parameters.Add("id_client", OracleDbType.Int32).Value = pedido.Cliente.Id;
             oracleCommand.Parameters.Add("id_empl", OracleDbType.Int32).Value = pedido.Mesero.Id;
             oracleCommand.Parameters.Add("es", OracleDbType.Varchar2).Value = pedido.Estado;
-            oracleCommand.Parameters.Add("modalidad", OracleDbType.Varchar2).Value = pedido.FormaDePago.ToString(); ;
+            oracleCommand.Parameters.Add("modalidad", OracleDbType.Varchar2).Value = pedido.ModalidadDePago.ToString(); ;
 
             OracleParameter returnParam = new OracleParameter("return_value", OracleDbType.Int32);
             returnParam.Direction = ParameterDirection.Output;
@@ -123,23 +123,16 @@ namespace DAL
         private  Pedido MapPedido(OracleDataReader reader)
         {
             Pedido pedido = new Pedido();
-            pedido.Id = reader.GetInt64(0);
-            pedido.FormaDePago = reader.GetString(8) == "Contado" ? FormaDePago.Contado : FormaDePago.Credito; //operador ternario
-            if (pedido.FormaDePago==FormaDePago.Contado)
-            {
-                pedido.MetodoPago = LoadMetodo(reader.GetString(1));
-            }
-            else
-            {
-                pedido.MetodoPago=LoadNullMetodo();
-            }
-            pedido.Valor = reader.GetInt64(2);
+            pedido.Id = reader.GetInt64(8);
+            pedido.ModalidadDePago = reader.GetString(7) == "Contado" ? ModalidadDePago.Contado : ModalidadDePago.Credito; //operador ternario
+            pedido.MetodoPago = LoadMetodo(reader.GetString(0));
+            pedido.Valor = reader.GetInt64(1);
             //pedido.Turno = LoadTurno(reader.GetInt64(3));
-            pedido.Cliente=LoadCliente(reader.GetInt64(4));
-            pedido.Mesero=LoadMesero(reader.GetInt64(5));
-            pedido.Estado=reader.GetString(6);
-            pedido.Fecha=reader.GetDateTime(7);
-            pedido.Detalles = detallesRepository.GetDetalles(pedido);
+            pedido.Cliente=LoadCliente(reader.GetInt64(3));
+            pedido.Mesero=LoadMesero(reader.GetInt64(4));
+            pedido.Estado=reader.GetString(5);
+            pedido.Fecha=reader.GetDateTime(6);
+            pedido.Detalles = detallesRepository.GetDetalles(pedido.Id);
             return pedido;
         }
 
@@ -238,35 +231,35 @@ namespace DAL
             return metodo;
         }
 
-        public List<Pedido> GetCreditos()
-        {
-            List<Pedido> lstCreditos = new List<Pedido>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
+        //public List<Pedido> GetCreditos()
+        //{
+        //    List<Pedido> lstCreditos = new List<Pedido>();
+        //    oracleCommand = new OracleCommand();
+        //    oracleCommand.Connection = Conexion();
+        //    AbrirConexion();
 
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_creditos; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
+        //    oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_creditos; END;";
+        //    oracleCommand.CommandType = System.Data.CommandType.Text;
 
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
+        //    OracleParameter cursor = new OracleParameter();
+        //    cursor.ParameterName = "cursor";
+        //    cursor.OracleDbType = OracleDbType.RefCursor;
+        //    cursor.Direction = System.Data.ParameterDirection.Output;
 
-            oracleCommand.Parameters.Add(cursor);
-            oracleCommand.ExecuteNonQuery();
+        //    oracleCommand.Parameters.Add(cursor);
+        //    oracleCommand.ExecuteNonQuery();
 
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
-            {
-                while (reader.Read())
-                {
-                    lstCreditos.Add(MapPedido(reader));
-                }
-            }
-            CerrarConexion();
-            return lstCreditos;
+        //    using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            lstCreditos.Add(MapPedido(reader));
+        //        }
+        //    }
+        //    CerrarConexion();
+        //    return lstCreditos;
 
-        }
+        //}
 
         private MetodosPago LoadNullMetodo()
         {
@@ -274,6 +267,24 @@ namespace DAL
             m.Nombre = "";
             m.Id = "0";
             return m;
+
+        }
+
+        public void PagarPedido(long idPedido, string idMetodo)
+        {
+            oracleCommand = new OracleCommand("pr_PagarPedido");
+            oracleCommand.CommandType = CommandType.StoredProcedure;
+            oracleCommand.Connection = Conexion();
+            AbrirConexion();
+
+            oracleCommand.Parameters.Add("metodo", OracleDbType.Varchar2).Value = idMetodo;
+            oracleCommand.Parameters.Add("idped", OracleDbType.Long).Value = idPedido;
+
+            // pr_InsertProducto(nomb PRODUCTOS.nombre%type, val PRODUCTOS.valor%type, id_cat PRODUCTOS.id_categoria%type)
+            // Ejecuta el procedimiento
+            oracleCommand.ExecuteNonQuery();
+
+            CerrarConexion();
 
         }
     }
