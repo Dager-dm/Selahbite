@@ -335,7 +335,7 @@ namespace GUI.Windows
 
         private bool ValidateTxtEfectivo()
         {
-            if (txtEfectivo.Text!=null)
+            if (string.IsNullOrEmpty(txtEfectivo.Text))
             {
                 
                 return false;

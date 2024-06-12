@@ -125,7 +125,7 @@ namespace GUI.Pages
             {
                 if (!string.IsNullOrEmpty(txtSaldoReal.Text))
                 {
-                    MessageBox.Show("no es null");
+                    
                     TakeInfoTurnoTerminar();
                     ShowThingsterminarTurno();
                     TurnoButton.Content = "Iniciar Turno";
