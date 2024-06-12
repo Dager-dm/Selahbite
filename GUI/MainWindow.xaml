@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         x:Name="home" 
-        Title="MainWindow" Height="720" Width="1100"
+        Title="Selahbite" Height="720" Width="1100"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins">
@@ -25,7 +25,7 @@
                      Background="{DynamicResource SecundaryBackgroundColor}">
                 <Grid>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Height="50">
-                        <!--<Image Source="/Assets/Icons/Logo.png" Stretch="Fill" Height="36" Width="36" VerticalAlignment="Center" Margin="10 0 0 0"/>-->
+                        <!--<Image Source="/Assets/Images/Logo.png" Stretch="Fill" Height="36" Width="36" VerticalAlignment="Center" Margin="0 0 0 0"/>-->
                         <Label Content="Selahbite" Foreground="{DynamicResource SecundaryRedColor}" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalContentAlignment="Left" Margin="5 0 0 0" Height="40"/>
                         <Border CornerRadius="18" Width="110" Height="30" Background="{DynamicResource TertiaryBackgroundColor}">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -81,12 +81,12 @@
 
                     <RadioButton x:Name="rdFacturar" Content="Facturar" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource pedidos2}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdFacturar_Click"/>
                     <RadioButton x:Name="rdEgresos" Content="Egresos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource cli}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEgresos_Click"/>
-                    <RadioButton x:Name="rdDeudas" Content="Deudas" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Deudas2}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdDeudas_Click"/>
+                    <RadioButton x:Name="rdDeudas" Content="Creditos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Deudas2}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdDeudas_Click"/>
                     <RadioButton x:Name="rdEmpleadoss" Content="Empleados" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource users}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdEmpleados_Click"/>
                     <RadioButton x:Name="rdClientes" Content="Clientes" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Clientes}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdClientes_Click"/>
                     <RadioButton x:Name="rdCarta" Content="Carta" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Carta}" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdCarta_Click" />
                     <RadioButton x:Name="rdTurno" Content="Turno" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource tunr}" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdTurno_Click" />
-                    <RadioButton x:Name="rdReporte" Content="Reporte" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource Reportr}" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdReporte_Click"/>
+                    <RadioButton x:Name="rdReporte" Content="Reporte" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource analytics}" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" Click="rdReporte_Click"/>
 
                     <Rectangle x:Name="Indicator"
                                    HorizontalAlignment="Center"

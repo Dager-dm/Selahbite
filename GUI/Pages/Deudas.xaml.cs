@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BLL;
+using ENTITY;
+using GUI.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +23,72 @@ namespace GUI.Pages
     /// </summary>
     public partial class Deudas : Page
     {
+        ServicioVistaDeuda servicioVistaDeuda =  new ServicioVistaDeuda();
+       
+        
         public Deudas()
         {
             InitializeComponent();
+            miListView.ItemsSource = servicioVistaDeuda.GetCreditos();
+
+        }
+
+        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            var gridView = listView.View as GridView;
+            var width = listView.ActualWidth / gridView.Columns.Count;
+            foreach (var column in gridView.Columns)
+            {
+                column.Width = width;
+            }
+        }
+        public void Refreshlistview()
+        {
+            miListView.ItemsSource = null;
+            miListView.ItemsSource = servicioVistaDeuda.GetCreditos();
+        }
+
+
+        private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filtro = txbBusqueda.Text.ToLower();
+            List<VistaDeuda> creditos = servicioVistaDeuda.GetCreditos();
+            List<VistaDeuda> deudasFiltrados = creditos.Where(c => c.NombreCliente.ToLower().Contains(filtro)).ToList();
+            miListView.ItemsSource = deudasFiltrados;
+        }
+
+        private void btnPagar_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            VistaDeuda vista = btn.DataContext as VistaDeuda;
+            if (vista.Estado=="Pendiente")
+            {
+                ShowPayWindow(vista);
+            }
+            else
+            {
+               MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Este pedido ya se pagó"); messageBox.ShowDialog();
+            }
+            
+
+        }
+
+        private void ShowPayWindow(VistaDeuda vista)
+        {
+            vista.Detalles = servicioVistaDeuda.LoadDetalles(vista.Id_pedido);
+            ShowDetails showDetails = new ShowDetails(vista);
+            showDetails.ShowDialog();
+            if (showDetails.Confirmar)
+            {
+                servicioVistaDeuda.PagarDeuda(vista.Id_pedido, (MetodosPago)showDetails.cboMetodos.SelectedItem, vista.Valor);
+                if (showDetails.print)
+                {
+                    servicioVistaDeuda.PrintTrue(vista, showDetails.Cambio, showDetails.Efectivo);
+                }
+
+            }
+            Refreshlistview();
         }
     }
 }

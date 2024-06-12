@@ -36,22 +36,10 @@
             <Setter Property="IsEnabled" Value="False" />
         </Style>
 
-        <Style x:Key="liststyle" TargetType="{x:Type ListView}">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="Background" Value="Red"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
     </Page.Resources>
 
 
-    <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}">
+    <Border CornerRadius="8" Background="{DynamicResource SecundaryBackgroundColor}" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -67,7 +55,7 @@
                     <ColumnDefinition Width="37"/>
 
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="NeewEmployee" Content="Agregar Empleado" Grid.Column="1" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewEmployee" />
+                <RadioButton x:Name="NeewEmployee" Content="Agregar Empleado" Grid.Column="1" Style="{DynamicResource AddButton}" Tag="{DynamicResource Addclient}" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Left" Click="NewEmployee" Margin="-5 0 0 0" />
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Path  Fill="{DynamicResource PrimaryTextColor}" Data="{StaticResource Search}" Width="20" Height="17"/>
@@ -88,10 +76,10 @@
 
             </Grid>
            
-            <Label Grid.Row="0" Content="Empleados" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="0" Content="Empleados" FontSize="35" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0 -5 0 0"/>
 
             <Border CornerRadius="10" Grid.Row="2" Background="{DynamicResource Boxbackground}" Margin="32,0,32,31" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView Name="miListView" SizeChanged="ListView_SizeChanged" Background="{x:Null}" BorderBrush="{x:Null}" ItemsSource="{Binding lstEmpleados}" Foreground="{DynamicResource PrimaryTextColor}">
+                <ListView Name="miListView" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ItemsSource="{Binding lstEmpleados}" Foreground="{DynamicResource PrimaryTextColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Height" Value="40"/>
@@ -109,12 +97,11 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource GridHeader}" AllowsColumnReorder="False">
-                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="Auto"/>
-                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
-                            <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="Auto"/>
-                            <GridViewColumn Header="Cargo" DisplayMemberBinding="{Binding Cargo}" Width="Auto"/>
-                            <GridViewColumn Header="Saldo" DisplayMemberBinding="{Binding Saldo}" Width="Auto"/>
-                            <GridViewColumn Width="10">
+                            <GridViewColumn Header="Cedula" DisplayMemberBinding="{Binding Cedula}" Width="200"/>
+                            <GridViewColumn Header="Nombre" DisplayMemberBinding="{Binding Nombre}" Width="250"/>
+                            <GridViewColumn Header="Telefono" DisplayMemberBinding="{Binding Telefono}" Width="200"/>
+                            <GridViewColumn Header="Cargo" DisplayMemberBinding="{Binding Cargo.Nombre}" Width="200"/>
+                            <GridViewColumn Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

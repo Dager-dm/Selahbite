@@ -13,6 +13,10 @@
     <SolidColorBrush x:Key="SecundaryTextColor" Color="#102341"/>
     <SolidColorBrush x:Key="TertiaryTextColor" Color="#1C3254"/>
 
+    <SolidColorBrush x:Key="Shadow" Color="#DBDBDB"/>
+    <Color x:Key="Bitefect">#EBEBEB</Color>
+
+
     <!-- Blue Colors-->
     <SolidColorBrush x:Key="PrimaryBlueColor" Color="#004FC4"/>
     <SolidColorBrush x:Key="SecundaryBlueColor" Color="#0063F7"/>
@@ -28,6 +32,10 @@
     <SolidColorBrush x:Key="SecundaryGreenColor" Color="#06C270"/>
     <SolidColorBrush x:Key="TertiaryGreenColor" Color="#39D98A"/>
 
+    <SolidColorBrush x:Key="PrimaryPurpleColor" Color="#6A0DAD"/>
+    <SolidColorBrush x:Key="SecundaryPurpleColor" Color="#9B30FF"/>
+    <SolidColorBrush x:Key="TertiaryPurpleColor" Color="#D7BDE2"/>
+    
     <!-- Orange Colors-->
     <SolidColorBrush x:Key="PrimaryOrangeColor" Color="#E67A00"/>
     <SolidColorBrush x:Key="SecundaryOrangeColor" Color="#FF8800"/>

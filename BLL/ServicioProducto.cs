@@ -4,29 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ENTITY;
+using DAL;
 
 
 namespace BLL
 {
     public class ServicioProducto
     {
-        public static List<Producto> lstproducts;
+      
+
+        ProductosRepository productsRepository = new ProductosRepository();
 
         public ServicioProducto() 
         {     
-        lstproducts = new List<Producto>();
-            productoprueba();
+          
+
+            
 
         }
 
-        public void AddProductos(Producto productos)
+        public void AddProductos(Producto producto)
         {
-            lstproducts.Add(productos);
+            productsRepository.insert(producto);
         }
 
         public List<Producto> GetAllProducts() { 
         
-         return lstproducts;
+         return productsRepository.GetProductos();
         }
 
         public void EditProducto(Producto OldProducto, Producto ModifiedProduct)
@@ -34,18 +38,19 @@ namespace BLL
             OldProducto.Nombre = ModifiedProduct.Nombre;
             OldProducto.Valor = ModifiedProduct.Valor;
             OldProducto.Categoria = ModifiedProduct.Categoria;
+            productsRepository.Edit(OldProducto);
           
         }
 
         public void DeleteProducto(Producto Producto)
         {
-            lstproducts.Remove(Producto);
+            productsRepository.Delete(Producto);
         }
 
-        private void productoprueba()
+        public List<CategoriasProductos> GetCategoriasProductos()
         {
-            Producto producto = new Producto("01","Almuerzo",12000, "Corriente");
-            lstproducts.Add(producto);
+            return productsRepository.GetCategories();
         }
+
     }
 }

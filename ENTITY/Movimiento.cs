@@ -8,15 +8,14 @@ namespace ENTITY
 {
     public class Movimiento
     {
-        public Movimiento(DateTime fecha, string horario, long valor) 
+        public Movimiento(DateTime fecha, float valor) 
         {
             Fecha = fecha;
-            Horario = horario;
             Valor = valor;
         }
+
         public DateTime Fecha { get; set; }
-        public string Horario { get; set;}  
-        public long Valor { get; set;}
+        public float Valor { get; set;}
 
     }
 }

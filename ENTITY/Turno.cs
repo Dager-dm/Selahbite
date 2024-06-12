@@ -7,29 +7,107 @@ using System.Threading.Tasks;
 namespace ENTITY
 {
      public class Turno
-     {
+    {
+        public Turno()
+        {
+            Pedidos = new List<Pedido>();
+            LstEgresos = new List<Egreso>();
+        }
 
-        public Turno() { }
-        public Turno(string horario, DateTime fecha, long saldoInicial, long egresos, long ingresos, long saldoSistema, long saldoUsuario, long diferencia, string observacion ) 
+        public Turno(string horario, DateTime fecha, float saldoInicial, Empleado cajero, float egreso, float ingreso, float saldoPrevisto, float saldoReal, float diferencia, string observacion, List<Pedido> pedidos, List<Egreso> lstEgresos, string estado, long id)
         {
             Horario = horario;
             Fecha = fecha;
             SaldoInicial = saldoInicial;
-            Egresos = egresos;
-            Ingresos = ingresos;
-            SaldoSistema = saldoSistema;
+            Cajero = cajero;
+            Egreso = egreso;
+            Ingreso = ingreso;
+            SaldoPrevisto = saldoPrevisto;
+            SaldoReal = saldoReal;
             Diferencia = diferencia;
-            SaldoUsuario = saldoUsuario;
             Observacion = observacion;
+            Pedidos = pedidos;
+            LstEgresos = lstEgresos;
+            Estado = estado;
+            Id = id;
         }
+
         public string Horario { get; set; }
         public DateTime Fecha { get; set; }
-        public long SaldoInicial { get; set; }
-        public long Egresos { get; set; }
-        public long Ingresos { get; set; }
-        public long SaldoSistema { get; set; }
-        public long SaldoUsuario { get; set; }
+        public float SaldoInicial { get; set; }
+        public Empleado Cajero { get; set; }
+        public float Egreso { get; set; }
+        public float Ingreso { get; set; }
+        public float SaldoPrevisto { get; set; }
+        public float SaldoReal { get; set; }
         public float Diferencia { get; set; }
         public string Observacion { get; set; }
-     }
+        public List<Pedido> Pedidos { get; set; }
+        public List<Egreso> LstEgresos { get; set; }
+        public string Estado {  get; set; }
+        public long Id { get; set; }
+        
+
+
+        public void CerrarTurno()
+        {
+            Estado = "C";
+        }
+
+        public void SetAPedido(Pedido pedido)
+        {
+          Pedidos.Add(pedido);
+        
+        }
+        public void SetAEgreso(Egreso egreso)
+        {
+            LstEgresos.Add(egreso);
+
+        }
+        public void SetDiferencia()
+        {
+            Diferencia = SaldoReal - SaldoPrevisto;
+        }
+        public void SetEgresos()
+        {
+            foreach(var item in LstEgresos)
+            {
+                Egreso =Egreso+ item.Valor;
+
+            }
+
+        }
+        public void LoadIngresos()
+        {
+            foreach (var item in Pedidos)
+            {
+                Ingreso = Ingreso + item.Valor;
+
+            }
+
+        }
+
+        public void CalcularIngreso(float newingreso)
+        {
+            Ingreso=Ingreso + newingreso;
+        }
+        public void LoadSaldoPrevisto() 
+        {
+            float p=0, e=0;
+            foreach (var item in Pedidos)
+            {
+                if (item.MetodoPago.Nombre=="Efectivo")
+                {
+                    p=p+item.Valor;
+                }
+            }
+
+            foreach (var item in LstEgresos)
+            {
+                e=e+item.Valor;
+            }
+
+            SaldoPrevisto =SaldoInicial + (p - e);
+        }
+    }
 }

@@ -9,17 +9,19 @@ namespace ENTITY
     public class Persona
     {
         public Persona() { }
-        public Persona(string nombre, string id, string telefono, float saldo) 
+
+        public Persona(string cedula, string nombre, long id, string telefono)
         {
+            Cedula = cedula;
             Nombre = nombre;
             Id = id;
             Telefono = telefono;
-            Saldo = saldo;
         }
 
+        public string Cedula { get; set; }
         public string Nombre { get; set;}
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Telefono { get; set; }
-        public float Saldo { get; set;}
+        
     }
 }

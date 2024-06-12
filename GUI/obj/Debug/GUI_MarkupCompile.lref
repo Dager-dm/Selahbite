@@ -1,15 +1,21 @@
 ﻿
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\App.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\MainWindow.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\AddCliente.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\AddEmpleado.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\AddProducto.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Carta.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Clientes.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Deudas.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Egresos.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Empleados.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\MiMessageBox.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Reporte.xaml;;
-FC:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\Pages\Turno.xaml;;
+FD:\Proyecto\Selahbite\GUI\App.xaml;;
+FD:\Proyecto\Selahbite\GUI\MainWindow.xaml;;
+FD:\Proyecto\Selahbite\GUI\Styles\JustPop.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\AddCliente.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\AddEgresos.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\AddEmpleado.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\AddProducto.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Carta.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Clientes.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Deudas.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Egresos.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Empleados.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Facturar.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\Login.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\MessageBox.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Reporte.xaml;;
+FD:\Proyecto\Selahbite\GUI\Pages\Turno.xaml;;
+FD:\Proyecto\Selahbite\GUI\Styles\UserPopup.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\ShowDetails.xaml;;
 

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\obj\Debug\
+D:\Proyecto\Selahbite\GUI\obj\Debug\
 GUI
 none
 false
 DEBUG;TRACE
-C:\Users\Ruben Gutierrez\Source\Repos\Selahbite\GUI\App.xaml
-20-724455391
+D:\Proyecto\Selahbite\GUI\App.xaml
+23-1292846740
 
-19356957530
-16266077386
-Assets\Icons\Icons.xaml;MainWindow.xaml;Pages\AddCliente.xaml;Pages\AddEmpleado.xaml;Pages\AddProducto.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Pages\MiMessageBox.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\ComboBox.xaml;Styles\ListviewStyle.xaml;Styles\RadioButtonStyle.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;
+23-2066058628
+26-1327102237
+Assets\Icons\Icons.xaml;MainWindow.xaml;Styles\JustPop.xaml;Windows\AddCliente.xaml;Windows\AddEgresos.xaml;Windows\AddEmpleado.xaml;Windows\AddProducto.xaml;Pages\Carta.xaml;Pages\Clientes.xaml;Pages\Deudas.xaml;Pages\Egresos.xaml;Pages\Empleados.xaml;Pages\Facturar.xaml;Windows\Login.xaml;Windows\MessageBox.xaml;Pages\Reporte.xaml;Pages\Turno.xaml;Styles\ButtonStyle.xaml;Styles\RadioButtonStyle.xaml;Styles\UserPopup.xaml;Themes\DarkTheme.xaml;Themes\LightTheme.xaml;Windows\ShowDetails.xaml;
 
-True
+False
 

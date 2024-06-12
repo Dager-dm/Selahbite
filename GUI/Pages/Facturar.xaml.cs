@@ -1,19 +1,28 @@
-﻿using System;
+﻿using BLL;
+using ENTITY;
+using GUI.Styles;
+using GUI.Windows;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 
 
@@ -22,238 +31,315 @@ namespace GUI.Pages
     /// <summary>
     /// Lógica de interacción para Facturar.xaml
     /// </summary>
-    /// ESTE CODIGO NO HUELE BIEN PERO SE LIMPIARÁ EN UN FUTURO
+    
     public partial class Facturar : Page
     {
-        private List<string> clientes;
-        
-        private List<string> meseros;
-        public ObservableCollection<Producto> Productos { get; set; }
+
+
+        ServicioProducto servicioproducto = new ServicioProducto();
+        ServicioCliente servicioCliente = new ServicioCliente();
+        ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
+        ServicioPedido servicioPedido = new ServicioPedido();
+        ServicioDetalles servicioDetalles = new ServicioDetalles();
+
+        private List<Producto> filteredItems;
+        private List<DetallePedido> Detalles = new List<DetallePedido>();
+
 
         public Facturar()
         {
             InitializeComponent();
-            clientes = new List<string> { "Cliente 1", "Cliente 2", "Cliente 3", "juan0", "julian", "carlos", "camilo" };
-            meseros = new List<string> { "Mesero 1", "Mesero 2", "Mesero 3", "juanda", "juana", "carolina", "carla" };
-            Productos = new ObservableCollection<Producto>();
-            lstbox.ItemsSource = clientes;
-            lstboxMeseros.ItemsSource = meseros;
-            txtbox.TextChanged += Tb_TextChanged;
-            txtboxMeseros.TextChanged += TbMeseros_TextChanged;
-            txtbox.AddHandler(TextBox.MouseLeftButtonDownEvent, new MouseButtonEventHandler(TextBoxclick), true);
-            txtboxMeseros.AddHandler(TextBox.MouseLeftButtonDownEvent, new MouseButtonEventHandler(txtboxMeserosclick), true);
+            cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
+            cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            items.ItemsSource = servicioproducto.GetAllProducts();
 
-            lstProductos.ItemsSource = Productos;
 
         }
-
-       
-        //LISTBOX COMO COMBOBOX!!!
-
-
-        //CLIENTE
-        private void Tb_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var filteredList = clientes.Where(item => item.StartsWith(textBox.Text)).ToList();
-                lstbox.ItemsSource = filteredList;
-            }
-        }
-
-        private void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            if (listBox != null)
-            {
-                txtbox.Text = listBox.SelectedItem.ToString();
-            }
-            lstbox.Visibility = Visibility.Hidden;
-            ControlTemplate template = txtbox.Template;
-            Border border = (Border)template.FindName("borderbox", txtbox);
-            border.CornerRadius = new CornerRadius(5);
-        }
-
-
-        private void TextBoxclick(object sender, RoutedEventArgs e)
-        {
-            txtbox.Text = "";
-            lstbox.Visibility = Visibility.Visible;
-            ControlTemplate template = txtbox.Template;
-            Border border = (Border)template.FindName("borderbox", txtbox);
-            border.CornerRadius = new CornerRadius(5,5,0,0);
-        }
-
-
-        //MESEROS
-
-        private void txtboxMeserosclick(object sender, MouseButtonEventArgs e)
-        {
-            txtboxMeseros.Text = "";
-            lstboxMeseros.Visibility = Visibility.Visible;
-            ControlTemplate template = txtboxMeseros.Template;
-            Border border = (Border)template.FindName("borderbox", txtboxMeseros);
-            border.CornerRadius = new CornerRadius(5, 5, 0, 0);
-        }
-
-        private void lstboxMeseros_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            if (listBox != null)
-            {
-                txtboxMeseros.Text = listBox.SelectedItem.ToString();
-            }
-            lstboxMeseros.Visibility = Visibility.Hidden;
-            ControlTemplate template = txtboxMeseros.Template;
-            Border border = (Border)template.FindName("borderbox", txtboxMeseros);
-            border.CornerRadius = new CornerRadius(5);
-
-        }
-
-        private void TbMeseros_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var filteredList = meseros.Where(item => item.StartsWith(textBox.Text)).ToList();
-                lstboxMeseros.ItemsSource = filteredList;
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-        //EVENTOS DEL LISTVIEW!!!!
-
 
         private void SumarCantidad_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (btn != null)
-            {
-                Producto producto = btn.DataContext as Producto;
-                if (producto != null)
-                {
-                    producto.Cantidad++;
-                }
-            }
-        }
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            detalle.Cantidad++;
+            detalle.CalculoValor();
+            RefreshDetallesList();
 
+
+        }
 
         private void RestarCantidad_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (btn != null)
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            if (detalle.Cantidad == 1)
             {
-                Producto producto = btn.DataContext as Producto;
-                if (producto != null && producto.Cantidad > 0)
+                Detalles.Remove(detalle);
+                RefreshDetallesList();
+            }
+            else
+            {
+                detalle.Cantidad--;
+                detalle.CalculoValor();
+                RefreshDetallesList();
+            }
+
+        }
+
+        private void QuitProduct(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            DetallePedido detalle = btn.DataContext as DetallePedido;
+            Detalles.Remove(detalle);
+            RefreshDetallesList();
+        }
+
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            AddCliente addClienteWindow = new AddCliente();
+            addClienteWindow.ShowDialog();
+            if (addClienteWindow.guardarPresionado)
+            {
+                servicioCliente.AddClientes(addClienteWindow.clientepr);
+                cboClientes.ItemsSource = servicioCliente.GetAllClientes();
+            }
+
+        }
+
+        private void MouseEnterbtnAddClient(object sender, MouseEventArgs e)
+        {
+            Button btn = sender as Button;
+            Popup.PlacementTarget = btn;
+            Popup.Placement = PlacementMode.Bottom;
+            Popup.IsOpen = true;
+            switch (btn.Name)
+            {
+                case "ShowPedidos":
+                    Header.PopupText.Text = "Ver Pedidos";
+                    break;
+                case "btnAddClient":
+                    Header.PopupText.Text = "Añadir Cliente";
+                    break;
+                case "PedidoDetailsButton":
+                    Header.PopupText.Text = "Ver Detalles";
+                    break;
+            }
+
+        }
+
+        private void MoueseLeavebtnAddClient(object sender, MouseEventArgs e)
+        {
+            Popup.Visibility = Visibility.Collapsed;
+            Popup.IsOpen = false;
+        }
+
+
+
+
+
+        //Logica de vista de Productos
+        private void BorderMeal_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Border borderm = sender as Border;
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["SecundaryBackgroundColor"];
+            SolidColorBrush shadow = (SolidColorBrush)System.Windows.Application.Current.Resources["Shadow"];
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["mas"];
+            SolidColorBrush miColor = new SolidColorBrush(Colors.Gray);
+            var txtNombre = (TextBlock)borderm.FindName("txtNombre");
+            var lblValor = (TextBlock)borderm.FindName("lblValor");
+            var btn = (Button)borderm.FindName("btn");
+            txtNombre.Foreground = miColor;
+            lblValor.Foreground = miColor;
+            borderm.Background= shadow;
+            btn.Tag = icono;
+
+        }
+
+        private void BorderMeal_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Border borderm = sender as Border;
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["TertiaryBackgroundColor"];
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Meal2"];
+            SolidColorBrush color = (SolidColorBrush)System.Windows.Application.Current.Resources["SecundaryTextColor"];
+
+            var txtNombre = (TextBlock)borderm.FindName("txtNombre");
+            var lblValor = (TextBlock)borderm.FindName("lblValor");
+            var btn = (Button)borderm.FindName("btn");
+            txtNombre.Foreground = color;
+            lblValor.Foreground = color;
+            borderm.Background = Color;
+            btn.Tag = icono;
+
+        }
+
+        private void cb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+        }
+
+        private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            string searchText = txbBusqueda.Text.ToLower();
+            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
+            items.ItemsSource = filteredItems;
+
+        }
+
+        private void BorderMealClick(object sender, RoutedEventArgs e)
+        {
+
+            var source = sender as FrameworkElement;
+            var producto = source.DataContext as Producto;
+            DetallePedido detalle = new DetallePedido();
+            detalle.Producto=producto;
+            detalle.Cantidad = 1;
+            detalle.CalculoValor();
+            var detalleFound=ValidarDetalle(detalle);
+            if (detalleFound!=null)
+            {
+                detalleFound.Cantidad++;
+                detalleFound.CalculoValor();
+                RefreshDetallesList();
+            }
+            else
+            {
+                Detalles.Add(detalle);
+                RefreshDetallesList();
+            }
+
+        }
+
+        private void RefreshDetallesList()
+        {
+            listviewProductos.ItemsSource = null;
+            listviewProductos.ItemsSource = Detalles;
+        }
+
+        private DetallePedido ValidarDetalle(DetallePedido detalle)
+        {
+            foreach (var item in Detalles)
+            {
+                if (detalle.Producto==item.Producto)
                 {
-                    producto.Cantidad--;
+                    return item;
                 }
             }
+
+            return null;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ConfirmarPedido_Click(object sender, RoutedEventArgs e)
         {
-            Producto producto = new Producto("Almuerzo", 12000, 3);
-            Productos.Add(producto);
-            lstProductos.ItemsSource = Productos;
-        }
-
-        private void DeleteProduct(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private void cb_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    var comboBox = sender as ComboBox;
-        //    if (comboBox != null)
-        //    {
-        //        comboBox.IsDropDownOpen = true;
-        //    }
-        //}
-
-
-    }
-
-
-    //ESTO EFECTIVAMENTE NO VA AQUÍ PERO ESTÁ PARA TESTEAR TEMPORALY
-    public class Producto : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private string _nombre;
-        private decimal _precio;
-        private int _cantidad;
-
-        public Producto(string nombre, decimal precio, int cantidad)
-        {
-            Nombre = nombre;
-            Precio = precio;
-            Cantidad = cantidad;
-        }
-
-        public string Nombre
-        {
-            get { return _nombre; }
-            set
+            if (validateCLiente())
             {
-                _nombre = value;
-                OnPropertyChanged("Nombre");
+                if (validateMesero())
+                {
+                    if (Detalles.Count>0)
+                    {
+                        ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
+                        ShowDetailsWindow.ShowDialog();
+                        if (ShowDetailsWindow.Confirmar)
+                        {
+                            var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
+                            if (ShowDetailsWindow.print)
+                            {
+                                servicioPedido.GenerateFactura(pedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
+                                //MessageBox.Show(i);
+                            }
+
+                            foreach (var item in Detalles)
+                            {
+                                item.Pedido.Id = pedido.Id;
+                                servicioDetalles.AddDetalle(item);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Tiene que agregar productos al pedido para confirmarlo"); messageBox.ShowDialog();
+                    }
+
+                }
+                else
+                {
+                    MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "El campo mesero es obligatorio"); messageBox.ShowDialog();
+                }
+
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "El campo cliente es obligatorio"); messageBox.ShowDialog();
+            }
+
+        }
+
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+
+            BorderPedidos.Visibility = Visibility.Hidden;
+            BorderProductos.Visibility = Visibility.Visible;
+            ShowPedidos.Visibility = Visibility.Visible;
+            GoBackButton.Visibility = Visibility.Hidden;
+            stackBuscar.Visibility = Visibility.Visible;
+            lblPedidos.Visibility = Visibility.Hidden;
+
+        }
+
+        private void ShowPedidos_Click(object sender, RoutedEventArgs e)
+        {
+            BorderProductos.Visibility = Visibility.Hidden;
+            BorderPedidos.Visibility = Visibility.Visible;
+            ShowPedidos.Visibility = Visibility.Hidden;
+            GoBackButton.Visibility = Visibility.Visible;
+            stackBuscar.Visibility = Visibility.Hidden;
+            lblPedidos.Visibility = Visibility.Visible;
+            if (ServicioTurno.turnoAbierto!=null)
+            {
+                PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
+            }
+            
+        }
+
+        private void PedidoDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Pedido pedido = btn.DataContext as Pedido;
+            ShowDetails detailswindows = new ShowDetails(pedido);
+            detailswindows.ShowDialog();
+        }
+
+        private bool validateCLiente()
+        {
+            if (cboClientes.SelectedItem==null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        public decimal Precio
+        private bool validateMesero()
         {
-            get { return _precio; }
-            set
+            if (cboEmpleados.SelectedItem == null)
             {
-                _precio = value;
-                OnPropertyChanged("Precio");
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        public int Cantidad
-        {
-            get { return _cantidad; }
-            set
-            {
-                _cantidad = value;
-                OnPropertyChanged("Cantidad");
-            }
-        }
+        
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+    } 
 
 }
 

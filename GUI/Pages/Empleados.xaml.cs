@@ -1,6 +1,7 @@
 ﻿using BLL;
 using ENTITY;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,28 +29,22 @@ namespace GUI.Pages
             InitializeComponent();
             servicioempleado = new ServicioEmpleado();
             miListView.ItemsSource = servicioempleado.GetAllEmpleados();
-            miListView.SetValue(ScrollViewer.HorizontalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
+
         }
 
         private void NewEmployee(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddEmpleado addEmpleadoWindow = new AddEmpleado();
+            AddEmpleado addEmpleadoWindow = new AddEmpleado(servicioempleado.GetCargos(), servicioempleado.GetAllEmpleados());
             addEmpleadoWindow.Owner = mainWindow;
             addEmpleadoWindow.ShowDialog();
-            servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
-            Refreshlistview();
-        }
-        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            var gridView = listView.View as GridView;
-            var width = listView.ActualWidth / gridView.Columns.Count;
-            foreach (var column in gridView.Columns)
+            if (addEmpleadoWindow.guardarPresionado)
             {
-                column.Width = width;
+                servicioempleado.AddEmpleado(addEmpleadoWindow.EmpleadoPropiety);
+                Refreshlistview();
             }
         }
+
         public void Refreshlistview()
         {
             miListView.ItemsSource = null;
@@ -58,68 +53,32 @@ namespace GUI.Pages
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
-            Button btnEditar = sender as Button;
-            if (btnEditar != null)
+           Button btnEditar = sender as Button;
+           Empleado empleado = btnEditar.DataContext as Empleado;
+           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado, servicioempleado.GetCargos(), servicioempleado.GetAllEmpleados());
+           addEmpleadoWindow.ShowDialog();
+            if (addEmpleadoWindow.guardarPresionado)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnEditar);
-                if (listViewItem != null)
-                {
-
-                    Empleado item = listViewItem.DataContext as Empleado;
-                    if (item != null)
-                    {
-
-                        MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-                        AddEmpleado addEmpleadoWindow = new AddEmpleado(item);
-                        addEmpleadoWindow.Owner = mainWindow;
-                        addEmpleadoWindow.ShowDialog();
-                        servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
-                        Refreshlistview();
-
-                    }
-                }
+                servicioempleado.EditEmpleado(addEmpleadoWindow.EmpleadoPropiety, addEmpleadoWindow.EmpleadoModified);
+                Refreshlistview();
             }
         }
 
         private void btnBorrar_Click(object sender, RoutedEventArgs e)
         {
             Button btnBorrar = sender as Button;
-            if (btnBorrar != null)
+            Empleado empleado = btnBorrar.DataContext as Empleado;
+
+
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + empleado.Nombre + "?"+ " Esta acción no se puede revertir");
+            bool ? resultado = messageBox.ShowDialog();
+
+            if (resultado == true)
             {
-                ListViewItem listViewItem = FindAncestor<ListViewItem>(btnBorrar);
-                if (listViewItem != null)
-                {
-
-                    Empleado item = listViewItem.DataContext as Empleado;
-                    if (item != null)
-                    {
-
-                       
-                        MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + item.Nombre + "?");
-                        bool? resultado = messageBox.ShowDialog();
-
-                        if (resultado == true)
-                        {
-                            servicioempleado.DeleteEmpleado(item);
-                            Refreshlistview();
-                        }
-                    }
-                }
+                servicioempleado.DeleteEmpleado(empleado);
+                Refreshlistview();
             }
-        }
 
-        private T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
         }
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
@@ -127,11 +86,7 @@ namespace GUI.Pages
 
             string filtro = txbBusqueda.Text.ToLower();
             List<Empleado> empleados = servicioempleado.GetAllEmpleados();
-
-
             List<Empleado> empleadosFiltrados = empleados.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
-
-
             miListView.ItemsSource = empleadosFiltrados;
         }
     }
