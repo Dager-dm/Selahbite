@@ -1,5 +1,6 @@
 ﻿using BLL;
 using ENTITY;
+using GUI.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 
 namespace GUI.Windows
@@ -22,16 +26,19 @@ namespace GUI.Windows
     /// </summary>
     public partial class ShowDetails : Window
     {
-       ServicioPedido serviciopedido = new ServicioPedido();
+        ServicioPedido serviciopedido = new ServicioPedido();
         public Pedido NPedido { get; set; }
 
-        public string Cambio;
+        public float Cambio;
 
         public string Efectivo;
 
-        public bool Confirmar= false;
+        public bool Confirmar = false;
 
-        public bool print=false;
+        public bool print = false;
+
+        private Cliente cliente1;
+
         public ShowDetails( List<DetallePedido> detalles, Cliente cliente, Empleado Mesero)
         {
             InitializeComponent();
@@ -40,7 +47,8 @@ namespace GUI.Windows
             CreatePedido(detalles, cliente, Mesero);
             lblTotalPedido.Content = string.Format("{0:C0}", NPedido.Valor);
             rbnContado.IsChecked = true;
-
+            cliente1 = cliente;
+            ValidationAnimation();
         }
 
         public ShowDetails(VistaDeuda vista)
@@ -51,7 +59,9 @@ namespace GUI.Windows
             lblTotalPedido.Content = string.Format("{0:C0}", vista.Valor);
             modalidad.Visibility = Visibility.Hidden;
             NPedido= new Pedido();
+            NPedido.Valor= vista.Valor;
             rbnCredito.IsChecked = false;
+            ValidationAnimation();
 
         }
 
@@ -84,7 +94,6 @@ namespace GUI.Windows
         {
             this.DragMove();
         }
-
 
         private void cboMetodos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -137,7 +146,6 @@ namespace GUI.Windows
 
         private void btnConfirmarpago_Click(object sender, RoutedEventArgs e)
         {
-            Confirmar = true;
 
             if (btnConfirmarpago.Content.ToString() != "Aceptar")
             {
@@ -147,19 +155,39 @@ namespace GUI.Windows
                     NPedido.ModalidadDePago = ModalidadDePago.Credito;
                     MetodosPago m = new MetodosPago("Credito", "5");
                     NPedido.MetodoPago = m;
+                    Confirmar = true;
+                    Close();
                 }
                 else
                 {
-                    NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
-                    if (NPedido.MetodoPago.Nombre == "Efectivo")
+                    if (ValidateCboMetodos())
                     {
-                        Cambio = lblCambio2.Content.ToString();
-                        Efectivo = txt.Text.ToString();
+                        NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
+                        if (NPedido.MetodoPago.Nombre == "Efectivo")
+                        {
+                            if (ValidateTxtEfectivo())
+                            {
+                                Efectivo = txtEfectivo.Text.ToString();
+                                Confirmar = true;
+                                Close();
+                            }
+                            else
+                            {
+                                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Efectivo' es obligatorio"); messageBox.ShowDialog();
+                            }
+
+                        }
+                        else
+                        {
+                            Cambio = 0;
+                            Efectivo = "0";
+                            Confirmar = true;
+                            Close();
+                        }
                     }
                     else
                     {
-                        Cambio = "0";
-                        Efectivo = "0";
+                        MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Metodo de Pago' es obligatorio"); messageBox.ShowDialog();
                     }
 
                 }
@@ -167,31 +195,57 @@ namespace GUI.Windows
                 if (Checkprint.IsChecked == true) { print = true; }
             }
 
-
-            Close();
+            
         }
 
         private void txtEfectivo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txt.Text!="")
+            var textbox = (TextBox)sender;
+            if (textbox.Text.Length >= textbox.MaxLength)
             {
-                lblCambio2.Content = string.Format("{0:C0}", float.Parse(txt.Text) - NPedido.Valor);
+                TextBox txt = sender as TextBox;
+                Popup.PlacementTarget = txt;
+                Popup.Placement = PlacementMode.Right;
+                Popup.IsOpen = true;
+                Header.PopupText.Text = "Cantidad de caracteres maxima alcanzada";
+                ValidationAnimation2();
+                System.Media.SystemSounds.Beep.Play();
+                e.Handled = true;
             }
+            else
+            {
+                if (txtEfectivo.Text != "")
+                {
+                    Cambio= (float.Parse(txtEfectivo.Text) - NPedido.Valor);
+                    lblCambio2.Content = string.Format("{0:C0}", float.Parse(txtEfectivo.Text) - NPedido.Valor);
+                }
+            }
+
 
             
         }
 
         private void rbnCredito_Checked(object sender, RoutedEventArgs e)
         {
-            cboMetodos.Visibility= Visibility.Hidden;
-            Checkprint.Visibility= Visibility.Hidden;
-            lblmetodos.Visibility=Visibility.Hidden;
-            bdmetodos.Visibility= Visibility.Hidden;
-            lblEectivo1.Visibility = Visibility.Hidden;
-            brdEfectivo1.Visibility = Visibility.Hidden;
-            lblCambio1.Visibility = Visibility.Hidden;
-            lblCambio2.Visibility = Visibility.Hidden;
-            btnConfirmarpago.Content = "Confirmar";
+            if (cliente1.Id!=3)
+            {
+                cboMetodos.Visibility = Visibility.Hidden;
+                Checkprint.Visibility = Visibility.Hidden;
+                lblmetodos.Visibility = Visibility.Hidden;
+                bdmetodos.Visibility = Visibility.Hidden;
+                lblEectivo1.Visibility = Visibility.Hidden;
+                brdEfectivo1.Visibility = Visibility.Hidden;
+                lblCambio1.Visibility = Visibility.Hidden;
+                lblCambio2.Visibility = Visibility.Hidden;
+                btnConfirmarpago.Content = "Confirmar";
+            }
+            else
+            {
+                rbnCredito.IsChecked= false;
+                rbnContado.IsChecked= true;
+                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El Cliente Generico no puede hacer pedidos a credito \nSe requiere registrar el cliente"); messageBox.ShowDialog();
+            }
+
         }
 
         private void rbnContado_Checked(object sender, RoutedEventArgs e)
@@ -199,8 +253,99 @@ namespace GUI.Windows
             cboMetodos.Visibility = Visibility.Visible;
             Checkprint.Visibility= Visibility.Visible;
             btnConfirmarpago.Content = "Confirmar Pago";
-            lblmetodos.Visibility = Visibility.Hidden;
-            bdmetodos.Visibility = Visibility.Hidden;
+            lblmetodos.Visibility = Visibility.Visible;
+            bdmetodos.Visibility = Visibility.Visible;
         }
+
+        private void Numeric_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Back)
+            {
+                return;
+            }
+
+            if (e.Key < Key.D0 || e.Key > Key.D9)
+            {
+                if (e.Key < Key.NumPad0 || e.Key > Key.NumPad9)
+                {
+                    TextBox txt = sender as TextBox;
+                    Popup.PlacementTarget = txt;
+                    Popup.Placement = PlacementMode.Right;
+                    Popup.IsOpen = true;
+                    Header.PopupText.Text = "No se pueden digitar caracteres alfabeticos";
+                    ValidationAnimation2();
+                    System.Media.SystemSounds.Beep.Play();
+                    e.Handled = true;
+                }
+
+            }
+        }
+
+        private void ValidationAnimation()
+        {
+
+            DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            timer.Tick += (sender, args) =>
+            {
+                timer.Stop();
+                Storyboard storyboard = Header.FindResource("AutoFadeOutStoryboard") as Storyboard;
+                if (storyboard != null)
+                {
+                    storyboard.Begin(Header);
+                }
+            };
+            timer.Start();
+
+        }
+
+        private void ValidationAnimation2()
+        {
+            Storyboard fadeInStoryboard = Header.FindResource("FadeInStoryboard") as Storyboard;
+            if (fadeInStoryboard != null)
+            {
+                fadeInStoryboard.Begin(Header);
+            }
+
+            // Inicia el temporizador para la animación de salida
+            DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            timer.Tick += (sender, args) =>
+            {
+                timer.Stop();
+                Storyboard fadeOutStoryboard = Header.FindResource("FadeOutStoryboard") as Storyboard;
+                if (fadeOutStoryboard != null)
+                {
+                    fadeOutStoryboard.Begin(Header);
+                }
+            };
+            timer.Start();
+        }
+
+        private bool ValidateCboMetodos()
+        {
+            if (cboMetodos.SelectedItem==null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+           
+        }
+
+        private bool ValidateTxtEfectivo()
+        {
+            if (txtEfectivo.Text!=null)
+            {
+                
+                return false;
+            }
+            else
+            {
+                
+                return true;
+            }
+        }
+
     }
 }

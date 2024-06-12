@@ -198,7 +198,7 @@ namespace DAL
             }
             CerrarConexion();
             turno.SetEgresos();
-            turno.SetIngresos();
+            turno.LoadIngresos();
             turno.LoadSaldoPrevisto();
             return turno;
         }

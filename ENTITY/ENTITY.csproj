@@ -58,6 +58,7 @@
     <Compile Include="Turno.cs" />
     <Compile Include="Usuarios.cs" />
     <Compile Include="VistaDeuda.cs" />
+    <Compile Include="VistaVentas.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

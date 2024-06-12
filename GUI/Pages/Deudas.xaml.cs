@@ -52,7 +52,6 @@ namespace GUI.Pages
 
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {
-
             string filtro = txbBusqueda.Text.ToLower();
             List<VistaDeuda> creditos = servicioVistaDeuda.GetCreditos();
             List<VistaDeuda> deudasFiltrados = creditos.Where(c => c.NombreCliente.ToLower().Contains(filtro)).ToList();
@@ -69,7 +68,7 @@ namespace GUI.Pages
             }
             else
             {
-                MessageBox.Show("Este pedido ya se pagó");
+               MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Este pedido ya se pagó"); messageBox.ShowDialog();
             }
             
 
@@ -78,16 +77,14 @@ namespace GUI.Pages
         private void ShowPayWindow(VistaDeuda vista)
         {
             vista.Detalles = servicioVistaDeuda.LoadDetalles(vista.Id_pedido);
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             ShowDetails showDetails = new ShowDetails(vista);
-            showDetails.Owner = mainWindow;
             showDetails.ShowDialog();
             if (showDetails.Confirmar)
             {
-                servicioVistaDeuda.PagarPedido(vista.Id_pedido, (MetodosPago)showDetails.cboMetodos.SelectedItem, vista.Valor);
+                servicioVistaDeuda.PagarDeuda(vista.Id_pedido, (MetodosPago)showDetails.cboMetodos.SelectedItem, vista.Valor);
                 if (showDetails.print)
                 {
-                    servicioVistaDeuda.PrintTrue(vista);
+                    servicioVistaDeuda.PrintTrue(vista, showDetails.Cambio, showDetails.Efectivo);
                 }
 
             }

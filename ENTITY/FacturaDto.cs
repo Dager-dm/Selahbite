@@ -20,7 +20,7 @@ namespace ENTITY
         public string CedulaCliente { get; set; }
         public string ValorTotal { get; set; }
         public string Efectivo { get; set; }
-        public string Cambio { get; set;}
+        public float Cambio { get; set;}
         public List<DetallePedido> Detalles { get; set; }
     }
 }

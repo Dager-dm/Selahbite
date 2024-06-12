@@ -187,10 +187,6 @@ namespace BLL
 
             doc.Open();
 
-
-
-
-
             iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance("D:\\Proyecto\\Selahbite\\GUI\\Assets\\Images\\FacturaLogo.png");
 
 
@@ -233,7 +229,7 @@ namespace BLL
                 cell2.HorizontalAlignment = Element.ALIGN_RIGHT; cell2.PaddingTop = 15f;
                 table.AddCell(cell2);
 
-                PdfPCell cell3 = new PdfPCell(new Phrase(item.Producto.Valor.ToString("C0", nfi) + " x   " + item.Cantidad.ToString() + " Unidades", verdanaFontNoBold));
+                PdfPCell cell3 = new PdfPCell(new Phrase(item.Producto.Valor.ToString("C0", nfi) + " x  " + item.Cantidad.ToString() + " Unidades", verdanaFontNoBold));
                 cell3.Border = iTextSharp.text.Rectangle.NO_BORDER; cell3.PaddingTop = 5f;
                 cell3.Colspan = 2;
                 table.AddCell(cell3);
@@ -243,8 +239,8 @@ namespace BLL
             doc.Add(table);
             doc.Add(separator);
 
-            //decimal valorNumerico = Convert.ToDecimal(facturaDto.Efectivo);
-            //decimal cambionumber = Convert.ToDecimal(facturaDto.Cambio);
+            decimal efectivonum = Convert.ToDecimal(facturaDto.Efectivo);
+            decimal cambionumber = Convert.ToDecimal(facturaDto.Cambio);
             decimal valortaolnum = Convert.ToDecimal(facturaDto.ValorTotal);
 
             PdfPTable tabletotal = new PdfPTable(2);
@@ -266,7 +262,7 @@ namespace BLL
             cellefectivo.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellefectivo);
 
-            PdfPCell cellefectivovalue = new PdfPCell(new Phrase(facturaDto.Efectivo, verdanaFontNoBold));
+            PdfPCell cellefectivovalue = new PdfPCell(new Phrase(efectivonum.ToString("C0", nfi), verdanaFontNoBold));
             cellefectivovalue.HorizontalAlignment = Element.ALIGN_RIGHT; cellefectivovalue.PaddingTop = 15f; 
             cellefectivovalue.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellefectivovalue);
@@ -276,10 +272,12 @@ namespace BLL
             cellcambio.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellcambio);
 
-            PdfPCell cellcambiovalue = new PdfPCell(new Phrase(facturaDto.Cambio, verdanaFontBoldbig));
-            cellcambiovalue.HorizontalAlignment = Element.ALIGN_RIGHT; cellcambiovalue.PaddingTop = 15f; 
+            PdfPCell cellcambiovalue = new PdfPCell(new Phrase(cambionumber.ToString("C0", nfi), verdanaFontBoldbig));
+            cellcambiovalue.HorizontalAlignment = Element.ALIGN_RIGHT; cellcambiovalue.PaddingTop = 15f;
             cellcambiovalue.Border = iTextSharp.text.Rectangle.NO_BORDER;
             tabletotal.AddCell(cellcambiovalue);
+
+
 
             doc.Add(tabletotal);
             doc.Close();
@@ -348,7 +346,7 @@ namespace BLL
             facturaDto.Detalles = serviciodetalles.GetDetalles(vista.Id_pedido);
         }*/
 
-        public  FacturaDto MapFacturaDto<T>(string Cajero, T source, string cambio, string efectivo)
+        public  FacturaDto MapFacturaDto<T>(string Cajero, T source, float cambio, string efectivo)
         {
             FacturaDto facturaDto = new FacturaDto();
             facturaDto.NombreCajero = Cajero;
@@ -360,6 +358,7 @@ namespace BLL
                 facturaDto.NombreCliente = pedido.Cliente.Nombre;
                 facturaDto.ValorTotal = pedido.Valor.ToString();
                 facturaDto.Detalles = pedido.Detalles;
+                facturaDto.IdPedido = pedido.Id;
             }
             else if (source is VistaDeuda vista)
             {
@@ -367,6 +366,7 @@ namespace BLL
                 facturaDto.NombreCliente = vista.NombreCliente;
                 facturaDto.ValorTotal = vista.Valor.ToString();
                 facturaDto.Detalles = vista.Detalles;
+                facturaDto.IdPedido=vista.Id_pedido;
             }
 
             facturaDto.Efectivo = efectivo;

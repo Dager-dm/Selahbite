@@ -86,7 +86,7 @@
                     </Border>
 
                     
-                    <Button Name="ShowPedidosOT"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource Details}" Click="ShowPedidosOT_Click" Margin="38 0 0 0" MouseEnter="MouseEnterbtnDetails" MouseLeave="MoueseLeavebtnDetails" />
+                    <Button Name="ShowPedidosOT"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource pay}" Click="ShowPedidosOT_Click" Margin="38 0 0 0" MouseEnter="MouseEnterbtnDetails" MouseLeave="MoueseLeavebtnDetails" />
                     <Button Name="EgresosButtonOT"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="7" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource cli}" MouseEnter="MouseEnterbtnDetails" MouseLeave="MoueseLeavebtnDetails" Click="EgresosButtonOT_Click" Margin="90 0 0 0"/>
                     <Button Name="GoBackButton" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="1" Grid.Column="8" Style="{DynamicResource AddButtonStyle}" Tag="{DynamicResource GoBack}" Click="GoBack" Margin="25 0 0 0" />
                     <Label Name="lblPedidos" Grid.Row="0" Content="Pedidos" Visibility="Hidden" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -232,7 +232,7 @@
 
 
                     <Popup x:Name="Popup"  AllowsTransparency="True"  HorizontalOffset="-35" VerticalOffset="-2">
-                        <ctls:JustPop x:Name="Header"  Foreground="{DynamicResource TertiaryBlueColor}"/>
+                        <ctls:JustPop x:Name="Header"  Foreground="{DynamicResource TertiaryBlueColor}" />
                     </Popup>
                 </Grid>
             </Border>
@@ -286,13 +286,13 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Saldo Base " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" SelectionBrush="{DynamicResource TertiaryRedColor}" Foreground="{DynamicResource PrimaryTextColor}"/>
+                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" SelectionBrush="{DynamicResource TertiaryRedColor}" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7"/>
                             </Border>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Horario         " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
-                            <RadioButton Name="HorarioDia"  FontSize="15" VerticalAlignment="Center" Cursor="Hand"/>
+                            <RadioButton Name="HorarioDia"  FontSize="15" VerticalAlignment="Center" Cursor="Hand" IsChecked="True"/>
                             <Label Name="lblIniciarDia" Content="Dia            " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <RadioButton Name="HorarioNoche"  FontSize="15" VerticalAlignment="Center" Cursor="Hand"/>
                             <Label Name="lblIniciarNoche" Content="Noche" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
@@ -321,7 +321,7 @@
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Cajero " FontSize="15" Width="60" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"/>
-                            <Label Name="lblCajero" Content="******" Width="250" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Name="lblCajero" Content="******" Width="250" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                         </StackPanel>
 
@@ -329,7 +329,7 @@
 
                         <StackPanel Orientation="Horizontal"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Saldo Base  " FontSize="15" Width="100" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30"/>
-                            <Label Name="lblSaldoBase" Content="******" Width="200" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Name="lblSaldoBase" Content="******" Width="200" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
@@ -359,11 +359,12 @@
                                             </Style>
                                         </Expander.Style>
                                         <StackPanel Orientation="Vertical" Margin="30 0 0 0">
-                                            <TextBox x:Name="txtINequi" Text="Ingresos Nequi: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
-                                            <TextBox x:Name="txtIDaviplata" Text="Ingresos Daviplata: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
-                                            <TextBox x:Name="txtIBanco" Text="Ingresos Bancolombia: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
-                                            <TextBox x:Name="txtICredito" Text="Ingresos Credito: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" />
-                                            <TextBox x:Name="txtIEfectivo" Text="Ingresos Efectivo: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <Label x:Name="txtINequi" Content="Ingresos Nequi: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" />
+                                            <Label x:Name="txtIDaviplata" Content="Ingresos Daviplata: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <Label x:Name="txtIBanco" Content="Ingresos Bancolombia: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <Label x:Name="txtICredito" Content="Ingresos Credito: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" />
+                                            <Label x:Name="txtIEfectivo" Content="Ingresos Efectivo: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
+                                            <Label x:Name="txtICC" Content="Cancelacion de Creditos: $" BorderBrush="Transparent" FontSize="14" Background="Transparent" BorderThickness="0" VerticalAlignment="Center"  />
                                         </StackPanel>
                                     </Expander>
                                 </Border>
@@ -404,11 +405,11 @@
 
                         
                         <Label Content="Saldo Real" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
-                        <Border Name="bdsaldoreal" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                            <TextBox x:Name="txtSaldoReal" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtSaldoReal_TextChanged" />
+                        <Border Name="bdsaldoreal" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
+                            <TextBox x:Name="txtSaldoReal" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtSaldoReal_TextChanged" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7"/>
                         </Border>
 
-                        <Border Name="bdsaldorealselected" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
+                        <Border Name="bdsaldorealselected" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
                             <TextBox x:Name="txtSaldoRealSelected" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextColor}"  />
                         </Border>
 
@@ -419,8 +420,8 @@
 
                        
                         <Label Content="Observaciones" Grid.Row="3" Grid.Column="0"  FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Top" Height="30"/>
-                        <Border  Grid.Row="3" Grid.Column="1"  Width="150" Height="85" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                                    <TextBox x:Name="txtObservacion" Text=" " BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap"/>
+                        <Border  Grid.Row="3" Grid.Column="1"  Width="150" Height="85" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
+                                    <TextBox x:Name="txtObservacion" Text=" " BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap" MaxLength="40"/>
                         </Border>
                         
 

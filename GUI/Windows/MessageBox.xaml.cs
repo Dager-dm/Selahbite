@@ -27,7 +27,7 @@ namespace GUI.Pages
         public MiMessageBox(string mensaje)
         {
             InitializeComponent();          
-            lblQuestion.Content = mensaje; 
+            lblQuestion.Text = mensaje; 
             btnAceptar.Visibility = Visibility.Hidden;
             btnYes.Visibility = Visibility.Visible;
             btnNo.Visibility = Visibility.Visible;
@@ -51,7 +51,7 @@ namespace GUI.Pages
         public MiMessageBox(AfirmativeMessage m, string message)
         {
             InitializeComponent();
-            lblQuestion.Content = message;
+            lblQuestion.Text = message;
             btnAceptar.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Hidden;
             btnNo.Visibility = Visibility.Hidden;
@@ -65,7 +65,7 @@ namespace GUI.Pages
         public MiMessageBox(NegativeMessage m, string message)
         {
             InitializeComponent();
-            lblQuestion.Content = message;
+            lblQuestion.Text = message;
             btnAceptar.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Hidden;
             btnNo.Visibility = Visibility.Hidden;
@@ -78,7 +78,7 @@ namespace GUI.Pages
         public MiMessageBox(WarningMessage m, string message)   
         {
             InitializeComponent();
-            lblQuestion.Content = message;
+            lblQuestion.Text = message;
             btnAceptar.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Hidden;
             btnNo.Visibility = Visibility.Hidden;

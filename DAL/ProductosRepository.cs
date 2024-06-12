@@ -27,8 +27,7 @@ namespace DAL
             oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
             oracleCommand.Parameters.Add("val", OracleDbType.Long).Value = producto.Valor;
             oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
-            // pr_InsertProducto(nomb PRODUCTOS.nombre%type, val PRODUCTOS.valor%type, id_cat PRODUCTOS.id_categoria%type)
-            // Ejecuta el procedimiento
+
             var i = oracleCommand.ExecuteNonQuery();
             if (i > 0)
             {

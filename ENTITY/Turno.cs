@@ -77,7 +77,7 @@ namespace ENTITY
             }
 
         }
-        public void SetIngresos()
+        public void LoadIngresos()
         {
             foreach (var item in Pedidos)
             {
@@ -85,6 +85,11 @@ namespace ENTITY
 
             }
 
+        }
+
+        public void CalcularIngreso(float newingreso)
+        {
+            Ingreso=Ingreso + newingreso;
         }
         public void LoadSaldoPrevisto() 
         {

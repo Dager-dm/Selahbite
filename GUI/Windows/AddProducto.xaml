@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ctls="clr-namespace:GUI.Styles"
         xmlns:local="clr-namespace:GUI.Pages"
-               WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="{DynamicResource Boxborder}"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="{DynamicResource Boxborder}"
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins"
         Title="AddProducto" Height="450" Width="273">
@@ -34,10 +35,10 @@
 
 
             <Label Grid.Row="2" Grid.Column="0" Content="Nombre" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Name="txtboxNombre" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" >
+            <TextBox Grid.Row="2" Grid.Column="1" Name="txtboxNombre" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" PreviewKeyDown="Alphabetic_PreviewKeyDown" MaxLength="50" TextChanged="txtbox_TextChanged">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                        <Border x:Name="borderbox" Background="{DynamicResource TertiaryBackgroundColor}" 
                               BorderBrush="{TemplateBinding BorderBrush}" 
                               BorderThickness="1" 
                               CornerRadius="3">
@@ -48,10 +49,10 @@
             </TextBox>
 
             <Label Grid.Row="3" Content="Valor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Name="txtboxValor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}">
+            <TextBox Grid.Row="3" Grid.Column="1" Name="txtboxValor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}" PreviewKeyDown="Numeric_PreviewKeyDown" MaxLength="7" TextChanged="txtbox_TextChanged">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="borderbox" Background="{DynamicResource Boxbackground}" 
+                        <Border x:Name="borderbox" Background="{DynamicResource TertiaryBackgroundColor}" 
                          BorderBrush="{TemplateBinding BorderBrush}" 
                          BorderThickness="1" 
                          CornerRadius="3">
@@ -63,7 +64,7 @@
 
             <Label Grid.Row="4" Content="Categoría" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
 
-            <Border Grid.Row="4" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
+            <Border Grid.Row="4" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource Boxborder}" >
 
                 <ComboBox Name="cboCategoria" Width="120" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" DisplayMemberPath="Nombre" BorderThickness="0" />
 
@@ -71,6 +72,9 @@
 
             <RadioButton x:Name="btnSave" Content="Gardar" Style="{DynamicResource AddButton}" Tag="{DynamicResource Save}" Grid.Row="6" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AddProductoButton_Click"/>
 
+            <Popup x:Name="Popup"  AllowsTransparency="True"  HorizontalOffset="5" VerticalOffset="0">
+                <ctls:UserPopup x:Name="Header" Foreground="White" Background="{DynamicResource TertiaryRedColor}"/>
+            </Popup>
 
 
         </Grid>

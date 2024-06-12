@@ -30,7 +30,7 @@ namespace BLL
             var TurnoA = servicioTurno.GetOpenTurno();
             var pedid = PedidosRepository.Insert(pedido, TurnoA.Id);
             TurnoA.SetAPedido(pedido);
-            TurnoA.SetIngresos();
+            TurnoA.CalcularIngreso(pedid.Valor);
             if (pedido.MetodoPago.Nombre == "Efectivo") { servicioCaja.SumarIngreso(pedido.Valor); }
             return pedid;
         }
@@ -48,7 +48,7 @@ namespace BLL
             
         }
 
-        public string GenerateFactura(Pedido pedido, string cambio, string efectivo)
+        public string GenerateFactura(Pedido pedido, float cambio, string efectivo)
         {
             Turno turno = servicioTurno.GetOpenTurno();
             var dto=Serviciofactura.MapFacturaDto(turno.Cajero.Nombre, pedido, cambio, efectivo);
@@ -62,9 +62,9 @@ namespace BLL
             
         }
 
-        public void PagarPedido(long idPedido, string idMetodo)
+        public void PagarDeuda(long idPedido, string idMetodo)
         {
-            PedidosRepository.PagarPedido(idPedido, idMetodo);
+            PedidosRepository.PagarDeuda(idPedido, idMetodo);
 
         }
 

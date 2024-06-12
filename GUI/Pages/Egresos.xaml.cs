@@ -33,9 +33,7 @@ namespace GUI.Pages
 
         private void AddEgreso(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddEgresos addEgresoWindow = new AddEgresos();
-            addEgresoWindow.Owner = mainWindow;
+            AddEgresos addEgresoWindow = new AddEgresos(servicioegresos.GetSaldo());
             addEgresoWindow.ShowDialog();
             if (addEgresoWindow.guardarPresionado)
             {
@@ -67,13 +65,9 @@ namespace GUI.Pages
         {
 
             string filtro = txbBusqueda.Text.ToLower();
-            //List<Egreso> egresos = servicioegreso.GetAllEgreso();
-
-
-            //List<Egreso> egresosFiltrados = egresos.Where(c => c.Nombre.ToLower().Contains(filtro)).ToList();
-
-
-            //miListView.ItemsSource = egresosFiltrados;
+            List<Egreso> egresos = servicioegresos.GetEgresos();
+            List<Egreso> egresosFiltrados = egresos.Where(c => c.Recibidor.ToLower().Contains(filtro)).ToList();
+            miListView.ItemsSource = egresosFiltrados;
         }
     }
 }

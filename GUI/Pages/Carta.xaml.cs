@@ -34,7 +34,7 @@ namespace GUI.Pages
         private void NewProduct(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddProducto addProductoWindow = new AddProducto(servicioProducto.GetCategoriasProductos());
+            AddProducto addProductoWindow = new AddProducto(servicioProducto.GetCategoriasProductos(), servicioProducto.GetAllProducts());
             addProductoWindow.Owner = mainWindow;
             addProductoWindow.ShowDialog();
             if (addProductoWindow.guardarPresionado)
@@ -55,9 +55,7 @@ namespace GUI.Pages
         {
             Button btnEditar = sender as Button;
             Producto producto = btnEditar.DataContext as Producto;
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddProducto addProductoWindow = new AddProducto(producto, servicioProducto.GetCategoriasProductos());
-            addProductoWindow.Owner = mainWindow;
+            AddProducto addProductoWindow = new AddProducto(producto, servicioProducto.GetCategoriasProductos(), servicioProducto.GetAllProducts());
             addProductoWindow.ShowDialog();
             if (addProductoWindow.guardarPresionado)
             {
@@ -70,7 +68,7 @@ namespace GUI.Pages
         {
             Button btnBorrar = sender as Button;
             Producto producto = btnBorrar.DataContext as Producto;
-            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Plato " + producto.Nombre + "?");
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Plato " + producto.Nombre + "?"+"  Esta acción no se puede revertir");
             bool? resultado = messageBox.ShowDialog();
             if (resultado == true)
             {

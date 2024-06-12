@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="{DynamicResource Boxborder}"
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins"
-        Title="MessageBox" Height="200" Width="400">
+        Title="MessageBox" Height="220" Width="400">
     <Border CornerRadius="10" Background="{DynamicResource TertiaryBackgroundColor}"  BorderBrush="{DynamicResource Boxborder}" BorderThickness="1">
         <Grid>
 
@@ -22,14 +22,15 @@
             <Button x:Name="btnClose" Style="{StaticResource IconStyle}" Content="{DynamicResource close}" Click="btnClose_Click" Tag="IsCloseButton" HorizontalAlignment="Right" Grid.ColumnSpan="2"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
-                  <Path Name="icon" Fill="{DynamicResource SecundaryYellowColor}" Data="{StaticResource Asking}" Stretch="Fill" Width="45" Height="45" Margin="0 0 15 0" />
-                  <Label x:Name="lblQuestion" Grid.Row="1" Grid.Column="1"  Background="Transparent" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
+                
+                    <Path Name="icon" Fill="{DynamicResource SecundaryYellowColor}" Grid.Column="1" Data="{StaticResource Asking}" Stretch="Fill" Width="45" Height="45" Margin="0 0 15 0" />
+                    <TextBlock x:Name="lblQuestion" Text="hola" Grid.Row="1" Grid.Column="2"  Background="Transparent" FontSize="20" VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}"  TextWrapping="Wrap"/>
+                
             </Grid>
             <RadioButton x:Name="btnYes" Content="Sí" Style="{DynamicResource AddButton}" Tag="{DynamicResource Save}" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnAceptar_Click"  Margin="30 0 0 0"/>
 

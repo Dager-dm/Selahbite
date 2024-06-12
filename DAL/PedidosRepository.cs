@@ -231,46 +231,8 @@ namespace DAL
             return metodo;
         }
 
-        //public List<Pedido> GetCreditos()
-        //{
-        //    List<Pedido> lstCreditos = new List<Pedido>();
-        //    oracleCommand = new OracleCommand();
-        //    oracleCommand.Connection = Conexion();
-        //    AbrirConexion();
 
-        //    oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_creditos; END;";
-        //    oracleCommand.CommandType = System.Data.CommandType.Text;
-
-        //    OracleParameter cursor = new OracleParameter();
-        //    cursor.ParameterName = "cursor";
-        //    cursor.OracleDbType = OracleDbType.RefCursor;
-        //    cursor.Direction = System.Data.ParameterDirection.Output;
-
-        //    oracleCommand.Parameters.Add(cursor);
-        //    oracleCommand.ExecuteNonQuery();
-
-        //    using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
-        //    {
-        //        while (reader.Read())
-        //        {
-        //            lstCreditos.Add(MapPedido(reader));
-        //        }
-        //    }
-        //    CerrarConexion();
-        //    return lstCreditos;
-
-        //}
-
-        private MetodosPago LoadNullMetodo()
-        {
-            MetodosPago m = new MetodosPago();
-            m.Nombre = "";
-            m.Id = "0";
-            return m;
-
-        }
-
-        public void PagarPedido(long idPedido, string idMetodo)
+        public void PagarDeuda(long idPedido, string idMetodo)
         {
             oracleCommand = new OracleCommand("pr_PagarPedido");
             oracleCommand.CommandType = CommandType.StoredProcedure;
@@ -280,8 +242,6 @@ namespace DAL
             oracleCommand.Parameters.Add("metodo", OracleDbType.Varchar2).Value = idMetodo;
             oracleCommand.Parameters.Add("idped", OracleDbType.Long).Value = idPedido;
 
-            // pr_InsertProducto(nomb PRODUCTOS.nombre%type, val PRODUCTOS.valor%type, id_cat PRODUCTOS.id_categoria%type)
-            // Ejecuta el procedimiento
             oracleCommand.ExecuteNonQuery();
 
             CerrarConexion();

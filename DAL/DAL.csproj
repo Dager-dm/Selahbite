@@ -88,7 +88,7 @@
     <Compile Include="SelahbiteDB.cs" />
     <Compile Include="TurnosRepository.cs" />
     <Compile Include="UsuarioRepository.cs" />
-    <Compile Include="VistaDeudasRepository.cs" />
+    <Compile Include="VistasRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ENTITY\ENTITY.csproj">

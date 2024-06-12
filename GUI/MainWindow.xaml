@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         x:Name="home" 
-        Title="MainWindow" Height="720" Width="1100"
+        Title="Selahbite" Height="720" Width="1100"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins">

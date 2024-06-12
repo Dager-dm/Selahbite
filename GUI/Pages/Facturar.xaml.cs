@@ -1,5 +1,6 @@
 ﻿using BLL;
 using ENTITY;
+using GUI.Styles;
 using GUI.Windows;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -49,6 +52,7 @@ namespace GUI.Pages
             cboEmpleados.ItemsSource = servicioEmpleado.GetMeseros();
             cboClientes.ItemsSource = servicioCliente.GetAllClientes();
             items.ItemsSource = servicioproducto.GetAllProducts();
+
 
         }
 
@@ -91,9 +95,7 @@ namespace GUI.Pages
 
         private void btnAddClient_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente();
-            addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
             if (addClienteWindow.guardarPresionado)
             {
@@ -121,6 +123,7 @@ namespace GUI.Pages
                     Header.PopupText.Text = "Ver Detalles";
                     break;
             }
+
         }
 
         private void MoueseLeavebtnAddClient(object sender, MouseEventArgs e)
@@ -229,30 +232,50 @@ namespace GUI.Pages
             return null;
         }
 
-        private void ConfirmarPago_Click(object sender, RoutedEventArgs e)
+        private void ConfirmarPedido_Click(object sender, RoutedEventArgs e)
         {
-
-            MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
-            ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
-            ShowDetailsWindow.Owner = mainWindow;
-            ShowDetailsWindow.ShowDialog();
-            if (ShowDetailsWindow.Confirmar)
+            if (validateCLiente())
             {
-                var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
-                ShowDetailsWindow.NPedido.Id = pedido.Id;
-                if (ShowDetailsWindow.print)
+                if (validateMesero())
                 {
-                    servicioPedido.GenerateFactura(ShowDetailsWindow.NPedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
-                    //MessageBox.Show(i);
-                }
+                    if (Detalles.Count>0)
+                    {
+                        ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
+                        ShowDetailsWindow.ShowDialog();
+                        if (ShowDetailsWindow.Confirmar)
+                        {
+                            var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
+                            if (ShowDetailsWindow.print)
+                            {
+                                servicioPedido.GenerateFactura(pedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
+                                //MessageBox.Show(i);
+                            }
 
-                foreach (var item in Detalles)
+                            foreach (var item in Detalles)
+                            {
+                                item.Pedido.Id = pedido.Id;
+                                servicioDetalles.AddDetalle(item);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Tiene que agregar productos al pedido para confirmarlo"); messageBox.ShowDialog();
+                    }
+
+                }
+                else
                 {
-                    item.Pedido.Id = pedido.Id;
-                    servicioDetalles.AddDetalle(item);
+                    MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "El campo mesero es obligatorio"); messageBox.ShowDialog();
                 }
 
             }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "El campo cliente es obligatorio"); messageBox.ShowDialog();
+            }
+
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
@@ -289,11 +312,34 @@ namespace GUI.Pages
             ShowDetails detailswindows = new ShowDetails(pedido);
             detailswindows.ShowDialog();
         }
-    }
 
+        private bool validateCLiente()
+        {
+            if (cboClientes.SelectedItem==null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
-   
-   
+        private bool validateMesero()
+        {
+            if (cboEmpleados.SelectedItem == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        
+
+    } 
 
 }
 

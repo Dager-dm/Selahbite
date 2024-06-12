@@ -39,10 +39,7 @@ namespace GUI.Pages
 
         private void NewClient(object sender, RoutedEventArgs e)
         {
-            
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente();
-            addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
             if (addClienteWindow.guardarPresionado)
             {
@@ -78,7 +75,7 @@ namespace GUI.Pages
         {
             Button btnBorrar = sender as Button;
             Cliente cliente = btnBorrar.DataContext as Cliente;
-            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+cliente.Nombre+"?");
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n"+" el cliente "+cliente.Nombre+"?" + " Esta acción no se puede revertir");
             bool? resultado = messageBox.ShowDialog();
             if (resultado == true)
             {
@@ -88,6 +85,10 @@ namespace GUI.Pages
                     
         }
 
+        public void test()
+        {
+            MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "perdio el año valentina"); messageBox.ShowDialog();
+        }
         private void TxtBusqueda_TextChanged(object sender, TextChangedEventArgs e)
         {
             

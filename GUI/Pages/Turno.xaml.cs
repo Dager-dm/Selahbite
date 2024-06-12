@@ -27,17 +27,17 @@ namespace GUI.Pages
     /// </summary>
     public partial class Turno : Page
     {
-       
+
         ServicioCaja servicioCaja = new ServicioCaja();
         ServicioEmpleado servicioEmpleado = new ServicioEmpleado();
         ServicioTurno servicioTurno = new ServicioTurno();
-        ServicioPedido servicopedido = new ServicioPedido();
+        //ServicioPedido servicopedido = new ServicioPedido();
         private ListCollectionView View { get; set; }
 
         public Turno(ENTITY.Turno turnoAbierto)
         {
             InitializeComponent();
-            cboCajeros.ItemsSource=servicioEmpleado.GetCajeros();
+            cboCajeros.ItemsSource = servicioEmpleado.GetCajeros();
             View = new ListCollectionView(servicioTurno.GetTurnos());
             lstturnos.ItemsSource = View;
             IsTurnoOpen(turnoAbierto);
@@ -47,11 +47,11 @@ namespace GUI.Pages
 
         private void IsTurnoOpen(ENTITY.Turno t)
         {
-            if (servicioTurno.GetOpenTurno()!=null)
+            if (servicioTurno.GetOpenTurno() != null)
             {
                 SelectOpenTurno(servicioTurno.GetOpenTurno());
             }
-            else if(t!=null)
+            else if (t != null)
             {
                 servicioCaja.AsignarSaldoBase(t.SaldoPrevisto);
                 SelectOpenTurno(t);
@@ -62,7 +62,7 @@ namespace GUI.Pages
 
         private void SelectOpenTurno(ENTITY.Turno turno)
         {
-            
+
             ShowSelectedTurno(turno);
             HideThingsinicioTurno();
             PathGeometry iconofinish = (PathGeometry)Application.Current.Resources["finish"];
@@ -96,18 +96,47 @@ namespace GUI.Pages
             PathGeometry iconofinish = (PathGeometry)Application.Current.Resources["finish"];
             if (TurnoButton.Content.ToString() == "Iniciar Turno")
             {
-                HideThingsinicioTurno();
-                TakeInfoTurnoInicio();
-                TurnoButton.Content = "Terminar Turno";
-                TurnoButton.Tag = iconofinish;   
+
+                if (cboCajeros.SelectedItem != null)
+                {
+                    if (txtSaldobase.Text != null)
+                    {
+                        HideThingsinicioTurno();
+                        TakeInfoTurnoInicio();
+                        TurnoButton.Content = "Terminar Turno";
+                        TurnoButton.Tag = iconofinish;
+
+                    }
+                    else
+                    {
+                        MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo Saldo Base es obligatorio"); messageBox.ShowDialog();
+                    }
+
+                }
+                else
+                {
+                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo Cajero es obligatorio"); messageBox.ShowDialog();
+                }
+
+
+
             }
             else
             {
-                TakeInfoTurnoTerminar();
-                ShowThingsterminarTurno();
-                TurnoButton.Content = "Iniciar Turno";
-                TurnoButton.Tag = iconostart;
-                RefreshListTurnos();
+                if (!string.IsNullOrEmpty(txtSaldoReal.Text))
+                {
+                    MessageBox.Show("no es null");
+                    TakeInfoTurnoTerminar();
+                    ShowThingsterminarTurno();
+                    TurnoButton.Content = "Iniciar Turno";
+                    TurnoButton.Tag = iconostart;
+                    RefreshListTurnos();
+                }
+                else
+                {
+                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo Saldo Real es obligatorio"); messageBox.ShowDialog();
+                }
+
             }
         }
 
@@ -126,7 +155,7 @@ namespace GUI.Pages
             InfoTurnoBorder.Visibility = Visibility.Hidden;
             GridIniciar.Visibility = Visibility.Visible;
             terminarBorder.Visibility = Visibility.Hidden;
-            terminarBorder2.Visibility= Visibility.Hidden;
+            terminarBorder2.Visibility = Visibility.Hidden;
             ExpanderIngresos.IsExpanded = false;
             lblCajero.Content = null;
             lblHorario.Content = null;
@@ -138,40 +167,41 @@ namespace GUI.Pages
 
         private void TakeInfoTurnoInicio()
         {
-            
+
             ENTITY.Turno turnonuevo = new ENTITY.Turno();
-            turnonuevo.Fecha=DateTime.Now;
+            turnonuevo.Fecha = DateTime.Now;
             turnonuevo.Cajero = (Empleado)cboCajeros.SelectedItem;
-            turnonuevo.Ingreso = 0; turnonuevo.Egreso=0; turnonuevo.Diferencia=0;
+            turnonuevo.Ingreso = 0; turnonuevo.Egreso = 0; turnonuevo.Diferencia = 0;
             if (HorarioDia.IsChecked == true)
             {
                 turnonuevo.Horario = "Dia";
-            }else
+            }
+            else
             {
                 turnonuevo.Horario = "Noche";
             }
-            
-            turnonuevo.SaldoInicial= float.Parse(txtSaldobase.Text);
+
+            turnonuevo.SaldoInicial = float.Parse(txtSaldobase.Text);
             servicioCaja.AsignarSaldoBase(turnonuevo.SaldoInicial);
             turnonuevo.Estado = "A";
             ShowSelectedTurno(turnonuevo);
             servicioTurno.CreateTurno(turnonuevo);
-            
 
-        
+
+
         }
 
         private void TakeInfoTurnoTerminar()
         {
             ENTITY.Turno turnotoclose = servicioTurno.GetOpenTurno();
             turnotoclose.SaldoPrevisto = servicioCaja.GetSaldoSistema();
-            turnotoclose.SaldoReal=float.Parse(txtSaldoReal.Text);
+            turnotoclose.SaldoReal = float.Parse(txtSaldoReal.Text);
             turnotoclose.SetDiferencia();
             turnotoclose.SetEgresos();
-            turnotoclose.SetIngresos();
+            turnotoclose.LoadIngresos();
             turnotoclose.Observacion = txtObservacion.Text.ToString();
             turnotoclose.CerrarTurno();
-            var c =servicioTurno.EditTurno(turnotoclose);
+            var c = servicioTurno.EditTurno(turnotoclose);
             if (c)
             {
                 MiMessageBox messageBox = new MiMessageBox(AfirmativeMessage.A, "Turno Cerrado Correctamente"); messageBox.ShowDialog();
@@ -181,7 +211,7 @@ namespace GUI.Pages
                 MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "Error Cerrando Turno"); messageBox.ShowDialog();
             }
         }
-       
+
         private void HideTurnos()
         {
             BorderTurnos.Visibility = Visibility.Hidden;
@@ -226,7 +256,7 @@ namespace GUI.Pages
             else
             {
                 lblCajero.Content = turnotoshow.Cajero.Nombre;
-                lblHorario.Content = turnotoshow.Horario;                  
+                lblHorario.Content = turnotoshow.Horario;
                 lblSaldoBase.Content = string.Format("{0:C0}", turnotoshow.SaldoInicial);
                 txtEgreso.Text = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
                 ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turnotoshow.Ingreso);
@@ -243,11 +273,11 @@ namespace GUI.Pages
         private void ShowIngresos(ENTITY.Turno turnotoshow)
         {
             servicioTurno.DefinirIngreso(turnotoshow);
-            txtIBanco.Text= "Ingreso Bancolombia: " + string.Format("{0:C0}", servicioTurno.IBanco);
-            txtICredito.Text = "Ingreso Credito: " + string.Format("{0:C0}", servicioTurno.ICredito);
-            txtIDaviplata.Text = "Ingreso Daviplata: " + string.Format("{0:C0}", servicioTurno.IDaviplata);
-            txtINequi.Text = "Ingreso Nequi: " + string.Format("{0:C0}", servicioTurno.Inequi);
-            txtIEfectivo.Text = "Ingreso Efectivo: " + string.Format("{0:C0}", servicioTurno.IEfectivo);
+            txtIBanco.Content = "Ingreso Bancolombia: " + string.Format("{0:C0}", servicioTurno.IBanco);
+            txtICredito.Content = "Ingreso Credito: " + string.Format("{0:C0}", servicioTurno.ICredito);
+            txtIDaviplata.Content = "Ingreso Daviplata: " + string.Format("{0:C0}", servicioTurno.IDaviplata);
+            txtINequi.Content = "Ingreso Nequi: " + string.Format("{0:C0}", servicioTurno.Inequi);
+            txtIEfectivo.Content = "Ingreso Efectivo: " + string.Format("{0:C0}", servicioTurno.IEfectivo);
         }
 
 
@@ -282,7 +312,7 @@ namespace GUI.Pages
                     Header.PopupText.Text = "Ver Egresos";
                     break;
             }
-            
+
         }
 
         private void MoueseLeavebtnDetails(object sender, MouseEventArgs e)
@@ -305,7 +335,7 @@ namespace GUI.Pages
 
         private void CloseDetailsButtonClick(object sender, RoutedEventArgs e)
         {
-            var turno=servicioTurno.GetOpenTurno();
+            var turno = servicioTurno.GetOpenTurno();
             if (turno == null)
             {
                 ShowThingsterminarTurno();
@@ -314,11 +344,11 @@ namespace GUI.Pages
             {
                 ShowSelectedTurno(turno);
             }
-            bdsaldorealselected.Visibility= Visibility.Hidden;
+            bdsaldorealselected.Visibility = Visibility.Hidden;
             bdsaldoreal.Visibility = Visibility.Visible;
-            TurnoButton.Visibility= Visibility.Visible;
-            btnCloseDetails.Visibility= Visibility.Hidden;
-            ExpanderIngresos.IsExpanded= false;
+            TurnoButton.Visibility = Visibility.Visible;
+            btnCloseDetails.Visibility = Visibility.Hidden;
+            ExpanderIngresos.IsExpanded = false;
             txtSaldoReal.IsEnabled = true;
             txtObservacion.IsEnabled = true;
         }
@@ -331,22 +361,22 @@ namespace GUI.Pages
             detailswindows.ShowDialog();
         }
 
-        private void ShowPedidos(object sender, RoutedEventArgs e) 
+        private void ShowPedidos(object sender, RoutedEventArgs e)
         {
-          BorderPedidos.Visibility = Visibility.Visible;
-          lblPedidos.Visibility = Visibility.Visible;
+            BorderPedidos.Visibility = Visibility.Visible;
+            lblPedidos.Visibility = Visibility.Visible;
             ShowPedidosOT.Visibility = Visibility.Hidden;
             EgresosButtonOT.Visibility = Visibility.Hidden;
             HideTurnos();
-          var source = sender as FrameworkElement;
-          var turno = source.DataContext as ENTITY.Turno;
-          PedidosListView.ItemsSource= turno.Pedidos;
+            var source = sender as FrameworkElement;
+            var turno = source.DataContext as ENTITY.Turno;
+            PedidosListView.ItemsSource = turno.Pedidos;
         }
-       
+
         private void ShowEgresos(object sender, RoutedEventArgs e)
         {
-            BorderEgresos.Visibility= Visibility.Visible;
-            lblEgresos.Visibility= Visibility.Visible;
+            BorderEgresos.Visibility = Visibility.Visible;
+            lblEgresos.Visibility = Visibility.Visible;
             ShowPedidosOT.Visibility = Visibility.Hidden;
             EgresosButtonOT.Visibility = Visibility.Hidden;
             HideTurnos();
@@ -354,15 +384,15 @@ namespace GUI.Pages
             var turno = source.DataContext as ENTITY.Turno;
             EgresosListView.ItemsSource = turno.LstEgresos;
         }
-       
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
         //evento selector de fechas
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -408,7 +438,7 @@ namespace GUI.Pages
         {
 
             BorderPedidos.Visibility = Visibility.Hidden;
-            BorderEgresos.Visibility= Visibility.Hidden;
+            BorderEgresos.Visibility = Visibility.Hidden;
             ShowPedidosOT.Visibility = Visibility.Visible;
             EgresosButtonOT.Visibility = Visibility.Visible;
             ShowTurnos();
@@ -417,40 +447,48 @@ namespace GUI.Pages
 
         private void ShowPedidosOT_Click(object sender, RoutedEventArgs e)
         {
-            BorderPedidos.Visibility = Visibility.Visible;
-            lblPedidos.Visibility = Visibility.Visible;
-            HideTurnos();
-            PedidosListView.ItemsSource = servicioTurno.GetOpenTurno().Pedidos;
-            ShowPedidosOT.Visibility = Visibility.Hidden;
-            EgresosButtonOT.Visibility= Visibility.Hidden;
+            if (servicioTurno.GetOpenTurno() != null)
+            {
+                PedidosListView.ItemsSource = servicioTurno.GetOpenTurno().Pedidos;
+                BorderPedidos.Visibility = Visibility.Visible;
+                lblPedidos.Visibility = Visibility.Visible;
+                HideTurnos();
+                ShowPedidosOT.Visibility = Visibility.Hidden;
+                EgresosButtonOT.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "No hay turno abierto");
+            }
+
         }
 
         private void EgresosButtonOT_Click(object sender, RoutedEventArgs e)
         {
-            BorderEgresos.Visibility = Visibility.Visible;
-            lblEgresos.Visibility = Visibility.Visible;
-            HideTurnos();
-            EgresosListView.ItemsSource = servicioTurno.GetOpenTurno().LstEgresos;
-            EgresosButtonOT.Visibility = Visibility.Hidden;
-            ShowPedidosOT.Visibility = Visibility.Hidden;
-        }
-
-
-
-
-
-        private void txtSaldoReal_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (txtSaldoReal.Text!="")
+            if (servicioTurno.GetOpenTurno() != null)
             {
-
-                var diferencia = float.Parse(txtSaldoReal.Text.ToString())- servicioCaja.GetSaldoSistema();
-                lblDiferencia.Content = string.Format("{0:C0}",diferencia);
+                BorderEgresos.Visibility = Visibility.Visible;
+                lblEgresos.Visibility = Visibility.Visible;
+                HideTurnos();
+                EgresosListView.ItemsSource = servicioTurno.GetOpenTurno().LstEgresos;
+                EgresosButtonOT.Visibility = Visibility.Hidden;
+                ShowPedidosOT.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "No hay turno abierto");
             }
         }
 
+        private void txtSaldoReal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtSaldoReal.Text != "")
+            {
 
-
+                var diferencia = float.Parse(txtSaldoReal.Text.ToString()) - servicioCaja.GetSaldoSistema();
+                lblDiferencia.Content = string.Format("{0:C0}", diferencia);
+            }
+        }
 
         private void RefreshListTurnos()
         {

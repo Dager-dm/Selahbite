@@ -1,6 +1,7 @@
 ﻿using BLL;
 using ENTITY;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace GUI.Pages
         private void NewEmployee(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-            AddEmpleado addEmpleadoWindow = new AddEmpleado(servicioempleado.GetCargos());
+            AddEmpleado addEmpleadoWindow = new AddEmpleado(servicioempleado.GetCargos(), servicioempleado.GetAllEmpleados());
             addEmpleadoWindow.Owner = mainWindow;
             addEmpleadoWindow.ShowDialog();
             if (addEmpleadoWindow.guardarPresionado)
@@ -54,9 +55,7 @@ namespace GUI.Pages
         {
            Button btnEditar = sender as Button;
            Empleado empleado = btnEditar.DataContext as Empleado;
-           MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
-           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado, servicioempleado.GetCargos());
-           addEmpleadoWindow.Owner = mainWindow;
+           AddEmpleado addEmpleadoWindow = new AddEmpleado(empleado, servicioempleado.GetCargos(), servicioempleado.GetAllEmpleados());
            addEmpleadoWindow.ShowDialog();
             if (addEmpleadoWindow.guardarPresionado)
             {
@@ -71,8 +70,8 @@ namespace GUI.Pages
             Empleado empleado = btnBorrar.DataContext as Empleado;
 
 
-            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + empleado.Nombre + "?");
-            bool? resultado = messageBox.ShowDialog();
+            MiMessageBox messageBox = new MiMessageBox("¿Está seguro de borrar\n" + " el Empleado " + empleado.Nombre + "?"+ " Esta acción no se puede revertir");
+            bool ? resultado = messageBox.ShowDialog();
 
             if (resultado == true)
             {

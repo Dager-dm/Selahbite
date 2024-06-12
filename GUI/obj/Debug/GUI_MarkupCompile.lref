@@ -3,6 +3,7 @@ FD:\Proyecto\Selahbite\GUI\App.xaml;;
 FD:\Proyecto\Selahbite\GUI\MainWindow.xaml;;
 FD:\Proyecto\Selahbite\GUI\Styles\JustPop.xaml;;
 FD:\Proyecto\Selahbite\GUI\Windows\AddCliente.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\AddEgresos.xaml;;
 FD:\Proyecto\Selahbite\GUI\Windows\AddEmpleado.xaml;;
 FD:\Proyecto\Selahbite\GUI\Windows\AddProducto.xaml;;
 FD:\Proyecto\Selahbite\GUI\Pages\Carta.xaml;;
@@ -16,5 +17,5 @@ FD:\Proyecto\Selahbite\GUI\Windows\MessageBox.xaml;;
 FD:\Proyecto\Selahbite\GUI\Pages\Reporte.xaml;;
 FD:\Proyecto\Selahbite\GUI\Pages\Turno.xaml;;
 FD:\Proyecto\Selahbite\GUI\Styles\UserPopup.xaml;;
-FD:\Proyecto\Selahbite\GUI\Windows\NewEgreso.xaml;;
+FD:\Proyecto\Selahbite\GUI\Windows\ShowDetails.xaml;;
 

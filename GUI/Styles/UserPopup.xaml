@@ -6,16 +6,44 @@
              xmlns:local="clr-namespace:GUI.Styles"
              mc:Ignorable="d" 
              >
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:2" From="0" To="1"/>
+        </Storyboard>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:2" From="1" To="0"/>
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInOutStoryboard" Completed="FadeInOutStoryboard_Completed">
+            <DoubleAnimation Storyboard.TargetProperty="Popup"
+                     Duration="0:0:2"
+                     From="0"
+                     To="1"
+                     AutoReverse="True"
+                     FillBehavior="Stop"/>
+        </Storyboard>
+
+        <Storyboard x:Key="AutoFadeOutStoryboard" Completed="FadeInOutStoryboard_Completed">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                         BeginTime="0:0:5"
+                         Duration="0:0:2"
+                         From="1"
+                         To="0"/>
+        </Storyboard>
+    </UserControl.Resources>
+
     <UserControl.Style>
         <Style>
             <Style.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="00:00:02" From="0" To="1"/>
-                        </Storyboard>
-                    </BeginStoryboard>
+                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
                 </EventTrigger>
+                <EventTrigger RoutedEvent="FrameworkElement.Unloaded">
+                    <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
+                </EventTrigger>
+                <Trigger Property="FrameworkElement.Visibility" Value="Visible">
+                    <Setter Property="FrameworkElement.Opacity" Value="1"/>
+                </Trigger>
                 <Trigger Property="FrameworkElement.Visibility" Value="Collapsed">
                     <Setter Property="FrameworkElement.Opacity" Value="0"/>
                 </Trigger>
@@ -23,9 +51,10 @@
         </Style>
     </UserControl.Style>
 
+
     <Grid>
         <!-- Start: Popup User Control -->
-        <Border x:Name="Conatiner" CornerRadius="5" Width="Auto" Height="30" Margin="10 0 0 0" Background="{DynamicResource TertiaryBackgroundColor}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border x:Name="Conatiner" CornerRadius="5" Width="Auto" Height="30" Margin="10 0 0 0" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type local:UserPopup}}}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <!-- Star: Reusable Text -->
             <TextBlock x:Name="PopupText" FontSize="14" FontWeight="Regular" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 5 10 5"/>
             <!-- Star: Reusable Text -->

@@ -161,8 +161,6 @@ D:\Proyecto\Selahbite\GUI\bin\Debug\System.Numerics.Vectors.xml
 D:\Proyecto\Selahbite\GUI\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Buffers.xml
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\Proyecto\Selahbite\GUI\obj\Debug\Windows\NewEgreso.g.cs
-D:\Proyecto\Selahbite\GUI\obj\Debug\Windows\NewEgreso.baml
 D:\Proyecto\Selahbite\GUI\bin\Debug\ESC-POS-USB-NET.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Drawing.Common.dll
 D:\Proyecto\Selahbite\GUI\bin\Debug\System.Drawing.Common.pdb

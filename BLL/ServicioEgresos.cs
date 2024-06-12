@@ -28,6 +28,11 @@ namespace BLL
             serviciocaja.RestarEgreso(egreso.Valor);
         }
 
+        public float GetSaldo()
+        {
+           return serviciocaja.GetSaldoSistema();
+        }
+
         public List<Egreso> GetEgresos() 
         {
             var t = servicioturno.GetOpenTurno();

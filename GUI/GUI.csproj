@@ -134,9 +134,6 @@
       <DependentUpon>UserPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ThemesController.cs" />
-    <Compile Include="Windows\NewEgreso.xaml.cs">
-      <DependentUpon>NewEgreso.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\ShowDetails.xaml.cs">
       <DependentUpon>ShowDetails.xaml</DependentUpon>
     </Compile>
@@ -233,10 +230,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\LightTheme.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\NewEgreso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

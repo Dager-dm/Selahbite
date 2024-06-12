@@ -23,6 +23,8 @@ namespace GUI.Windows
     public partial class Login : Window
     {
         ServicioUsuarios serviciousuarios=new ServicioUsuarios();
+
+        private bool validacionNuevoUsuario;
         public Login()
         {
             InitializeComponent();
@@ -42,8 +44,8 @@ namespace GUI.Windows
           Usuarios usuario = new Usuarios();
           usuario.Username= txtUsername.Text;
           usuario.Password= txtPassword.Password;
-          var message=serviciousuarios.Validar(usuario);
-            if (serviciousuarios.Validado)
+          var message=serviciousuarios.ValidarLogeo(usuario);
+            if (serviciousuarios.ValidadoLog)
             {
                 MiMessageBox messageBox = new MiMessageBox(AfirmativeMessage.A, message);
                 messageBox.ShowDialog();
@@ -75,27 +77,66 @@ namespace GUI.Windows
             }
             else
             {
-                title.Text = "Iniciar Sesión";
-                loginBtn.Visibility = Visibility.Visible;
-                txtPassword2.Visibility = Visibility.Hidden;
-                CreateNewUser();
+                var i = CreateNewUser();
+                if (i)
+                {
+                    title.Text = "Iniciar Sesión";
+                    loginBtn.Visibility = Visibility.Visible;
+                    txtPassword2.Visibility = Visibility.Hidden;
+                }
             }
 
         }
 
-        private void CreateNewUser()
+        private bool CreateNewUser()
         {
-            Usuarios usuario = new Usuarios();
-            usuario.Username = txtUsername.Text;
-            usuario.Password = txtPassword.Password;
-            serviciousuarios.Insert(usuario);
-            txtUsername.Text = "";
-            txtPassword.Password = "";
+           var message = ValidarNuevoUsuario();
+            if (validacionNuevoUsuario)
+            {
+                Usuarios usuario = new Usuarios();
+                usuario.Username = txtUsername.Text;
+                usuario.Password = txtPassword.Password;
+                serviciousuarios.Insert(usuario);
+                txtUsername.Text = "";
+                txtPassword.Password = "";
+                MiMessageBox messageBox = new MiMessageBox(AfirmativeMessage.A, "Usuario Registrado Correctamente"); messageBox.ShowDialog();
+                return true;
+            }
+            else
+            { 
+                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, message); messageBox.ShowDialog();
+                return false;
+            }
+
         }
 
         private void ForgetPasword_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("click");
+        }
+
+        public string ValidarNuevoUsuario() 
+        {
+            if (txtPassword.Password!=txtPassword2.Password)
+            {
+                validacionNuevoUsuario=false;
+                return "Las contraseñas no coinciden";
+            }
+            else
+            {
+               var i =serviciousuarios.Validarrep(txtUsername.Text);
+                if (serviciousuarios.ValidadoRep)
+                {
+                    validacionNuevoUsuario = true;
+                    return i;
+                }
+                else
+                {
+                    validacionNuevoUsuario = false;
+                    return i;
+                }
+            }
+        
         }
     }
 }

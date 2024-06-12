@@ -50,7 +50,9 @@ namespace GUI
             var t = servicioTurno.IsAnyTurnoOpen();
             if (t!=null)
             {
+
                 frameContent.Navigate(new Pages.Turno(t));
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Se cerró el programa inesperadamente"); messageBox.ShowDialog();
             }
             else
             {
@@ -91,7 +93,7 @@ namespace GUI
             }
             else
             {
-                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W,"No puede salir del prgrama sin cerrar turno"); messageBox.ShowDialog();
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W,"No puede salir del programa sin cerrar turno"); messageBox.ShowDialog();
             }
             
         }
@@ -153,7 +155,10 @@ namespace GUI
             }
             else
             {
+                RadioButton btn = sender as RadioButton;
+                btn.IsChecked = false;
                 MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar pedidos sin abrir turno"); messageBox.ShowDialog();
+
             }
 
         }
@@ -168,6 +173,8 @@ namespace GUI
             }
             else
             {
+                RadioButton btn = sender as RadioButton;
+                btn.IsChecked = false;
                 MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar egresos sin abrir turno"); messageBox.ShowDialog();
             }
         }

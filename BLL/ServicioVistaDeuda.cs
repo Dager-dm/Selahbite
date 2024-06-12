@@ -10,7 +10,7 @@ namespace BLL
 {
     public class ServicioVistaDeuda
     {
-        VistaDeudasRepository vistarepository = new VistaDeudasRepository();
+        VistasRepository vistarepository = new VistasRepository();
         DetallesRepository detallesRepository= new DetallesRepository();
         ServicioPedido serviciopedido = new ServicioPedido();
         ServicioCaja servicioCaja = new ServicioCaja();
@@ -26,9 +26,9 @@ namespace BLL
         }
 
         
-        public void PagarPedido(long idPedido, MetodosPago metodo, float Valor)
+        public void PagarDeuda(long idPedido, MetodosPago metodo, float Valor)
         {
-            serviciopedido.PagarPedido(idPedido, metodo.Id);
+            serviciopedido.PagarDeuda(idPedido, metodo.Id);
             if (metodo.Nombre == "Efectivo") { servicioCaja.SumarIngreso(Valor); }
         }
 
@@ -36,18 +36,14 @@ namespace BLL
         {
             return detallesRepository.GetDetalles(idPedido);
         }
-        public FacturaDto GetfacturaDto(VistaDeuda vista)
+        public FacturaDto GetfacturaDto(VistaDeuda vista, float cambio, string efectivo)
         {
-            return servicioFactura.MapFacturaDto(vista.NombreCajero, vista, "0", "0");
+            return servicioFactura.MapFacturaDto(vista.NombreCajero, vista, cambio, efectivo);
         }
-        //public void GenerateFactura(FacturaDto factura)
-        //{
-        //    ServicioFactura.CreateFactura(factura);
-        //}
 
-        public void PrintTrue(VistaDeuda vista)
+        public void PrintTrue(VistaDeuda vista, float cambio, string efectivo)
         {
-            var dto = GetfacturaDto(vista);
+            var dto = GetfacturaDto(vista, cambio, efectivo);
             ServicioFactura.OpenCash();
             ServicioFactura.CreateFactura(dto);
             ServicioFactura.PdfToImg();
