@@ -75,7 +75,7 @@
                                                     <StackPanel>
                                                         <TextBlock Text="{Binding Producto.Nombre}" FontSize="16" Foreground="{DynamicResource PrimaryTextColor}" Width="200" FontWeight="Bold" FontFamily="Segoe UI" TextWrapping="Wrap" />
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
-                                                            <TextBlock Text="{Binding Producto.Valor, StringFormat=' {0:C0}'}" FontSize="13" Foreground="{DynamicResource SecundaryTextColor}" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding valorUnitario, StringFormat=' {0:C0}'}" FontSize="13" Foreground="{DynamicResource SecundaryTextColor}" VerticalAlignment="Center"/>
                                                             <Label Name="txtCantidad" Height="25" VerticalAlignment="Center" FontSize="13" Background="Transparent" Margin="0 0 0 0" Foreground="{DynamicResource SecundaryTextColor}" BorderBrush="Transparent">
                                                                 <TextBlock>
                                                          <Run Text=" X " />

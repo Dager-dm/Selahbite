@@ -256,6 +256,7 @@ namespace GUI.Pages
                                 foreach (var item in Detalles)
                                 {
                                     item.Pedido.Id = pedido.Id;
+                                    item.CalcularValorUnitario();
                                     servicioDetalles.AddDetalle(item);
                                 }
                             }

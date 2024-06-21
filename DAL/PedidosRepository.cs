@@ -144,14 +144,16 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idEmpleado", idEmpleado));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return empleadosRepository.MapEmpleado(reader);
+                if (reader.Read())
+                {
+                    return empleadosRepository.MapEmpleado(reader);
 
+                }
             }
+            
             CerrarConexion();
-
             return null;
         }
 
@@ -163,14 +165,15 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idCliente", idCliente));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return ClientesRepository.MapCliente(reader);
+                if (reader.Read())
+                {
+                    return ClientesRepository.MapCliente(reader);
 
+                }
             }
             CerrarConexion();
-
             return null;
         }
 
@@ -182,14 +185,15 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idMetodo", idMetodo));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return MapMetodo(reader);
+                if (reader.Read())
+                {
+                    return MapMetodo(reader);
 
+                }
             }
             CerrarConexion();
-
             return null;
         }
 

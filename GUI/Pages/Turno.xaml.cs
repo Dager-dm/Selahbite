@@ -198,7 +198,7 @@ namespace GUI.Pages
             turnotoclose.SaldoPrevisto = servicioCaja.GetSaldoSistema();
             turnotoclose.SaldoReal = float.Parse(txtSaldoReal.Text);
             turnotoclose.SetDiferencia();
-            turnotoclose.SetEgresos();
+            turnotoclose.LoadEgresos();
             turnotoclose.LoadIngresos();
             if (string.IsNullOrEmpty(txtObservacion.Text))
             { turnotoclose.Observacion = " ";} else { turnotoclose.Observacion = txtObservacion.Text.ToString(); }
@@ -450,6 +450,7 @@ namespace GUI.Pages
                 HideTurnos();
                 ShowPedidosOT.Visibility = Visibility.Hidden;
                 EgresosButtonOT.Visibility = Visibility.Hidden;
+                turnopadre = servicioTurno.GetOpenTurno();
             }
             else
             {

@@ -27,7 +27,6 @@ namespace DAL
             oracleCommand.Parameters.Add("useer", OracleDbType.Varchar2).Value = usuario.Username;
             oracleCommand.Parameters.Add("pwd", OracleDbType.Varchar2).Value = usuario.Password;
 
-
             var i = oracleCommand.ExecuteNonQuery();
             if (i > 0)
             {

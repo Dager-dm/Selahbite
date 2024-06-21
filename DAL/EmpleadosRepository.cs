@@ -46,10 +46,12 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); 
-            while (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                lstEmpleados.Add(MapEmpleado(reader));
+                while (reader.Read())
+                {
+                    lstEmpleados.Add(MapEmpleado(reader));
+                }
             }
             CerrarConexion();
             return lstEmpleados;
@@ -107,14 +109,15 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
-            while (reader.Read())
-            {
-                cargos.Add(MapCargo(reader));
+            using (var reader = oracleCommand.ExecuteReader())
+            {  
+                while (reader.Read())
+                {
+                    cargos.Add(MapCargo(reader));
+                }
             }
             CerrarConexion();
             return cargos;
-
         }
 
         public List<Empleado> GetCajeros()
@@ -125,10 +128,12 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader();
-            while (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                cajeros.Add(MapEmpleado(reader));
+                while (reader.Read())
+                {
+                    cajeros.Add(MapEmpleado(reader));
+                }
             }
             CerrarConexion();
             return cajeros;
@@ -143,10 +148,12 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader();
-            while (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                meseros.Add(MapEmpleado(reader));
+                while (reader.Read())
+                {
+                    meseros.Add(MapEmpleado(reader));
+                }
             }
             CerrarConexion();
             return meseros;
@@ -162,14 +169,15 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCargo));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return MapCargo(reader);
+                if (reader.Read())
+                {
+                    return MapCargo(reader);
 
+                }
             }
             CerrarConexion();
-
             return null;
         }
 

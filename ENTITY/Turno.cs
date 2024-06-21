@@ -68,7 +68,7 @@ namespace ENTITY
         {
             Diferencia = SaldoReal - SaldoPrevisto;
         }
-        public void SetEgresos()
+        public void LoadEgresos()
         {
             foreach(var item in LstEgresos)
             {
@@ -90,6 +90,11 @@ namespace ENTITY
         public void CalcularIngreso(float newingreso)
         {
             Ingreso=Ingreso + newingreso;
+        }
+
+        public void CalcularEgreso(float newengreso)
+        {
+            Egreso=Egreso + newengreso;
         }
         public void LoadSaldoPrevisto() 
         {

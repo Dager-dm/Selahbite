@@ -150,11 +150,13 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idEmpleado", idEmpleado));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return EmpleadosRepository.MapEmpleado(reader);
+                if (reader.Read())
+                {
+                    return EmpleadosRepository.MapEmpleado(reader);
 
+                }
             }
             CerrarConexion();
 
@@ -197,7 +199,7 @@ namespace DAL
 
             }
             CerrarConexion();
-            turno.SetEgresos();
+            turno.LoadEgresos();
             turno.LoadIngresos();
             turno.LoadSaldoPrevisto();
             return turno;

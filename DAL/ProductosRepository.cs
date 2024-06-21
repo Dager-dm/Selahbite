@@ -14,7 +14,7 @@ namespace DAL
         private OracleCommand oracleCommand;
         public ProductosRepository()
         {
-            
+
         }
 
         public bool insert(Producto producto)
@@ -23,7 +23,6 @@ namespace DAL
             oracleCommand.CommandType = CommandType.StoredProcedure;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-
             oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
             oracleCommand.Parameters.Add("val", OracleDbType.Long).Value = producto.Valor;
             oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
@@ -37,7 +36,7 @@ namespace DAL
             return false;
         }
 
-        public List<Producto> GetProductos() 
+        public List<Producto> GetProductos()
         {
             oracleCommand = new OracleCommand();
             List<Producto> lstProductos = new List<Producto>();
@@ -45,10 +44,12 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); 
-            while (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                lstProductos.Add(MapProducto(reader));
+                while (reader.Read())
+                {
+                    lstProductos.Add(MapProducto(reader));
+                }
             }
             CerrarConexion();
             return lstProductos;
@@ -107,11 +108,11 @@ namespace DAL
             producto.Id = reader.GetInt64(3);
             producto.Nombre = reader.GetString(0);
             producto.Valor = reader.GetFloat(1);
-            producto.Categoria=LoadCategoria(reader.GetString(2));
+            producto.Categoria = LoadCategoria(reader.GetString(2));
             return producto;
         }
 
-        public List<CategoriasProductos> GetCategories() 
+        public List<CategoriasProductos> GetCategories()
         {
             List<CategoriasProductos> categories = new List<CategoriasProductos>();
             string oracle = "SELECT * FROM CATEGORIAS";
@@ -119,16 +120,18 @@ namespace DAL
             oracleCommand.CommandText = oracle;
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
-            while (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                categories.Add(MapCategories(reader));
+                while (reader.Read())
+                {
+                    categories.Add(MapCategories(reader));
+                }
             }
             CerrarConexion();
             return categories;
         }
 
-        private  CategoriasProductos MapCategories(OracleDataReader reader)
+        private CategoriasProductos MapCategories(OracleDataReader reader)
         {
             CategoriasProductos category = new CategoriasProductos();
             category.Id = reader.GetString(0);
@@ -136,7 +139,7 @@ namespace DAL
             return category;
         }
 
-        private  CategoriasProductos LoadCategoria(string idCategoria)
+        private CategoriasProductos LoadCategoria(string idCategoria)
         {
             oracleCommand = new OracleCommand();
             string oracle = "SELECT * FROM CATEGORIAS WHERE id_categoria = :idCategoria";
@@ -144,17 +147,18 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCategoria));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); 
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return MapCategories(reader);
-
+                if (reader.Read())
+                {
+                    return MapCategories(reader);
+                }
             }
+
             CerrarConexion();
-         
             return null;
         }
 
-       
+
     }
 }

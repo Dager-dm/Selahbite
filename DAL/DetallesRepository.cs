@@ -46,23 +46,6 @@ namespace DAL
             return false;
         }
 
-        public List<DetallePedido> GetDetalle(long Idpedido)
-        {
-            oracleCommand = new OracleCommand();
-            List<DetallePedido> lstDetalles= new List<DetallePedido>();
-            string oracle = "SELECT * FROM DETALLEPEDIDO WHERE id_pedido = :id";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("id", Idpedido));
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); //select
-            while (reader.Read())
-            {
-                lstDetalles.Add(MapDetalle(reader));
-            }
-            CerrarConexion();
-            return lstDetalles;
-        }
 
         public List<DetallePedido> GetDetalles(long Idpedido) 
         {
@@ -115,14 +98,15 @@ namespace DAL
             oracleCommand.Parameters.Add(new OracleParameter("id", idproducto));
             oracleCommand.Connection = Conexion();
             AbrirConexion();
-            var reader = oracleCommand.ExecuteReader(); // select
-            if (reader.Read())
+            using (var reader = oracleCommand.ExecuteReader())
             {
-                return productosrepository.MapProducto(reader);
+                if (reader.Read())
+                {
+                    return productosrepository.MapProducto(reader);
 
+                }
             }
             CerrarConexion();
-
             return null;
         }
 

@@ -23,8 +23,8 @@ namespace BLL
         {
             var t=servicioturno.GetOpenTurno();
             egresorepository.insert(egreso, t.Id);
-            t.LstEgresos.Add(egreso);
-            t.SetEgresos();
+            t.SetAEgreso(egreso);
+            t.CalcularEgreso(egreso.Valor);
             serviciocaja.RestarEgreso(egreso.Valor);
         }
 

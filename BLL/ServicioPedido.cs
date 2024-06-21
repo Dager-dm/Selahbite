@@ -62,7 +62,7 @@ namespace BLL
             ServicioFactura.CreateFactura(dto);
             ServicioFactura.PdfToImg();
             ServicioFactura.printImg();
-            // return Serviciofactura.ToString(); revisar
+            
 
         }
 
