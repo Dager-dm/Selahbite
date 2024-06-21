@@ -303,7 +303,7 @@ namespace DAL
             catch (Exception e)
             {
                 ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
-                return null;
+               
             }
 
         }
