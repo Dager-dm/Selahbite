@@ -406,7 +406,7 @@
                         
                         <Label Content="Saldo Real" Grid.Row="1" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                         <Border Name="bdsaldoreal" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                            <TextBox x:Name="txtSaldoReal" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtSaldoReal_TextChanged" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7"/>
+                            <TextBox x:Name="txtSaldoReal" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" TextChanged="txtSaldoReal_TextChanged" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7" PreviewKeyDown="Numeric_PreviewKeyDown"/>
                         </Border>
 
                         <Border Name="bdsaldorealselected" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
@@ -421,7 +421,7 @@
                        
                         <Label Content="Observaciones" Grid.Row="3" Grid.Column="0"  FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Top" Height="30"/>
                         <Border  Grid.Row="3" Grid.Column="1"  Width="150" Height="85" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                                    <TextBox x:Name="txtObservacion" Text=" " BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap" MaxLength="40"/>
+                                    <TextBox x:Name="txtObservacion" Text=" " BorderBrush="Transparent" Background="Transparent" Height="85" BorderThickness="0" VerticalAlignment="Top" TextWrapping="Wrap" MaxLength="40" Foreground="{DynamicResource PrimaryTextColor}"/>
                         </Border>
                         
 

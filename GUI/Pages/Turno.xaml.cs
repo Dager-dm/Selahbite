@@ -33,6 +33,7 @@ namespace GUI.Pages
         ServicioTurno servicioTurno = new ServicioTurno();
         //ServicioPedido servicopedido = new ServicioPedido();
         private ListCollectionView View { get; set; }
+        private ENTITY.Turno turnopadre;
 
         public Turno(ENTITY.Turno turnoAbierto)
         {
@@ -199,7 +200,8 @@ namespace GUI.Pages
             turnotoclose.SetDiferencia();
             turnotoclose.SetEgresos();
             turnotoclose.LoadIngresos();
-            turnotoclose.Observacion = txtObservacion.Text.ToString();
+            if (string.IsNullOrEmpty(txtObservacion.Text))
+            { turnotoclose.Observacion = " ";} else { turnotoclose.Observacion = txtObservacion.Text.ToString(); }
             turnotoclose.CerrarTurno();
             var c = servicioTurno.EditTurno(turnotoclose);
             if (c)
@@ -357,7 +359,7 @@ namespace GUI.Pages
         {
             Button btn = sender as Button;
             Pedido pedido = btn.DataContext as Pedido;
-            ShowDetails detailswindows = new ShowDetails(pedido);
+            ShowDetails detailswindows = new ShowDetails(pedido, turnopadre.Cajero);
             detailswindows.ShowDialog();
         }
 
@@ -371,6 +373,7 @@ namespace GUI.Pages
             var source = sender as FrameworkElement;
             var turno = source.DataContext as ENTITY.Turno;
             PedidosListView.ItemsSource = turno.Pedidos;
+            turnopadre = turno;
         }
 
         private void ShowEgresos(object sender, RoutedEventArgs e)
@@ -384,10 +387,6 @@ namespace GUI.Pages
             var turno = source.DataContext as ENTITY.Turno;
             EgresosListView.ItemsSource = turno.LstEgresos;
         }
-
-
-
-
 
 
 
@@ -426,10 +425,6 @@ namespace GUI.Pages
             }
 
         }
-
-
-
-
 
 
 
@@ -497,6 +492,23 @@ namespace GUI.Pages
             lstturnos.ItemsSource = View;
         }
 
+        private void Numeric_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Back)
+            {
+                return;
+            }
+
+            if (e.Key < Key.D0 || e.Key > Key.D9)
+            {
+                if (e.Key < Key.NumPad0 || e.Key > Key.NumPad9)
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    e.Handled = true;
+                }
+
+            }
+        }
 
     }
 }

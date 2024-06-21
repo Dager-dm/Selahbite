@@ -27,12 +27,14 @@ namespace ENTITY
         public Producto Producto { get; set; }
         public long ValorProductoVendido { get; set; }
         public int Cantidad { get; set; }
+        public float valorUnitario { get; set; }
 
-
-
+        public void CalcularValorUnitario()
+        {
+            valorUnitario = ValorProductoVendido / Cantidad;
+        }
         public void CalculoValor()
         {
-
             ValorProductoVendido = (long)(Producto.Valor * Cantidad);
         }
 

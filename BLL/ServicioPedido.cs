@@ -15,15 +15,14 @@ namespace BLL
     {
 
         ServicioCaja servicioCaja = new ServicioCaja();
-        ServicioFactura Serviciofactura=new ServicioFactura();
+        ServicioFactura Serviciofactura = new ServicioFactura();
         PedidosRepository PedidosRepository = new PedidosRepository();
         ServicioTurno servicioTurno = new ServicioTurno();
 
         public ServicioPedido()
         {
-            
-        }
 
+        }
 
         public Pedido AddPedido(Pedido pedido)
         {
@@ -31,11 +30,11 @@ namespace BLL
             var pedid = PedidosRepository.Insert(pedido, TurnoA.Id);
             TurnoA.SetAPedido(pedido);
             TurnoA.CalcularIngreso(pedid.Valor);
-            if (pedido.MetodoPago.Nombre == "Efectivo") { servicioCaja.SumarIngreso(pedido.Valor); }
+            if (pedido.MetodoPago.Nombre == "Efectivo") { servicioCaja.SumarIngreso(pedido.Valor); ServicioFactura.OpenCash(); }
             return pedid;
         }
 
-        public List<Pedido> GetPedidos(Turno turno) 
+        public List<Pedido> GetPedidos(Turno turno)
         {
             return PedidosRepository.GetPedidos(turno.Id);
 
@@ -43,35 +42,46 @@ namespace BLL
 
         public List<MetodosPago> GetMetodos()
         {
+            try
+            {
+                return PedidosRepository.GetMetodos();
+            }
+            catch (Exception)
+            {
 
-            return PedidosRepository.GetMetodos();
-            
+                throw;
+            }
+
+
         }
 
-        public string GenerateFactura(Pedido pedido, float cambio, string efectivo)
+        public void GenerateFactura(Pedido pedido, float cambio, string efectivo)
         {
             Turno turno = servicioTurno.GetOpenTurno();
-            var dto=Serviciofactura.MapFacturaDto(turno.Cajero.Nombre, pedido, cambio, efectivo);
+            var dto = Serviciofactura.MapFacturaDto(turno.Cajero.Nombre, pedido, cambio, efectivo);
             ServicioFactura.CreateFactura(dto);
-            //ServicioFactura.CreateFactura(turno.Cajero, pedido, cambio, efectivo);
-            ServicioFactura.OpenCash();
             ServicioFactura.PdfToImg();
             ServicioFactura.printImg();
-            return Serviciofactura.ToString();// revisar
-            
-            
+            // return Serviciofactura.ToString(); revisar
+
         }
 
-        public void PagarDeuda(long idPedido, string idMetodo)
+        public string PagarDeuda(long idPedido, string idMetodo)
         {
-            PedidosRepository.PagarDeuda(idPedido, idMetodo);
+            string message;
+            try
+            {
+                PedidosRepository.PagarDeuda(idPedido, idMetodo);
+                message = "Pagado correctamente";
+            }
+            catch (Exception ex)
+            {
+                message = "Ha ocurrido algun error\n" + ex.Message;
+            }
 
+            return message;
         }
 
-        public void SumarIngreso(Pedido pedido)
-        {
-
-        }
     }
 
 }

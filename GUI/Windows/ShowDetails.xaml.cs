@@ -29,6 +29,8 @@ namespace GUI.Windows
         ServicioPedido serviciopedido = new ServicioPedido();
         public Pedido NPedido { get; set; }
 
+        private Empleado Cajero;
+
         public float Cambio;
 
         public string Efectivo;
@@ -39,7 +41,9 @@ namespace GUI.Windows
 
         private Cliente cliente1;
 
-        public ShowDetails( List<DetallePedido> detalles, Cliente cliente, Empleado Mesero)
+        private int Action = 0;
+
+        public ShowDetails(List<DetallePedido> detalles, Cliente cliente, Empleado Mesero)
         {
             InitializeComponent();
             listviewProductos.ItemsSource = detalles;
@@ -58,14 +62,14 @@ namespace GUI.Windows
             cboMetodos.ItemsSource = serviciopedido.GetMetodos();
             lblTotalPedido.Content = string.Format("{0:C0}", vista.Valor);
             modalidad.Visibility = Visibility.Hidden;
-            NPedido= new Pedido();
-            NPedido.Valor= vista.Valor;
+            NPedido = new Pedido();
+            NPedido.Valor = vista.Valor;
             rbnCredito.IsChecked = false;
             ValidationAnimation();
 
         }
 
-        public ShowDetails(Pedido pedido) 
+        public ShowDetails(Pedido pedido, Empleado cajero)
         {
             InitializeComponent();
             listviewProductos.ItemsSource = pedido.Detalles;
@@ -75,11 +79,17 @@ namespace GUI.Windows
             Checkprint.Visibility = Visibility.Hidden;
             lblmetodos.Visibility = Visibility.Hidden;
             bdmetodos.Visibility = Visibility.Hidden;
+            btnImprimirF.Visibility = Visibility.Visible;
             btnConfirmarpago.Content = "Aceptar";
             PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Save"];
-            btnConfirmarpago.Tag= icono;
-            Grid.SetRow(btnConfirmarpago, 2);
+            btnConfirmarpago.Tag = icono;
+            Grid.SetRow(btnConfirmarpago, 3);
+            Grid.SetRow(btnImprimirF, 2);
+            btnImprimirF.VerticalAlignment = VerticalAlignment.Bottom;
+            Action = 1;
             this.Height = 500;
+            Cajero = cajero;
+            NPedido = pedido;
 
         }
 
@@ -97,13 +107,13 @@ namespace GUI.Windows
 
         private void cboMetodos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MetodosPago metodo=(MetodosPago)cboMetodos.SelectedItem;
-            if (metodo.Nombre=="Efectivo")
+            MetodosPago metodo = (MetodosPago)cboMetodos.SelectedItem;
+            if (metodo.Nombre == "Efectivo")
             {
-              lblEectivo1.Visibility = Visibility.Visible;
-              brdEfectivo1.Visibility=Visibility.Visible;
-              lblCambio1.Visibility = Visibility.Visible;
-              lblCambio2.Visibility = Visibility.Visible;
+                lblEectivo1.Visibility = Visibility.Visible;
+                brdEfectivo1.Visibility = Visibility.Visible;
+                lblCambio1.Visibility = Visibility.Visible;
+                lblCambio2.Visibility = Visibility.Visible;
             }
             else
             {
@@ -120,18 +130,18 @@ namespace GUI.Windows
             Pedido pedido = new Pedido();
             pedido.Detalles = detalles;
             pedido.CalculoValor();
-            pedido.Mesero= mesero;
-            pedido.Cliente= cliente;
-            pedido.Estado="Pagado";
-            pedido.Fecha=DateTime.Now;
-            pedido.ModalidadDePago = ModalidadDePago.Contado; 
+            pedido.Mesero = mesero;
+            pedido.Cliente = cliente;
+            pedido.Estado = "Pagado";
+            pedido.Fecha = DateTime.Now;
+            pedido.ModalidadDePago = ModalidadDePago.Contado;
             NPedido = pedido;
 
             foreach (var item in detalles)
             {
                 item.Pedido = pedido;
             }
-            
+
 
         }
 
@@ -147,55 +157,62 @@ namespace GUI.Windows
         private void btnConfirmarpago_Click(object sender, RoutedEventArgs e)
         {
 
-            if (btnConfirmarpago.Content.ToString() != "Aceptar")
+            if (Action==1)
             {
-                if (rbnCredito.IsChecked == true)
+                Close();
+            }
+            else
+            {
+                if (btnConfirmarpago.Content.ToString() != "Aceptar")
                 {
-                    NPedido.Estado = "Pendiente";
-                    NPedido.ModalidadDePago = ModalidadDePago.Credito;
-                    MetodosPago m = new MetodosPago("Credito", "5");
-                    NPedido.MetodoPago = m;
-                    Confirmar = true;
-                    Close();
-                }
-                else
-                {
-                    if (ValidateCboMetodos())
+                    if (rbnCredito.IsChecked == true)
                     {
-                        NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
-                        if (NPedido.MetodoPago.Nombre == "Efectivo")
-                        {
-                            if (ValidateTxtEfectivo())
-                            {
-                                Efectivo = txtEfectivo.Text.ToString();
-                                Confirmar = true;
-                                Close();
-                            }
-                            else
-                            {
-                                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Efectivo' es obligatorio"); messageBox.ShowDialog();
-                            }
-
-                        }
-                        else
-                        {
-                            Cambio = 0;
-                            Efectivo = "0";
-                            Confirmar = true;
-                            Close();
-                        }
+                        NPedido.Estado = "Pendiente";
+                        NPedido.ModalidadDePago = ModalidadDePago.Credito;
+                        MetodosPago m = new MetodosPago("Credito", "5");
+                        NPedido.MetodoPago = m;
+                        Confirmar = true;
+                        Close();
                     }
                     else
                     {
-                        MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Metodo de Pago' es obligatorio"); messageBox.ShowDialog();
+                        if (ValidateCboMetodos())
+                        {
+                            NPedido.MetodoPago = (MetodosPago)cboMetodos.SelectedItem;
+                            if (NPedido.MetodoPago.Nombre == "Efectivo")
+                            {
+                                if (ValidateTxtEfectivo())
+                                {
+                                    Efectivo = txtEfectivo.Text.ToString();
+                                    Confirmar = true;
+                                    Close();
+                                }
+                                else
+                                {
+                                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Efectivo' es obligatorio"); messageBox.ShowDialog();
+                                }
+
+                            }
+                            else
+                            {
+                                Cambio = 0;
+                                Efectivo = "0";
+                                Confirmar = true;
+                                Close();
+                            }
+                        }
+                        else
+                        {
+                            MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El campo 'Metodo de Pago' es obligatorio"); messageBox.ShowDialog();
+                        }
+
                     }
 
+                    if (Checkprint.IsChecked == true) { print = true; }
                 }
-
-                if (Checkprint.IsChecked == true) { print = true; }
             }
 
-            
+
         }
 
         private void txtEfectivo_TextChanged(object sender, TextChangedEventArgs e)
@@ -214,20 +231,23 @@ namespace GUI.Windows
             }
             else
             {
+
                 if (txtEfectivo.Text != "")
                 {
-                    Cambio= (float.Parse(txtEfectivo.Text) - NPedido.Valor);
+                    Cambio = (float.Parse(txtEfectivo.Text) - NPedido.Valor);
                     lblCambio2.Content = string.Format("{0:C0}", float.Parse(txtEfectivo.Text) - NPedido.Valor);
                 }
+
+
             }
 
 
-            
+
         }
 
         private void rbnCredito_Checked(object sender, RoutedEventArgs e)
         {
-            if (cliente1.Id!=3)
+            if (cliente1.Nombre != "Generico")
             {
                 cboMetodos.Visibility = Visibility.Hidden;
                 Checkprint.Visibility = Visibility.Hidden;
@@ -241,8 +261,8 @@ namespace GUI.Windows
             }
             else
             {
-                rbnCredito.IsChecked= false;
-                rbnContado.IsChecked= true;
+                rbnCredito.IsChecked = false;
+                rbnContado.IsChecked = true;
                 MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El Cliente Generico no puede hacer pedidos a credito \nSe requiere registrar el cliente"); messageBox.ShowDialog();
             }
 
@@ -251,7 +271,7 @@ namespace GUI.Windows
         private void rbnContado_Checked(object sender, RoutedEventArgs e)
         {
             cboMetodos.Visibility = Visibility.Visible;
-            Checkprint.Visibility= Visibility.Visible;
+            Checkprint.Visibility = Visibility.Visible;
             btnConfirmarpago.Content = "Confirmar Pago";
             lblmetodos.Visibility = Visibility.Visible;
             bdmetodos.Visibility = Visibility.Visible;
@@ -322,7 +342,7 @@ namespace GUI.Windows
 
         private bool ValidateCboMetodos()
         {
-            if (cboMetodos.SelectedItem==null)
+            if (cboMetodos.SelectedItem == null)
             {
                 return false;
             }
@@ -330,22 +350,30 @@ namespace GUI.Windows
             {
                 return true;
             }
-           
+
         }
 
         private bool ValidateTxtEfectivo()
         {
             if (string.IsNullOrEmpty(txtEfectivo.Text))
             {
-                
+
                 return false;
             }
             else
             {
-                
+
                 return true;
             }
         }
 
+        private void btnImprimirF_Click(object sender, RoutedEventArgs e)
+        {
+            ServicioFactura servicioFactura = new ServicioFactura();
+            var dto = servicioFactura.MapFacturaDto(Cajero.Nombre, NPedido, 0, "0");
+            ServicioFactura.CreateFactura(dto);
+            ServicioFactura.PdfToImg();
+            ServicioFactura.printImg();
+        }
     }
 }

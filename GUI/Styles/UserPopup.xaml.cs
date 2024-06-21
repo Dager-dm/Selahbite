@@ -27,13 +27,13 @@ namespace GUI.Styles
             InitializeComponent();
         }
 
-        public static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty NewBackgroundProperty = DependencyProperty.Register(
             "Background", typeof(Brush), typeof(UserPopup), new PropertyMetadata(default(Brush)));
 
-        public Brush Background
+        public Brush newBackground
         {
-            get { return (Brush)GetValue(BackgroundProperty); }
-            set { SetValue(BackgroundProperty, value); }
+            get { return (Brush)GetValue(NewBackgroundProperty); }
+            set { SetValue(NewBackgroundProperty, value); }
         }
 
         private void FadeInOutStoryboard_Completed(object sender, EventArgs e)

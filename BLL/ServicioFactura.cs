@@ -195,7 +195,7 @@ namespace BLL
             doc.Add(logo);
 
 
-            iTextSharp.text.Paragraph InfoInicial = new iTextSharp.text.Paragraph("Parrilla Gourmet Salam - Restaurante \nFonseca la Guajira - Calle 13 N°13-89\nTelefono: 3202637816 / 3165348796 \nNit: 17.953.278-1 \nRegimen Simplificado", verdanaFont);
+            iTextSharp.text.Paragraph InfoInicial = new iTextSharp.text.Paragraph("Parrilla Salam Gourmet - Restaurante \nFonseca la Guajira - Calle 13 N°13-89\nTelefono: 3202637816 / 3165348796 \nNit: 17.953.278-1 \nRegimen Simplificado", verdanaFont);
             InfoInicial.Alignment = Element.ALIGN_CENTER;
             doc.Add(InfoInicial);
 
@@ -228,8 +228,8 @@ namespace BLL
                 cell2.Border = iTextSharp.text.Rectangle.NO_BORDER;
                 cell2.HorizontalAlignment = Element.ALIGN_RIGHT; cell2.PaddingTop = 15f;
                 table.AddCell(cell2);
-
-                PdfPCell cell3 = new PdfPCell(new Phrase(item.Producto.Valor.ToString("C0", nfi) + " x  " + item.Cantidad.ToString() + " Unidades", verdanaFontNoBold));
+                float valorUnitario = item.ValorProductoVendido / item.Cantidad;
+                PdfPCell cell3 = new PdfPCell(new Phrase(valorUnitario.ToString("C0", nfi) + " x  " + item.Cantidad.ToString() + " Unidades", verdanaFontNoBold));
                 cell3.Border = iTextSharp.text.Rectangle.NO_BORDER; cell3.PaddingTop = 5f;
                 cell3.Colspan = 2;
                 table.AddCell(cell3);
@@ -350,7 +350,6 @@ namespace BLL
         {
             FacturaDto facturaDto = new FacturaDto();
             facturaDto.NombreCajero = Cajero;
-            facturaDto.Fecha = DateTime.Now;
 
             if (source is Pedido pedido)
             {
@@ -359,6 +358,7 @@ namespace BLL
                 facturaDto.ValorTotal = pedido.Valor.ToString();
                 facturaDto.Detalles = pedido.Detalles;
                 facturaDto.IdPedido = pedido.Id;
+                facturaDto.Fecha = pedido.Fecha;
             }
             else if (source is VistaDeuda vista)
             {
@@ -367,6 +367,7 @@ namespace BLL
                 facturaDto.ValorTotal = vista.Valor.ToString();
                 facturaDto.Detalles = vista.Detalles;
                 facturaDto.IdPedido=vista.Id_pedido;
+                facturaDto.Fecha = DateTime.Now;
             }
 
             facturaDto.Efectivo = efectivo;

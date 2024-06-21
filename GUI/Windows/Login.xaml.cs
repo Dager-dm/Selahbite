@@ -112,7 +112,7 @@ namespace GUI.Windows
 
         private void ForgetPasword_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("click");
+            MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "En Construcción"); messageBox.ShowDialog();
         }
 
         public string ValidarNuevoUsuario() 

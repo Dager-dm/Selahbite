@@ -33,7 +33,8 @@ namespace DAL
             oracleCommand.Parameters.Add("id_Product", OracleDbType.Int32).Value = detalle.Producto.Id;
             oracleCommand.Parameters.Add("cant", OracleDbType.Int16).Value = detalle.Cantidad;
             oracleCommand.Parameters.Add("valor", OracleDbType.Int32).Value = detalle.ValorProductoVendido;
-            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = detalle.Pedido.Id; 
+            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = detalle.Pedido.Id;
+            oracleCommand.Parameters.Add("valoru", OracleDbType.Int32).Value = detalle.valorUnitario;
             // pr_InsertDetallePedido(id_Product DETALLEPEDIDO.id_producto%type, cant DETALLEPEDIDO.cantidad%type, valor DETALLEPEDIDO.valor_productovendido%type, id_ped DETALLEPEDIDO.id_pedido%TYPE)
             // Ejecuta el procedimiento
             var i = oracleCommand.ExecuteNonQuery();
@@ -101,6 +102,7 @@ namespace DAL
             detalle.Cantidad = reader.GetInt16(1);
             detalle.ValorProductoVendido = reader.GetInt32(2);
             detalle.Id = reader.GetInt64(4);
+            detalle.valorUnitario=reader.GetInt64(5);
             return detalle;
 
         }

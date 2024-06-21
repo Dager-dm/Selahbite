@@ -31,7 +31,7 @@ namespace GUI.Pages
     /// <summary>
     /// Lógica de interacción para Facturar.xaml
     /// </summary>
-    
+
     public partial class Facturar : Page
     {
 
@@ -149,7 +149,7 @@ namespace GUI.Pages
             var btn = (Button)borderm.FindName("btn");
             txtNombre.Foreground = miColor;
             lblValor.Foreground = miColor;
-            borderm.Background= shadow;
+            borderm.Background = shadow;
             btn.Tag = icono;
 
         }
@@ -195,11 +195,11 @@ namespace GUI.Pages
             var source = sender as FrameworkElement;
             var producto = source.DataContext as Producto;
             DetallePedido detalle = new DetallePedido();
-            detalle.Producto=producto;
+            detalle.Producto = producto;
             detalle.Cantidad = 1;
             detalle.CalculoValor();
-            var detalleFound=ValidarDetalle(detalle);
-            if (detalleFound!=null)
+            var detalleFound = ValidarDetalle(detalle);
+            if (detalleFound != null)
             {
                 detalleFound.Cantidad++;
                 detalleFound.CalculoValor();
@@ -223,7 +223,7 @@ namespace GUI.Pages
         {
             foreach (var item in Detalles)
             {
-                if (detalle.Producto==item.Producto)
+                if (detalle.Producto == item.Producto)
                 {
                     return item;
                 }
@@ -238,25 +238,31 @@ namespace GUI.Pages
             {
                 if (validateMesero())
                 {
-                    if (Detalles.Count>0)
+                    if (Detalles.Count > 0)
                     {
                         ShowDetails ShowDetailsWindow = new ShowDetails(Detalles, (Cliente)cboClientes.SelectedItem, (Empleado)cboEmpleados.SelectedItem);
                         ShowDetailsWindow.ShowDialog();
                         if (ShowDetailsWindow.Confirmar)
                         {
-                            var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
-                            if (ShowDetailsWindow.print)
+                            try
                             {
-                                servicioPedido.GenerateFactura(pedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
-                                //MessageBox.Show(i);
-                            }
+                                var pedido = servicioPedido.AddPedido(ShowDetailsWindow.NPedido);
+                                if (ShowDetailsWindow.print)
+                                {
+                                    servicioPedido.GenerateFactura(pedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
 
-                            foreach (var item in Detalles)
+                                }
+
+                                foreach (var item in Detalles)
+                                {
+                                    item.Pedido.Id = pedido.Id;
+                                    servicioDetalles.AddDetalle(item);
+                                }
+                            }
+                            catch (Exception ex)
                             {
-                                item.Pedido.Id = pedido.Id;
-                                servicioDetalles.AddDetalle(item);
+                                MiMessageBox messageBox = new MiMessageBox(ExcepcionMessage.E, "Ha ocurrido un error\n" + ex.Message); messageBox.ShowDialog();
                             }
-
                         }
                     }
                     else
@@ -298,24 +304,33 @@ namespace GUI.Pages
             GoBackButton.Visibility = Visibility.Visible;
             stackBuscar.Visibility = Visibility.Hidden;
             lblPedidos.Visibility = Visibility.Visible;
-            if (ServicioTurno.turnoAbierto!=null)
+            if (ServicioTurno.turnoAbierto != null)
             {
-                PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
+                try
+                {
+                    PedidosListView.ItemsSource = servicioPedido.GetPedidos(ServicioTurno.turnoAbierto);
+                }
+                catch (Exception ex)
+                {
+                    MiMessageBox messageBox = new MiMessageBox(ExcepcionMessage.E, "Ha ocurrido un error\n" + ex.Message); messageBox.ShowDialog();
+                }
+
             }
-            
+
         }
 
         private void PedidoDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             Pedido pedido = btn.DataContext as Pedido;
-            ShowDetails detailswindows = new ShowDetails(pedido);
+            ServicioTurno servicioTurno = new ServicioTurno();
+            ShowDetails detailswindows = new ShowDetails(pedido, servicioTurno.GetOpenTurno().Cajero);
             detailswindows.ShowDialog();
         }
 
         private bool validateCLiente()
         {
-            if (cboClientes.SelectedItem==null)
+            if (cboClientes.SelectedItem == null)
             {
                 return false;
             }
@@ -337,9 +352,9 @@ namespace GUI.Pages
             }
         }
 
-        
 
-    } 
+
+    }
 
 }
 

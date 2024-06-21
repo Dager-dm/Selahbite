@@ -17,7 +17,6 @@
 
             <Label Grid.Row="0" Content="Reporte" FontSize="30"  FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
-
             <RadioButton Grid.Row="0" VerticalAlignment="Bottom" x:Name="VentasMensuales" Content="Ventas Mensuales" Style="{DynamicResource JustTextButtonStyle}"  Click="BtnMensuales_Click" Margin="-700 0 0 0"/>
             <RadioButton VerticalAlignment="Bottom" x:Name="VentasSemanales" HorizontalAlignment="Left" Content="Ventas Semanales" Style="{DynamicResource JustTextButtonStyle}"  Click="BtnSemanales_Click" Margin="40 0 0 0"/>
             

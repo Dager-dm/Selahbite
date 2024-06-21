@@ -88,6 +88,21 @@ namespace GUI.Pages
             icon.Fill = Color;
         }
 
+        public MiMessageBox(ExcepcionMessage m, string message)
+        {
+            InitializeComponent();
+            lblQuestion.Text = message;
+            lblQuestion.FontSize = 12;
+            this.Height = double.NaN;
+            btnAceptar.Visibility = Visibility.Visible;
+            btnYes.Visibility = Visibility.Hidden;
+            btnNo.Visibility = Visibility.Hidden;
+            PathGeometry icono = (PathGeometry)System.Windows.Application.Current.Resources["Negative"];
+            SolidColorBrush Color = (SolidColorBrush)System.Windows.Application.Current.Resources["TertiaryRedColor"];
+            icon.Data = icono;
+            icon.Fill = Color;
+        }
+
     }
 
     public enum AfirmativeMessage
@@ -101,5 +116,10 @@ namespace GUI.Pages
     public enum WarningMessage
     {
         W
+    }
+
+    public enum ExcepcionMessage
+    {
+        E
     }
 }
