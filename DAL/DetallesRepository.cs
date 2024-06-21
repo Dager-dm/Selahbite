@@ -25,56 +25,72 @@ namespace DAL
 
         public bool Insert(DetallePedido detalle)
         {
-            oracleCommand = new OracleCommand("pr_InsertDetallePedido");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("id_Product", OracleDbType.Int32).Value = detalle.Producto.Id;
-            oracleCommand.Parameters.Add("cant", OracleDbType.Int16).Value = detalle.Cantidad;
-            oracleCommand.Parameters.Add("valor", OracleDbType.Int32).Value = detalle.ValorProductoVendido;
-            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = detalle.Pedido.Id;
-            oracleCommand.Parameters.Add("valoru", OracleDbType.Int32).Value = detalle.valorUnitario;
-            // pr_InsertDetallePedido(id_Product DETALLEPEDIDO.id_producto%type, cant DETALLEPEDIDO.cantidad%type, valor DETALLEPEDIDO.valor_productovendido%type, id_ped DETALLEPEDIDO.id_pedido%TYPE)
-            // Ejecuta el procedimiento
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
+                oracleCommand = new OracleCommand("pr_InsertDetallePedido");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.Parameters.Add("id_Product", OracleDbType.Int32).Value = detalle.Producto.Id;
+                oracleCommand.Parameters.Add("cant", OracleDbType.Int16).Value = detalle.Cantidad;
+                oracleCommand.Parameters.Add("valor", OracleDbType.Int32).Value = detalle.ValorProductoVendido;
+                oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = detalle.Pedido.Id;
+                oracleCommand.Parameters.Add("valoru", OracleDbType.Int32).Value = detalle.valorUnitario;
+                // pr_InsertDetallePedido(id_Product DETALLEPEDIDO.id_producto%type, cant DETALLEPEDIDO.cantidad%type, valor DETALLEPEDIDO.valor_productovendido%type, id_ped DETALLEPEDIDO.id_pedido%TYPE)
+                // Ejecuta el procedimiento
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
             }
-            CerrarConexion();
-            return false;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
 
         public List<DetallePedido> GetDetalles(long Idpedido) 
         {
 
-            List<DetallePedido> lstDetalles = new List<DetallePedido>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_detallepedido(:id_ped); END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-            oracleCommand.Parameters.Add(cursor);
-            oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = Idpedido; 
-
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
+                List<DetallePedido> lstDetalles = new List<DetallePedido>();
+                oracleCommand = new OracleCommand();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_detallepedido(:id_ped); END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+                oracleCommand.Parameters.Add(cursor);
+                oracleCommand.Parameters.Add("id_ped", OracleDbType.Int32).Value = Idpedido;
+
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
                 {
-                    lstDetalles.Add(MapDetalle(reader));
+                    while (reader.Read())
+                    {
+                        lstDetalles.Add(MapDetalle(reader));
+                    }
                 }
+                CerrarConexion();
+                return lstDetalles;
             }
-            CerrarConexion();
-            return lstDetalles;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
 
         }
 
@@ -92,22 +108,30 @@ namespace DAL
 
         private Producto LoadProducto(long idproducto)
         {
-            oracleCommand = new OracleCommand();
-            string oracle = "SELECT * FROM PRODUCTOS WHERE id_producto = :id";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("id", idproducto));
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                if (reader.Read())
+                oracleCommand = new OracleCommand();
+                string oracle = "SELECT * FROM PRODUCTOS WHERE id_producto = :id";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Parameters.Add(new OracleParameter("id", idproducto));
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    return productosrepository.MapProducto(reader);
+                    if (reader.Read())
+                    {
+                        return productosrepository.MapProducto(reader);
 
+                    }
                 }
+                CerrarConexion();
+                return null;
             }
-            CerrarConexion();
-            return null;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
 

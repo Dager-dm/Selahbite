@@ -82,6 +82,7 @@
     <Compile Include="DetallesRepository.cs" />
     <Compile Include="EgresosRepository.cs" />
     <Compile Include="EmpleadosRepository.cs" />
+    <Compile Include="ExcepcionesTxtManager.cs" />
     <Compile Include="PedidosRepository.cs" />
     <Compile Include="ProductosRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

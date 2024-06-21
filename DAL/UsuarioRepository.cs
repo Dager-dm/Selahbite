@@ -19,21 +19,29 @@ namespace DAL
         }
         public bool insert(Usuarios usuario)
         {
-            oracleCommand = new OracleCommand("pr_InsertUsuario");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("useer", OracleDbType.Varchar2).Value = usuario.Username;
-            oracleCommand.Parameters.Add("pwd", OracleDbType.Varchar2).Value = usuario.Password;
-
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
+                oracleCommand = new OracleCommand("pr_InsertUsuario");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.Parameters.Add("useer", OracleDbType.Varchar2).Value = usuario.Username;
+                oracleCommand.Parameters.Add("pwd", OracleDbType.Varchar2).Value = usuario.Password;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
             }
-            CerrarConexion();
-            return false;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public bool Changepwd(Usuarios usuario)
@@ -58,33 +66,41 @@ namespace DAL
 
         public List<Usuarios> GetUsuarios()
         {
-            oracleCommand = new OracleCommand();
-            List<Usuarios> lstUsuarios = new List<Usuarios>();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_usuarios; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-
-            oracleCommand.Parameters.Add(cursor);
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
-                {
-                    lstUsuarios.Add(MapUsuario(reader));
-                }
-            }
+                oracleCommand = new OracleCommand();
+                List<Usuarios> lstUsuarios = new List<Usuarios>();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            CerrarConexion();
-            return lstUsuarios;
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_usuarios; END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+
+                oracleCommand.Parameters.Add(cursor);
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+                {
+                    while (reader.Read())
+                    {
+                        lstUsuarios.Add(MapUsuario(reader));
+                    }
+                }
+
+                CerrarConexion();
+                return lstUsuarios;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         private Usuarios MapUsuario(OracleDataReader reader)

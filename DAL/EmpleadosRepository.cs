@@ -19,166 +19,230 @@ namespace DAL
 
         public bool insert(Empleado empleado)
         {
-            oracleCommand = new OracleCommand("pr_InsertEmpleado");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = empleado.Nombre;
-            oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = empleado.Cedula;
-            oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = empleado.Telefono;
-            oracleCommand.Parameters.Add("cargo", OracleDbType.Varchar2).Value = empleado.Cargo.Id;
-            //pr_InsertEmpleado(nomb EMPLEADOS.nombre%type, ced EMPLEADOS.cedula%type, tel EMPLEADOS.telefono%type, cargo EMPLEADOS.id_cargo%TYPE)
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
+                oracleCommand = new OracleCommand("pr_InsertEmpleado");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = empleado.Nombre;
+                oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = empleado.Cedula;
+                oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = empleado.Telefono;
+                oracleCommand.Parameters.Add("cargo", OracleDbType.Varchar2).Value = empleado.Cargo.Id;
+                //pr_InsertEmpleado(nomb EMPLEADOS.nombre%type, ced EMPLEADOS.cedula%type, tel EMPLEADOS.telefono%type, cargo EMPLEADOS.id_cargo%TYPE)
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
+
             }
-            CerrarConexion();
-            return false;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public List<Empleado> GetEmpleados()
         {
-            oracleCommand = new OracleCommand();
-            List<Empleado> lstEmpleados = new List<Empleado>();
-            string oracle = "SELECT * FROM EMPLEADOS";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                oracleCommand = new OracleCommand();
+                List<Empleado> lstEmpleados = new List<Empleado>();
+                string oracle = "SELECT * FROM EMPLEADOS";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    lstEmpleados.Add(MapEmpleado(reader));
+                    while (reader.Read())
+                    {
+                        lstEmpleados.Add(MapEmpleado(reader));
+                    }
                 }
+                CerrarConexion();
+                return lstEmpleados;
             }
-            CerrarConexion();
-            return lstEmpleados;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         public bool Edit(Empleado empleado)
         {
-            oracleCommand = new OracleCommand("pr_EditEmpleado");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = empleado.Nombre;
-            oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = empleado.Cedula;
-            oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = empleado.Telefono;
-            oracleCommand.Parameters.Add("cargo", OracleDbType.Varchar2).Value = empleado.Cargo.Id;
-            oracleCommand.Parameters.Add("idemp", OracleDbType.Varchar2).Value = empleado.Id;
-            // pr_EditEmpleado (nomb EMPLEADOS.nombre%type, ced EMPLEADOS.cedula%type, tel EMPLEADOS.telefono%type, cargo EMPLEADOS.id_cargo%TYPE, idemp EMPLEADOS.id_empleado%type)
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_EditEmpleado");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = empleado.Nombre;
+                oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = empleado.Cedula;
+                oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = empleado.Telefono;
+                oracleCommand.Parameters.Add("cargo", OracleDbType.Varchar2).Value = empleado.Cargo.Id;
+                oracleCommand.Parameters.Add("idemp", OracleDbType.Varchar2).Value = empleado.Id;
+                // pr_EditEmpleado (nomb EMPLEADOS.nombre%type, ced EMPLEADOS.cedula%type, tel EMPLEADOS.telefono%type, cargo EMPLEADOS.id_cargo%TYPE, idemp EMPLEADOS.id_empleado%type)
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public bool Delete(Empleado empleado)
         {
-            oracleCommand = new OracleCommand("pr_DeleteEmpleado");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("idemp", OracleDbType.Varchar2).Value = empleado.Id;
-          
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_DeleteEmpleado");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("idemp", OracleDbType.Varchar2).Value = empleado.Id;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
 
 
         public List<CargosEmpleados> GetCargos()
         {
-            oracleCommand = new OracleCommand();
-            List<CargosEmpleados> cargos = new List<CargosEmpleados>();
-            string oracle = "SELECT * FROM CARGOS";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
-            {  
-                while (reader.Read())
+            try
+            {
+                oracleCommand = new OracleCommand();
+                List<CargosEmpleados> cargos = new List<CargosEmpleados>();
+                string oracle = "SELECT * FROM CARGOS";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    cargos.Add(MapCargo(reader));
+                    while (reader.Read())
+                    {
+                        cargos.Add(MapCargo(reader));
+                    }
                 }
+                CerrarConexion();
+                return cargos;
             }
-            CerrarConexion();
-            return cargos;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         public List<Empleado> GetCajeros()
         {
-            oracleCommand = new OracleCommand();
-            List<Empleado> cajeros = new List<Empleado>();
-            string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '1'";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                oracleCommand = new OracleCommand();
+                List<Empleado> cajeros = new List<Empleado>();
+                string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '1'";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    cajeros.Add(MapEmpleado(reader));
+                    while (reader.Read())
+                    {
+                        cajeros.Add(MapEmpleado(reader));
+                    }
                 }
+                CerrarConexion();
+                return cajeros;
             }
-            CerrarConexion();
-            return cajeros;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
 
         }
 
         public List<Empleado> GetMeseros()
         {
-            oracleCommand = new OracleCommand();
-            List<Empleado> meseros = new List<Empleado>();
-            string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '2'";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                oracleCommand = new OracleCommand();
+                List<Empleado> meseros = new List<Empleado>();
+                string oracle = "SELECT * FROM EMPLEADOS WHERE id_cargo = '2'";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    meseros.Add(MapEmpleado(reader));
+                    while (reader.Read())
+                    {
+                        meseros.Add(MapEmpleado(reader));
+                    }
                 }
+                CerrarConexion();
+                return meseros;
             }
-            CerrarConexion();
-            return meseros;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
 
         }
 
 
         private CargosEmpleados LoadCargo(string idCargo)
         {
-            oracleCommand = new OracleCommand();
-            string oracle = "SELECT * FROM CARGOS WHERE id_cargo = :idCargo";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCargo));
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                if (reader.Read())
+                oracleCommand = new OracleCommand();
+                string oracle = "SELECT * FROM CARGOS WHERE id_cargo = :idCargo";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCargo));
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    return MapCargo(reader);
+                    if (reader.Read())
+                    {
+                        return MapCargo(reader);
 
+                    }
                 }
+                CerrarConexion();
+                return null;
             }
-            CerrarConexion();
-            return null;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         public Empleado MapEmpleado(OracleDataReader reader)

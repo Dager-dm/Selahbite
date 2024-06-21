@@ -22,66 +22,90 @@ namespace DAL
 
         public bool insert(Cliente cliente)
         {
-            oracleCommand = new OracleCommand("pr_InsertClient");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = cliente.Nombre;
-            oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = cliente.Cedula;
-            oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = cliente.Telefono;
-            oracleCommand.Parameters.Add("sald", OracleDbType.Long).Value = cliente.Saldo;
-            //pr_InsertValuesClientes(nomb CLIENTES.nombre % type, ced CLIENTES.cedula % type, tel CLIENTES.telefono % type, sald CLIENTES.saldo % type)
-            // Ejecuta el procedimiento
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
+                oracleCommand = new OracleCommand("pr_InsertClient");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = cliente.Nombre;
+                oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = cliente.Cedula;
+                oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = cliente.Telefono;
+                oracleCommand.Parameters.Add("sald", OracleDbType.Long).Value = cliente.Saldo;
+                //pr_InsertValuesClientes(nomb CLIENTES.nombre % type, ced CLIENTES.cedula % type, tel CLIENTES.telefono % type, sald CLIENTES.saldo % type)
+                // Ejecuta el procedimiento
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
             }
-            CerrarConexion();
-            return false;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public bool Edit(Cliente cliente)
         {
-            oracleCommand = new OracleCommand("pr_EditCliente");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = cliente.Nombre;
-            oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = cliente.Cedula;
-            oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = cliente.Telefono;
-            oracleCommand.Parameters.Add("idclient", OracleDbType.Varchar2).Value = cliente.Id;
-
-            // pr_EditCliente(nomb CLIENTES.nombre%type, ced CLIENTES.cedula%type, tel CLIENTES.telefono%type, idclient CLIENTES.id_cliente%type)
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_EditCliente");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = cliente.Nombre;
+                oracleCommand.Parameters.Add("ced", OracleDbType.Varchar2).Value = cliente.Cedula;
+                oracleCommand.Parameters.Add("tel", OracleDbType.Varchar2).Value = cliente.Telefono;
+                oracleCommand.Parameters.Add("idclient", OracleDbType.Varchar2).Value = cliente.Id;
+
+                // pr_EditCliente(nomb CLIENTES.nombre%type, ced CLIENTES.cedula%type, tel CLIENTES.telefono%type, idclient CLIENTES.id_cliente%type)
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public bool Delete(Cliente cliente)
         {
-            oracleCommand = new OracleCommand("pr_DeleteCliente");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("idclient", OracleDbType.Varchar2).Value = cliente.Id;
-
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_DeleteCliente");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("idclient", OracleDbType.Varchar2).Value = cliente.Id;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
   
         public static Cliente MapCliente(OracleDataReader reader)
@@ -97,33 +121,40 @@ namespace DAL
 
         public List<Cliente> GetClientess()
         {
-            List<Cliente> lstClientes = new List<Cliente>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection= Conexion();
-            AbrirConexion();
-
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_clientes; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-
-            oracleCommand.Parameters.Add(cursor);
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
+                List<Cliente> lstClientes = new List<Cliente>();
+                oracleCommand = new OracleCommand();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_clientes; END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+
+                oracleCommand.Parameters.Add(cursor);
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
                 {
-                    lstClientes.Add(MapCliente(reader));
+                    while (reader.Read())
+                    {
+                        lstClientes.Add(MapCliente(reader));
+                    }
                 }
+                CerrarConexion();
+                return lstClientes;
             }
-            CerrarConexion();
-            return lstClientes;
-                
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         

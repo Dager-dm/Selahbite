@@ -20,32 +20,42 @@ namespace DAL
 
         public List<VistaDeuda> GetCreditos()
         {
-            List<VistaDeuda> lstVista = new List<VistaDeuda>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_creditos; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-            oracleCommand.Parameters.Add(cursor);
-
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
+
+                List<VistaDeuda> lstVista = new List<VistaDeuda>();
+                oracleCommand = new OracleCommand();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_creditos; END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+                oracleCommand.Parameters.Add(cursor);
+
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
                 {
-                    lstVista.Add(MapVista(reader));
+                    while (reader.Read())
+                    {
+                        lstVista.Add(MapVista(reader));
+                    }
                 }
+                CerrarConexion();
+                return lstVista;
             }
-            CerrarConexion();
-            return lstVista;
+            catch (Exception e)
+            {
+
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         private VistaDeuda MapVista(OracleDataReader reader)
@@ -68,62 +78,80 @@ namespace DAL
 
         public List<VistaVentas> GetVentasMensuales()
         {
-            List<VistaVentas> lstVista = new List<VistaVentas>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_ventasmensuales; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-            oracleCommand.Parameters.Add(cursor);
-
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
+                List<VistaVentas> lstVista = new List<VistaVentas>();
+                oracleCommand = new OracleCommand();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_ventasmensuales; END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+                oracleCommand.Parameters.Add(cursor);
+
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
                 {
-                    lstVista.Add(MapVistaVentas(reader, 1));
+                    while (reader.Read())
+                    {
+                        lstVista.Add(MapVistaVentas(reader, 1));
+                    }
                 }
+                CerrarConexion();
+                return lstVista;
             }
-            CerrarConexion();
-            return lstVista;
+            catch (Exception e)
+            {
+
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         public List<VistaVentas> GetVentasSemanales()
         {
-            List<VistaVentas> lstVista = new List<VistaVentas>();
-            oracleCommand = new OracleCommand();
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_ventassemanales; END;";
-            oracleCommand.CommandType = System.Data.CommandType.Text;
-
-            OracleParameter cursor = new OracleParameter();
-            cursor.ParameterName = "cursor";
-            cursor.OracleDbType = OracleDbType.RefCursor;
-            cursor.Direction = System.Data.ParameterDirection.Output;
-            oracleCommand.Parameters.Add(cursor);
-
-
-            oracleCommand.ExecuteNonQuery();
-
-            using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
+            try
             {
-                while (reader.Read())
+                List<VistaVentas> lstVista = new List<VistaVentas>();
+                oracleCommand = new OracleCommand();
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.CommandText = "BEGIN :cursor := fn_obtener_ventassemanales; END;";
+                oracleCommand.CommandType = System.Data.CommandType.Text;
+
+                OracleParameter cursor = new OracleParameter();
+                cursor.ParameterName = "cursor";
+                cursor.OracleDbType = OracleDbType.RefCursor;
+                cursor.Direction = System.Data.ParameterDirection.Output;
+                oracleCommand.Parameters.Add(cursor);
+
+
+                oracleCommand.ExecuteNonQuery();
+
+                using (OracleDataReader reader = ((OracleRefCursor)cursor.Value).GetDataReader())
                 {
-                    lstVista.Add(MapVistaVentas(reader, 2));
+                    while (reader.Read())
+                    {
+                        lstVista.Add(MapVistaVentas(reader, 2));
+                    }
                 }
+                CerrarConexion();
+                return lstVista;
             }
-            CerrarConexion();
-            return lstVista;
+            catch (Exception e)
+            {
+
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         private VistaVentas MapVistaVentas(OracleDataReader reader, int i)

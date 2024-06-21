@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,83 +20,113 @@ namespace DAL
 
         public bool insert(Producto producto)
         {
-            oracleCommand = new OracleCommand("pr_InsertProducto");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
-            oracleCommand.Parameters.Add("val", OracleDbType.Long).Value = producto.Valor;
-            oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
-
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
+                oracleCommand = new OracleCommand("pr_InsertProducto");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
+                oracleCommand.Parameters.Add("val", OracleDbType.Long).Value = producto.Valor;
+                oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
             }
-            CerrarConexion();
-            return false;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public List<Producto> GetProductos()
         {
-            oracleCommand = new OracleCommand();
-            List<Producto> lstProductos = new List<Producto>();
-            string oracle = "SELECT * FROM PRODUCTOS";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                oracleCommand = new OracleCommand();
+                List<Producto> lstProductos = new List<Producto>();
+                string oracle = "SELECT * FROM PRODUCTOS";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    lstProductos.Add(MapProducto(reader));
+                    while (reader.Read())
+                    {
+                        lstProductos.Add(MapProducto(reader));
+                    }
                 }
+                CerrarConexion();
+                return lstProductos;
             }
-            CerrarConexion();
-            return lstProductos;
-
-
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         public bool Edit(Producto producto)
         {
-            oracleCommand = new OracleCommand("pr_EditProducto");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
-            oracleCommand.Parameters.Add("val", OracleDbType.Varchar2).Value = producto.Valor;
-            oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
-            oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
-
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_EditProducto");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("nomb", OracleDbType.Varchar2).Value = producto.Nombre;
+                oracleCommand.Parameters.Add("val", OracleDbType.Varchar2).Value = producto.Valor;
+                oracleCommand.Parameters.Add("id_cat", OracleDbType.Varchar2).Value = producto.Categoria.Id;
+                oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
         public bool Delete(Producto producto)
         {
-            oracleCommand = new OracleCommand("pr_DeleteProducto");
-            oracleCommand.CommandType = CommandType.StoredProcedure;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-
-            oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
-
-            var i = oracleCommand.ExecuteNonQuery();
-            if (i > 0)
+            try
             {
-                return true;
-            }
-            CerrarConexion();
+                oracleCommand = new OracleCommand("pr_DeleteProducto");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
 
-            return false;
+                oracleCommand.Parameters.Add("idproduct", OracleDbType.Varchar2).Value = producto.Id;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return false;
+            }
         }
 
 
@@ -114,21 +145,29 @@ namespace DAL
 
         public List<CategoriasProductos> GetCategories()
         {
-            List<CategoriasProductos> categories = new List<CategoriasProductos>();
-            string oracle = "SELECT * FROM CATEGORIAS";
-            oracleCommand = new OracleCommand();
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                List<CategoriasProductos> categories = new List<CategoriasProductos>();
+                string oracle = "SELECT * FROM CATEGORIAS";
+                oracleCommand = new OracleCommand();
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    categories.Add(MapCategories(reader));
+                    while (reader.Read())
+                    {
+                        categories.Add(MapCategories(reader));
+                    }
                 }
+                CerrarConexion();
+                return categories;
             }
-            CerrarConexion();
-            return categories;
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
         private CategoriasProductos MapCategories(OracleDataReader reader)
@@ -141,22 +180,30 @@ namespace DAL
 
         private CategoriasProductos LoadCategoria(string idCategoria)
         {
-            oracleCommand = new OracleCommand();
-            string oracle = "SELECT * FROM CATEGORIAS WHERE id_categoria = :idCategoria";
-            oracleCommand.CommandText = oracle;
-            oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCategoria));
-            oracleCommand.Connection = Conexion();
-            AbrirConexion();
-            using (var reader = oracleCommand.ExecuteReader())
+            try
             {
-                if (reader.Read())
+                oracleCommand = new OracleCommand();
+                string oracle = "SELECT * FROM CATEGORIAS WHERE id_categoria = :idCategoria";
+                oracleCommand.CommandText = oracle;
+                oracleCommand.Parameters.Add(new OracleParameter("idCategoria", idCategoria));
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+                using (var reader = oracleCommand.ExecuteReader())
                 {
-                    return MapCategories(reader);
+                    if (reader.Read())
+                    {
+                        return MapCategories(reader);
+                    }
                 }
-            }
 
-            CerrarConexion();
-            return null;
+                CerrarConexion();
+                return null;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                return null;
+            }
         }
 
 
