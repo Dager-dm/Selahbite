@@ -93,7 +93,6 @@ namespace GUI.Pages
             InitializeComponent();
             lblQuestion.Text = message;
             lblQuestion.FontSize = 12;
-            this.Height = double.NaN;
             btnAceptar.Visibility = Visibility.Visible;
             btnYes.Visibility = Visibility.Hidden;
             btnNo.Visibility = Visibility.Hidden;

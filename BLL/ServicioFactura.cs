@@ -187,7 +187,7 @@ namespace BLL
 
             doc.Open();
 
-            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance("D:\\Proyecto\\Selahbite\\GUI\\Assets\\Images\\FacturaLogo.png");
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(@"FacturaLogo.png");
 
 
             logo.ScaleToFit(90, 90);
@@ -286,7 +286,7 @@ namespace BLL
         public static void PdfToImg()
         {
             string imagePath = @"output.png"; 
-            string rutaArchivoPDF = @"D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\factura.pdf";
+            string rutaArchivoPDF = @"factura.pdf";
             Spire.Pdf.PdfDocument doc = new Spire.Pdf.PdfDocument();
             doc.LoadFromFile(rutaArchivoPDF);
             System.Drawing.Image image = doc.SaveAsImage(0, 900, 900);
@@ -298,7 +298,7 @@ namespace BLL
         static public void printImg()
         {
             string printerName = "XP-80C";
-            string imagePath = "D:\\Proyecto\\Selahbite\\GUI\\bin\\Debug\\output.png";
+            string imagePath = @"output.png";
             Printer printer = new Printer(printerName);
             Bitmap image = new Bitmap(imagePath);
             printer.Image(image);
