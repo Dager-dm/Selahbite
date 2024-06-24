@@ -13,6 +13,7 @@ using System.Globalization;
 using ESC_POS_USB_NET.Printer;
 using System.Management;
 using System.Drawing.Imaging;
+using DAL;
 namespace BLL
 {
     public class ServicioFactura
@@ -318,6 +319,7 @@ namespace BLL
             // Cerrar la conexión con la impresora
             // printer.FullPaperCut();
             printer.PrintDocument();
+            
         }
 
        /* public void MapFacturaDto(string Cajero, Pedido pedido, string cambio, string efectivo)
@@ -374,6 +376,7 @@ namespace BLL
             facturaDto.Cambio = cambio;
             return facturaDto;
         }
+
 
     }
 }

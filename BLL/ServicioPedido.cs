@@ -30,7 +30,11 @@ namespace BLL
             var pedid = PedidosRepository.Insert(pedido, TurnoA.Id);
             TurnoA.SetAPedido(pedido);
             TurnoA.CalcularIngreso(pedid.Valor);
-            if (pedido.MetodoPago.Nombre == "Efectivo") { servicioCaja.SumarIngreso(pedido.Valor); ServicioFactura.OpenCash(); }
+            if (pedido.MetodoPago.Nombre == "Efectivo")
+            { 
+                servicioCaja.SumarIngreso(pedido.Valor); 
+                ServicioFactura.OpenCash();
+            }
             return pedid;
         }
 
@@ -62,7 +66,6 @@ namespace BLL
             ServicioFactura.CreateFactura(dto);
             ServicioFactura.PdfToImg();
             ServicioFactura.printImg();
-            
 
         }
 

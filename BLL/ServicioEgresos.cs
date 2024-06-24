@@ -42,5 +42,10 @@ namespace BLL
             }
             return null;
         }
+
+        public void OpenCash()
+        {
+            ServicioFactura.OpenCash();
+        }
     }
 }

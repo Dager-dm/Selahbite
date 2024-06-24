@@ -29,7 +29,7 @@ namespace BLL
         public void PagarDeuda(long idPedido, MetodosPago metodo, float Valor)
         {
             serviciopedido.PagarDeuda(idPedido, metodo.Id);
-            if (metodo.Nombre == "Efectivo") { servicioCaja.SumarIngreso(Valor); }
+            if (metodo.Nombre == "Efectivo") { servicioCaja.SumarIngreso(Valor); ServicioFactura.OpenCash(); }
         }
 
         public List<DetallePedido> LoadDetalles(long idPedido)
@@ -44,7 +44,6 @@ namespace BLL
         public void PrintTrue(VistaDeuda vista, float cambio, string efectivo)
         {
             var dto = GetfacturaDto(vista, cambio, efectivo);
-            ServicioFactura.OpenCash();
             ServicioFactura.CreateFactura(dto);
             ServicioFactura.PdfToImg();
             ServicioFactura.printImg();
