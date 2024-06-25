@@ -107,7 +107,6 @@ namespace DAL
             }
         }
 
-
         public List<Turno> GetTurnos()
         {
             try
@@ -244,8 +243,6 @@ namespace DAL
                 return null;
             }
         }
-        
-
 
     }
 }

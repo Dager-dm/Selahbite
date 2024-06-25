@@ -20,6 +20,7 @@ using BLL;
 using System.Diagnostics;
 using GUI.Windows;
 using MaterialDesignThemes.Wpf;
+using System.ComponentModel;
 
 
 namespace GUI
@@ -40,10 +41,23 @@ namespace GUI
             InitializeComponent();
             MaximizeWindow();
             IsTurnoOpen();
-          
+            Closing += OnWindowClosing;
+
         }
 
-
+        private  void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            var t = servicioTurno.GetOpenTurno();
+            if (t == null)
+            {
+                Close();
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "No puede salir del programa sin cerrar turno"); messageBox.ShowDialog();
+                e.Cancel = true;
+            }
+        }
 
         private void IsTurnoOpen()
         {

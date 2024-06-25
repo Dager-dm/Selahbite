@@ -37,8 +37,8 @@ namespace GUI.Pages
             addEgresoWindow.ShowDialog();
             if (addEgresoWindow.guardarPresionado)
             {
-                servicioegresos.Insertar(addEgresoWindow.egreso);
                 servicioegresos.OpenCash();
+                servicioegresos.Insertar(addEgresoWindow.egreso);
                 Refreshlistview();
             }
             Refreshlistview();

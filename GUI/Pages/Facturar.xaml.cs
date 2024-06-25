@@ -198,6 +198,7 @@ namespace GUI.Pages
             detalle.Producto = producto;
             detalle.Cantidad = 1;
             detalle.CalculoValor();
+            detalle.CalcularValorUnitario();
             var detalleFound = ValidarDetalle(detalle);
             if (detalleFound != null)
             {
@@ -250,7 +251,6 @@ namespace GUI.Pages
                                 if (ShowDetailsWindow.print)
                                 {
                                     servicioPedido.GenerateFactura(pedido, ShowDetailsWindow.Cambio, ShowDetailsWindow.Efectivo);
-
                                 }
 
                                 foreach (var item in Detalles)
