@@ -60,9 +60,7 @@ namespace GUI.Pages
             
             Button btnEditar = sender as Button;
             Cliente cliente = btnEditar.DataContext as Cliente;
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             AddCliente addClienteWindow = new AddCliente(cliente);
-            addClienteWindow.Owner = mainWindow;
             addClienteWindow.ShowDialog();
             if (addClienteWindow.guardarPresionado)
             {

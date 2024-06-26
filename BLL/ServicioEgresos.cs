@@ -47,5 +47,14 @@ namespace BLL
         {
             ServicioFactura.OpenCash();
         }
+
+        public void SetVueltos(Egreso egreso, float vuelto)
+        {
+            var t = servicioturno.GetOpenTurno();
+            egresorepository.EditEgreso(egreso);
+            t.UpdateEgreso(egreso);
+            t.RecaclcularEgreso(vuelto);
+            serviciocaja.SumarIngreso(vuelto);
+        }
     }
 }

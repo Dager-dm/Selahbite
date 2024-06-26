@@ -27,7 +27,8 @@ namespace GUI.Windows
     {
         public bool guardarPresionado = false;
         public Egreso egreso { get; set; }
-
+        int accion = 0;
+        public float vueltos;
         float saldocaja;
         public AddEgresos(float saldo)
         {
@@ -35,7 +36,28 @@ namespace GUI.Windows
             Animation();
             saldocaja = saldo;
         }
+        public AddEgresos( Egreso egreso)
+        {
+            InitializeComponent();
+            VueltosView();
+        }
 
+        private void VueltosView()
+        {
+            lblValor.Content = "Vueltos";
+            lblTitulo.Content = "Registrar Vueltos";
+            Grid.SetRow(lblValor, 2);
+            Grid.SetRow(txtboxValor, 2);
+            //Grid.SetRow(btnSave, 2);
+            btnSave.Margin = new Thickness (56, -90, 0, 0);
+            lbldescripcion.Visibility = Visibility.Hidden;
+            txtboxDescripcion.Visibility = Visibility.Hidden;
+            txtboxRecibidor.Visibility = Visibility.Hidden;
+            lblrecibidor.Visibility = Visibility.Hidden;
+            this.Height = 230;
+            bdFondo.Height = this.Height;
+            accion = 1;
+        }
         private void Animation()
         {
             DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
@@ -73,23 +95,39 @@ namespace GUI.Windows
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidarNull())
+            if (accion==0)
             {
-                if (float.Parse(txtboxValor.Text) <= saldocaja)
+                if (!ValidarNull())
+                {
+                    if (float.Parse(txtboxValor.Text) <= saldocaja)
+                    {
+                        guardarPresionado = true;
+                        CreateEgreso();
+                        Close();
+                    }
+                    else
+                    {
+                        MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "Saldo en la caja insuficiente \nSaldo en Caja:" + saldocaja.ToString("C0")); messageBox.ShowDialog();
+                    }
+
+                }
+                else
+                {
+                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar egresos con campos vacíos"); messageBox.ShowDialog();
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(txtboxValor.Text))
                 {
                     guardarPresionado = true;
-                    CreateEgreso();
+                    vueltos =float.Parse(txtboxValor.Text);
                     Close();
                 }
                 else
                 {
-                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "Saldo en la caja insuficiente \nSaldo en Caja:" + saldocaja.ToString("C0")); messageBox.ShowDialog();
+                    MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "Digite los vueltos"); messageBox.ShowDialog();
                 }
-
-            }
-            else
-            {
-                MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "No se pueden realizar egresos con campos vacíos"); messageBox.ShowDialog();
             }
 
         }

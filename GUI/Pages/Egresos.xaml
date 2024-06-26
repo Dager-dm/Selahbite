@@ -100,6 +100,15 @@
                             <GridViewColumn Header="Valor" DisplayMemberBinding="{Binding Valor, StringFormat=' {0:C0}'}" Width="Auto"/>
                             <GridViewColumn Header="Recibidor" DisplayMemberBinding="{Binding Recibidor}" Width="Auto"/>
                             <GridViewColumn Header="Descripcion" DisplayMemberBinding="{Binding Descripcion}" Width="Auto"/>
+                            <GridViewColumn Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Name="btnVuelto" Click="btnVuelto_Click" Style="{DynamicResource EditButtonStyle}" Tag="{DynamicResource pay}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

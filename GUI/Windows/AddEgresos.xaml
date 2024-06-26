@@ -7,7 +7,7 @@
         Background="Transparent" AllowsTransparency="True"
         ResizeMode="NoResize" WindowState="Normal" FontFamily="Poppins"
         Title="AddCliente" Height="450" Width="273">
-    <Border CornerRadius="10" Background="{DynamicResource TertiaryBackgroundColor}" Height="450" Width="273" BorderBrush="{DynamicResource Boxborder}" BorderThickness="1">
+    <Border Name="bdFondo" CornerRadius="10" Background="{DynamicResource TertiaryBackgroundColor}" Height="450" Width="273" BorderBrush="{DynamicResource Boxborder}" BorderThickness="1">
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -31,7 +31,7 @@
             </Border>
 
 
-            <Label Grid.Row="2" Grid.Column="0" Content="Recibidor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
+            <Label Name="lblrecibidor" Grid.Row="2" Grid.Column="0" Content="Recibidor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="2" Grid.Column="1" Name="txtboxRecibidor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource TertiaryTextColor}" MaxLength="19" PreviewKeyDown="Alphabetic_PreviewKeyDown" TextChanged="txtbox_TextChanged" >
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -45,7 +45,7 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="3" Content="Descripción" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
+            <Label Grid.Row="3" Content="Descripción" Name="lbldescripcion" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="3" Grid.Column="1"  Name="txtboxDescripcion" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}" MaxLength="59" TextChanged="txtbox_TextChanged">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -59,7 +59,7 @@
                 </TextBox.Template>
             </TextBox>
 
-            <Label Grid.Row="4" Content="Valor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
+            <Label Grid.Row="4" Content="Valor" Name="lblValor" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 0 0 0"/>
             <TextBox Grid.Row="4" Grid.Column="1" Name="txtboxValor" Width="150" Height="30" BorderBrush="{DynamicResource Boxborder}" Foreground="{DynamicResource PrimaryTextColor}" SelectionBrush="{DynamicResource TertiaryRedColor}" MaxLength="6" TextChanged="txtbox_TextChanged" PreviewKeyDown="Numeric_PreviewKeyDown">
                 <TextBox.Template>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -73,15 +73,10 @@
                 </TextBox.Template>
             </TextBox>
 
-
-            <RadioButton x:Name="btnSave" Content="Gardar" Style="{DynamicResource AddButton}" Tag="{DynamicResource Save}" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnSave_Click" Margin="56,109,0,0"/>
-
-
-
-
             <Popup x:Name="Popup"  AllowsTransparency="True"  HorizontalOffset="5" VerticalOffset="0">
                 <ctls:UserPopup x:Name="Header" Foreground="White" Background="{DynamicResource TertiaryRedColor}"/>
             </Popup>
+            <RadioButton x:Name="btnSave" Content="Gardar" Style="{DynamicResource AddButton}" Tag="{DynamicResource Save}" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnSave_Click" Margin="56,109,0,0"/>
 
         </Grid>
     </Border>

@@ -44,10 +44,10 @@ namespace DAL
             catch (Exception e)
             {
                 ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                CerrarConexion();
                 return false;
             }
         }
-
         public List<Egreso> GetEgresos(long idTurno)
         {
             try
@@ -82,6 +82,7 @@ namespace DAL
             catch (Exception e)
             {
                 ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                CerrarConexion();
                 return null;
             }
 
@@ -94,7 +95,36 @@ namespace DAL
             egreso.Descripcion = reader.GetString(1);
             egreso.Fecha= reader.GetDateTime(3);
             egreso.Valor = reader.GetInt32(4);
+            egreso.Vuelto = reader.GetString(6);
             return egreso;
+        }
+        public bool EditEgreso(Egreso egreso)
+        {
+            try
+            {
+                oracleCommand = new OracleCommand("pr_EditEgreso");
+                oracleCommand.CommandType = CommandType.StoredProcedure;
+                oracleCommand.Connection = Conexion();
+                AbrirConexion();
+
+                oracleCommand.Parameters.Add("idegreso", OracleDbType.Varchar2).Value = egreso.Id;
+                oracleCommand.Parameters.Add("nuevovalor", OracleDbType.Int32).Value = egreso.Valor;
+
+                var i = oracleCommand.ExecuteNonQuery();
+                if (i > 0)
+                {
+                    return true;
+                }
+                CerrarConexion();
+                return false;
+            }
+            catch (Exception e)
+            {
+                ExcepcionesTxtManager.SaveExcepctionTxt(e.Message);
+                CerrarConexion();
+                return false;
+            }
+
         }
     }
 }

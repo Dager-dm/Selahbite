@@ -14,16 +14,16 @@ namespace ENTITY
 
         }
 
-        public Egreso( string recibidor, string descripcion, float Valor, DateTime Fecha, long id) : base (Fecha, Valor)
+        public Egreso( string recibidor, string descripcion, float Valor, DateTime Fecha, long id, string vuelto) : base (Fecha, Valor)
         {
             Recibidor = recibidor;
             Descripcion = descripcion;
             Id = id;
- 
+            Vuelto = vuelto;
         }
         public long Id { get; set; }
         public string Recibidor { get; set; }
         public string Descripcion { get; set; }
-        
+        public string Vuelto { get; set; }
     }
 }

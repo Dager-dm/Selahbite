@@ -70,5 +70,29 @@ namespace GUI.Pages
             List<Egreso> egresosFiltrados = egresos.Where(c => c.Recibidor.ToLower().Contains(filtro)).ToList();
             miListView.ItemsSource = egresosFiltrados;
         }
+
+        private void btnVuelto_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            Egreso egreso= btn.DataContext as Egreso;
+            if (egreso.Vuelto=="N")
+            {
+                AddEgresos addEgresoWindow = new AddEgresos(egreso);
+                addEgresoWindow.ShowDialog();
+                if (addEgresoWindow.guardarPresionado)
+                {
+                    servicioegresos.OpenCash();
+                    egreso.Valor =egreso.Valor - addEgresoWindow.vueltos;
+                    servicioegresos.SetVueltos(egreso, addEgresoWindow.vueltos);
+                    Refreshlistview();
+                }
+                Refreshlistview();
+            }
+            else
+            {
+                MiMessageBox messageBox = new MiMessageBox(WarningMessage.W, "Ya se registraron los vueltos de este egreso"); messageBox.ShowDialog();
+            }
+
+        }
     }
 }

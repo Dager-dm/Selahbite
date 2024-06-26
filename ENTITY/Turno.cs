@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,15 +87,18 @@ namespace ENTITY
             }
 
         }
-
         public void CalcularIngreso(float newingreso)
         {
             Ingreso=Ingreso + newingreso;
         }
-
         public void CalcularEgreso(float newengreso)
         {
             Egreso=Egreso + newengreso;
+        }
+
+        public void RecaclcularEgreso(float e)
+        {
+            Egreso = Egreso - e;
         }
         public void LoadSaldoPrevisto() 
         {
@@ -113,6 +117,16 @@ namespace ENTITY
             }
 
             SaldoPrevisto =SaldoInicial + (p - e);
+        }
+        public void UpdateEgreso(Egreso egreso)
+        {
+            foreach (var item in LstEgresos)
+            {
+                if (item.Id == egreso.Id)
+                {
+                    item.Valor = egreso.Valor;
+                }
+            }
         }
     }
 }
