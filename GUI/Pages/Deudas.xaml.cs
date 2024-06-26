@@ -54,7 +54,7 @@ namespace GUI.Pages
         {
             string filtro = txbBusqueda.Text.ToLower();
             List<VistaDeuda> creditos = servicioVistaDeuda.GetCreditos();
-            List<VistaDeuda> deudasFiltrados = creditos.Where(c => c.NombreCliente.ToLower().Contains(filtro)).ToList();
+            List<VistaDeuda> deudasFiltrados = creditos.Where(c => c.NombreCliente.ToLower().Contains(filtro) || c.Estado.ToLower().Contains(filtro)).ToList();
             miListView.ItemsSource = deudasFiltrados;
         }
 

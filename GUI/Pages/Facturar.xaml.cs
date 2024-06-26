@@ -184,7 +184,7 @@ namespace GUI.Pages
         {
 
             string searchText = txbBusqueda.Text.ToLower();
-            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText)));
+            filteredItems = new List<Producto>(servicioproducto.GetAllProducts().Where(item => item.Nombre.ToLower().Contains(searchText) || item.Categoria.Nombre.ToLower().Contains(searchText)));
             items.ItemsSource = filteredItems;
 
         }

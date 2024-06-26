@@ -100,7 +100,7 @@ namespace GUI.Pages
 
                 if (cboCajeros.SelectedItem != null)
                 {
-                    if (txtSaldobase.Text != null)
+                    if (!string.IsNullOrEmpty(txtSaldobase.Text))
                     {
                         HideThingsinicioTurno();
                         TakeInfoTurnoInicio();

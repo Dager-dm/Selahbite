@@ -66,7 +66,7 @@
 
             <Border Grid.Row="4" Grid.Column="1" Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource Boxborder}" >
 
-                <ComboBox Name="cboCategoria" Width="120" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" DisplayMemberPath="Nombre" BorderThickness="0" />
+                <ComboBox Name="cboCategoria" Width="120" Height="25" BorderBrush="Transparent" Background="Transparent" Foreground="{DynamicResource PrimaryTextColor}" DisplayMemberPath="Nombre" BorderThickness="0" Cursor="Hand" />
 
             </Border>
 
