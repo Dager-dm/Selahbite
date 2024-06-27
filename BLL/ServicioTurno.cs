@@ -14,11 +14,11 @@ namespace BLL
     public class ServicioTurno
     {
         TurnosRepository TurnosRepository = new TurnosRepository();
-        
+
         public static Turno turnoAbierto;
 
-        public float Inequi=0;
-        public float IBanco=0;
+        public float Inequi = 0;
+        public float IBanco = 0;
         public float IEfectivo = 0;
         public float ICredito = 0;
         public float IDaviplata = 0;
@@ -36,11 +36,11 @@ namespace BLL
 
         public bool EditTurno(Turno turno)
         {
-           if(TurnosRepository.CerrarTurno(turno)==true)
-           {
+            if (TurnosRepository.CerrarTurno(turno) == true)
+            {
                 turnoAbierto = null;
                 return true;
-           }
+            }
             else
             {
                 return false;
@@ -69,11 +69,13 @@ namespace BLL
 
         public void DefinirIngreso(Turno turno)
         {
+            clear();
             foreach (var item in turno.Pedidos)
             {
                 switch (item.MetodoPago.Id)
                 {
-                    case "1": IEfectivo = IEfectivo + item.Valor;
+                    case "1":
+                        IEfectivo = IEfectivo + item.Valor;
                         break;
 
                     case "2":
@@ -91,6 +93,15 @@ namespace BLL
                 }
             }
 
+        }
+
+        private void clear()
+        {
+            Inequi = 0;
+            IBanco = 0;
+            IEfectivo = 0;
+            ICredito = 0;
+            IDaviplata = 0;
         }
     }
 }

@@ -147,8 +147,6 @@ namespace GUI.Pages
             GridIniciar.Visibility = Visibility.Hidden;
             terminarBorder.Visibility = Visibility.Visible;
             terminarBorder2.Visibility = Visibility.Visible;
-
-
         }
 
         private void ShowThingsterminarTurno()
@@ -198,8 +196,8 @@ namespace GUI.Pages
             turnotoclose.SaldoPrevisto = servicioCaja.GetSaldoSistema();
             turnotoclose.SaldoReal = float.Parse(txtSaldoReal.Text);
             turnotoclose.SetDiferencia();
-            turnotoclose.LoadEgresos();
-            turnotoclose.LoadIngresos();
+            //turnotoclose.LoadEgresos();
+            //turnotoclose.LoadIngresos();
             if (string.IsNullOrEmpty(txtObservacion.Text))
             { turnotoclose.Observacion = " ";} else { turnotoclose.Observacion = txtObservacion.Text.ToString(); }
             turnotoclose.CerrarTurno();
@@ -233,8 +231,10 @@ namespace GUI.Pages
 
         }
 
+
         private void ShowSelectedTurno(ENTITY.Turno turnotoshow)
         {
+ 
             if (turnotoshow.Estado == "C")
             {
                 bdsaldoreal.Visibility = Visibility.Hidden;

@@ -95,7 +95,6 @@ namespace ENTITY
         {
             Egreso=Egreso + newengreso;
         }
-
         public void RecaclcularEgreso(float e)
         {
             Egreso = Egreso - e;
