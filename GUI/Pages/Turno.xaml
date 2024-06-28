@@ -286,7 +286,7 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                             <Label Content="Saldo Base " FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" Height="30"/>
                             <Border HorizontalAlignment="Right"  Width="200" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource Boxbackground}" BorderBrush="{DynamicResource Boxborder}" >
-                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" SelectionBrush="{DynamicResource TertiaryRedColor}" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7"/>
+                                <TextBox Name="txtSaldobase" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" SelectionBrush="{DynamicResource TertiaryRedColor}" Foreground="{DynamicResource PrimaryTextColor}" MaxLength="7" PreviewKeyDown="Numeric_PreviewKeyDown"/>
                             </Border>
                         </StackPanel>
 
@@ -370,7 +370,7 @@
                                 </Border>
 
                                 <Border  CornerRadius="10" Background="{DynamicResource TertiaryBackgroundColor}" Width="320" Margin="0 5 0 0">
-                                    <TextBox x:Name="txtEgreso" Text="Egreso: $" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                    <Label x:Name="txtEgreso" Content="Egreso: $" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource PrimaryTextColor}" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI" VerticalAlignment="Center" Margin="10 0 0 0"/>
                                 </Border>
                             </StackPanel>
 
@@ -410,7 +410,7 @@
                         </Border>
 
                         <Border Name="bdsaldorealselected" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Width="150" Height="30" CornerRadius="3"  BorderThickness="1" Background="{DynamicResource TertiaryBackgroundColor}" BorderBrush="{DynamicResource PrimaryBackgroundColor}" >
-                            <TextBox x:Name="txtSaldoRealSelected" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextColor}"  />
+                            <TextBox x:Name="txtSaldoRealSelected" BorderBrush="Transparent" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryTextColor}" IsEnabled="False" />
                         </Border>
 
                         <Label Content="Diferencia" Grid.Row="2" Grid.Column="0" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryTextColor}" VerticalAlignment="Center" />

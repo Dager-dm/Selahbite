@@ -245,7 +245,7 @@ namespace GUI.Pages
                 lblSaldoPrevisto.Content = string.Format("{0:C0}", turnotoshow.SaldoPrevisto);
                 lblDiferencia.Content = string.Format("{0:C0}", turnotoshow.Diferencia);
                 txtSaldoRealSelected.Text = string.Format("{0:C0}", turnotoshow.SaldoReal);
-                txtEgreso.Text = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
+                txtEgreso.Content = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
                 ShowIngresos(turnotoshow);
                 ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turnotoshow.Ingreso);
                 txtSaldoReal.IsEnabled = false;
@@ -260,7 +260,7 @@ namespace GUI.Pages
                 lblCajero.Content = turnotoshow.Cajero.Nombre;
                 lblHorario.Content = turnotoshow.Horario;
                 lblSaldoBase.Content = string.Format("{0:C0}", turnotoshow.SaldoInicial);
-                txtEgreso.Text = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
+                txtEgreso.Content = "Egreso Total: " + string.Format("{0:C0}", turnotoshow.Egreso);
                 ExpanderIngresos.Header = "Ingreso Total: " + string.Format("{0:C0}", turnotoshow.Ingreso);
                 ShowIngresos(turnotoshow);
                 lblDiferencia.Content = string.Format("{0:C0}", turnotoshow.Diferencia);

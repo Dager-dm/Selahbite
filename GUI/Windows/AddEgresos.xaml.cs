@@ -40,6 +40,7 @@ namespace GUI.Windows
         {
             InitializeComponent();
             VueltosView();
+            this.egreso = egreso;
         }
 
         private void VueltosView()
@@ -120,9 +121,16 @@ namespace GUI.Windows
             {
                 if (!string.IsNullOrEmpty(txtboxValor.Text))
                 {
-                    guardarPresionado = true;
-                    vueltos =float.Parse(txtboxValor.Text);
-                    Close();
+                    if (!ValidarVueltos())
+                    {
+                        guardarPresionado = true;
+                        vueltos = float.Parse(txtboxValor.Text);
+                        Close();
+                    }
+                    else
+                    {
+                        MiMessageBox messageBox = new MiMessageBox(NegativeMessage.N, "El vuelto no puede ser mayor al valor del egreso"); messageBox.ShowDialog();
+                    }
                 }
                 else
                 {
@@ -232,6 +240,18 @@ namespace GUI.Windows
             {
                 return false;
             }
+        }
+
+        private bool ValidarVueltos() 
+        {
+            if (egreso.Valor<float.Parse(txtboxValor.Text))
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        
         }
 
     }
